@@ -5,7 +5,7 @@
    http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
 
 	<!-- 
-		이 프로젝트 전체에 적용시킬 인코딩 형식 설정 등록(UTF-8) - 스프링에서 제공
+		프로젝트 전체에 적용시킬 인코딩 형식 설정 등록(UTF-8)
 	 -->
 	 <filter>
 		<filter-name>encodingFilter</filter-name>
