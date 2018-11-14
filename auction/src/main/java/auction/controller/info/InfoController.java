@@ -7,9 +7,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class InfoController {
 	
-	@RequestMapping("/info")
-	public String auction() {
-		return "info";
+	@RequestMapping("/intro")
+	public String introduction() {
+		return "/about/intro";
 	}
 	
+	@RequestMapping("/location")
+	public String location() {
+		return "/about/location";
+	}
+	
+	@RequestMapping("/history")
+	public String history() {
+		return "/about/history";
+	}
+	
+	@RequestMapping("/notice")
+	public String notice() {
+		return "/about/notice";
+	}
+	
+	@RequestMapping("/faq")
+	public String faq() {
+		return "/about/faq";
+	}
 }
