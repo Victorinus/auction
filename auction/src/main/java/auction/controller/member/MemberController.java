@@ -7,9 +7,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MemberController {
 	
-	@RequestMapping("/member")
-	public String auction() {
-		return "member";
+	@RequestMapping("/join")
+	public String join() {
+		return "/member/join";
 	}
-	
+	@RequestMapping("/login")
+	public String login() {
+		return "/member/login";
+	}
+	@RequestMapping("/modify")
+	public String modify() {
+		return "/member/modify";
+	}
+	@RequestMapping("/myPage")
+	public String myPage() {
+		return "/member/myPage";
+	}
+	@RequestMapping("/payment")
+	public String payment() {
+		return "/member/payment";
+	}
+	@RequestMapping("/qna")
+	public String qna() {
+		return "/member/qna";
+	}
+	@RequestMapping("/biddingList")
+	public String biddingList() {
+		return "/member/biddingList";
+	}
+	@RequestMapping("/onlineBiddingList")
+	public String onlineBiddingList() {
+		return "/member/onlineBiddingList";
+	}
 }
