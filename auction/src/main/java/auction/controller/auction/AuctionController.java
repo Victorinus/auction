@@ -7,9 +7,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class AuctionController {
 	
-	@RequestMapping("/auction")
-	public String auction() {
-		return "auction";
+	@RequestMapping("/offline/current")
+	public String offlineCurrent() {
+		return "auction/offline/current";
 	}
+	
+	@RequestMapping("/offline/result")
+	public String offlineResult() {
+		return "auction/offline/result";
+	}
+	
+	@RequestMapping("/offline/upcoming")
+	public String offlineUpcoming() {
+		return "auction/offline/upcoming";
+	}
+	
+	@RequestMapping("/online/current")
+	public String onlineCurrent() {
+		return "auction/online/current";
+	}
+	
+	@RequestMapping("/online/result")
+	public String onlineResult() {
+		return "auction/online/result";
+	}
+	
+	@RequestMapping("/online/upcoming")
+	public String onlineUpcoming() {
+		return "auction/online/upcoming";
+	}
+	
 	
 }
