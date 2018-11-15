@@ -4,7 +4,11 @@
 <html>
     <head>
     <title>미술품 경매 | 홈</title>
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    
+    <!-- datetimepicker (날짜 및 시간 입력 라이브러리) -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/library/datetimepicker/jquery.datetimepicker.css"/>
+
     <style>
         .kg-body{
             min-height: 800;
@@ -12,6 +16,25 @@
     </style>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!-- datetimepicker (날짜 및 시간 입력 라이브러리) -->
+    <script src="${pageContext.request.contextPath}/library/datetimepicker/jquery.js"></script>
+	<script src="${pageContext.request.contextPath}/library/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
+	
+	<script>
+	    $(document).ready(function(){
+	    	
+	    	<!-- datetimepicker 라이브러리 사용 -->
+    		var nowTime = new Date();
+	    	$('.datetimepicker').datetimepicker({
+	    		<!-- 옵션추가 기본값 : 현재시간으로 -->
+	    		defaultDate:nowTime,
+	    		value:nowTime
+	    	});
+	    	$.datetimepicker.setLocale('ko');
+	    	
+	    });
+	</script>
 </head>
 
 <body>
@@ -36,6 +59,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Join</a></li>
                         <li><a href="#">Login</a></li>
+
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
