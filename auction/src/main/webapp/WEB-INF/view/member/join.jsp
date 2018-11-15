@@ -2,6 +2,6 @@
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
-<h1>1대1 문의</h1>
+<h1>회원가입 페이지</h1>
 
 <jsp:include page="/WEB-INF/view/template/footer.jsp"></jsp:include>
