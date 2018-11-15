@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class MybatisConfiguration {
-	
 	@Bean
 	public SqlSessionFactoryBean sqlSessionFactory(
 			DataSource dataSource, ApplicationContext applicationContext) throws IOException {

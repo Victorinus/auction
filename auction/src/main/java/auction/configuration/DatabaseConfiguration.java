@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class DatabaseConfiguration {
-	
+	//DB연결하기
 	@Bean
 	public DataSource dataSource() {
 		BasicDataSource source = new BasicDataSource();
