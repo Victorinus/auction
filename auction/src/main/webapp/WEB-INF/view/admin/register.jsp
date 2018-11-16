@@ -29,11 +29,10 @@
 				<tr>
 					<th>경매장소</th>
 					<td>
-						<input type="text" id="sample6_postcode" placeholder="우편번호">
+						<input name="post" type="text" id="sample6_postcode" placeholder="우편번호">
 						<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input type="text" id="sample6_address" placeholder="주소">
-						<input type="text" id="sample6_address2" placeholder="상세주소">
-						<input type="hidden" name="addr" id="fullAddr">
+						<input name="addr" type="text" id="sample6_address" placeholder="주소">
+						<input name="addr2" type="text" id="sample6_address2" placeholder="상세주소">
 					</td>
 				</tr>
 				<tr>
@@ -53,17 +52,16 @@
 					<th>경매종류</th>
 					<td>
 						<select name="type">
-							<option>온라인경매</option>
-							<option>정기경매</option>
-							<option>기획경매</option>
+							<option value="online">온라인경매</option>
+							<option value="offline">오프라인경매</option>
 						</select>
 					</td>
 				</tr>
-			</tbody>
+			</tbody>	
 			<tfoot>
 				<tr>
 					<th colspan="2">
-						<input type="submit" value="등록" onclick="addAddr()">
+						<input type="submit" value="등록">
 						<a href="list">
 							<input type="button" value="취소">
 						</a>
@@ -73,12 +71,6 @@
 		</table>
 	</form>
 </div>
-	
-	<script>
-		function addAddr(){
-			document.getElementById('fullAddr').value += " " + document.getElementById('sample6_address2').value;
-		}
-	</script>
 	
 	<!-- 다음 주소검색 API 등록 -->
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -118,9 +110,6 @@
 	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
 	                document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
 	                document.getElementById('sample6_address').value = fullAddr;
-	
-	                //주소와 우편번호를 addr 파라미터로 하나로 합쳐서 넘기기 위해 #fullAddr에 값을 저장
-	                document.getElementById('fullAddr').value = data.zonecode + " " + fullAddr;
 	                
 	                // 커서를 상세주소 필드로 이동한다.
 	                document.getElementById('sample6_address2').focus();

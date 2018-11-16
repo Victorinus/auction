@@ -1,5 +1,7 @@
 package auction.admin.auction.test;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +15,7 @@ import auction.entity.Auction;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"classpath:/spring/application-config.xml"})
-public class TestRegist {
+public class TestList {
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -21,17 +23,11 @@ public class TestRegist {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Test
-	public void regist() {
-//		log.debug("sqlSession = {}", sqlSession);
-//		Auction auction = Auction.builder().name("").build();
-//		int result = sqlSession.insert("regist", auction);
-//		log.debug("결과값 = {}", result);
+	public void list() {
+		List<Auction> list = sqlSession.selectList("list");
+		for(Auction auction : list) {
+			log.debug("결과 = {}", auction);
+		}
 	}
-	
-//	@After
-//	public void clear() {
-//		sqlSession.delete("deleteAll");
-//	}
-	
 	
 }

@@ -11,7 +11,10 @@
 			sysdate,
 			#{addr},
 			#{stime},
-			#{etime}
+			#{etime},
+			#{type},
+			#{post},
+			#{addr2}
 			)
 	</insert>
 	
@@ -19,8 +22,29 @@
 		select * from auction order by auction_no desc
 	</select>
 	
+	<select id="find" resultType="auction" parameterType="int">
+		select * from auction where auction_no=#{auction_no}
+	</select>
+	
+	<update id="edit" parameterType="auction">
+		update auction set 
+			name=#{name}, 
+			summary=#{summary}, 
+			addr=#{addr}, 
+			stime=#{stime}, 
+			etime=#{etime}, 
+			type=#{type}, 
+			post=#{post}, 
+			addr2=#{addr2}
+		where auction_no=#{auction_no}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from auction where auction_no=#{auction_no}
+	</delete>
+	
 	<delete id="deleteAll">
-		delete from record
+		delete from auction
 	</delete>
 		
 	
