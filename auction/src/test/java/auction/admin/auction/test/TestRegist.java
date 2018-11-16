@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import auction.entity.Auction;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"classpath:/spring/application-config.xml"})
 public class TestRegist {
@@ -21,7 +23,15 @@ public class TestRegist {
 	@Test
 	public void regist() {
 		log.debug("sqlSession = {}", sqlSession);
+//		Auction auction = Auction.builder().name("").build();
+//		int result = sqlSession.insert("regist", auction);
+//		log.debug("결과값 = {}", result);
 	}
+	
+//	@After
+//	public void clear() {
+//		sqlSession.delete("deleteAll");
+//	}
 	
 	
 }

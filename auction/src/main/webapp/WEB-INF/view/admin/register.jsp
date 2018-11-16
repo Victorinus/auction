@@ -33,6 +33,7 @@
 						<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
 						<input type="text" id="sample6_address" placeholder="주소">
 						<input type="text" id="sample6_address2" placeholder="상세주소">
+						<input type="hidden" name="addr" id="fullAddr">
 					</td>
 				</tr>
 				<tr>
@@ -62,7 +63,7 @@
 			<tfoot>
 				<tr>
 					<th colspan="2">
-						<input type="submit" value="등록">
+						<input type="submit" value="등록" onclick="addAddr()">
 						<a href="list">
 							<input type="button" value="취소">
 						</a>
@@ -72,7 +73,13 @@
 		</table>
 	</form>
 </div>
-
+	
+	<script>
+		function addAddr(){
+			document.getElementById('fullAddr').value += " " + document.getElementById('sample6_address2').value;
+		}
+	</script>
+	
 	<!-- 다음 주소검색 API 등록 -->
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script>
@@ -112,6 +119,9 @@
 	                document.getElementById('sample6_postcode').value = data.zonecode; //5자리 새우편번호 사용
 	                document.getElementById('sample6_address').value = fullAddr;
 	
+	                //주소와 우편번호를 addr 파라미터로 하나로 합쳐서 넘기기 위해 #fullAddr에 값을 저장
+	                document.getElementById('fullAddr').value = data.zonecode + " " + fullAddr;
+	                
 	                // 커서를 상세주소 필드로 이동한다.
 	                document.getElementById('sample6_address2').focus();
 	            }

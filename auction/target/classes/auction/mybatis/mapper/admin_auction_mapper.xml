@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="auction.repository.auction.AuctionDaoImpl">
+	<insert id="regist" parameterType="auction">
+		insert into auction values(
+			auction_seq.nextval,
+			#{name},
+			#{summary},
+			sysdate,
+			#{addr},
+			#{stime},
+			#{etime}
+			)
+	</insert>
+	
+	<select id="list" resultType="auction">
+		select * from auction order by auction_no desc
+	</select>
+	
+	<delete id="deleteAll">
+		delete from record
+	</delete>
+		
+	
+	
+	
+</mapper>
+
+
