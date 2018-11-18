@@ -2,14 +2,24 @@ package auction.controller.auction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//경매 관련 컨트롤러
+import auction.entity.Current;
+import auction.repository.auction.AuctionDao;
+
+//온라인경매 관련 컨트롤러
 @Controller
 public class AuctionController {
+
+	private Logger log = LoggerFactory.getLogger(getClass());
+	
+	@Autowired
+	private AuctionDao auctionDao;
 	
 //	@RequestMapping("/offline/current")
 //	public String offlineCurrent() {
@@ -26,28 +36,30 @@ public class AuctionController {
 //		return "auction/offline/upcoming";
 //	}
 	
-	private Logger log = LoggerFactory.getLogger(getClass());
-	
+//	진행경매 : 출품목록 조회+페이징
 	@RequestMapping("/online/current")
-	public String onlineCurrent() {
-		return "auction/online/current";
-	}
-	
-	@RequestMapping(value="/online/current", method=RequestMethod.POST)
 	public String onlineCurrent(Model model) {
-		
+//		model.addAttribute("list", auctionDao.list());
 		return "auction/online/current";
 	}
 	
-	@RequestMapping("/online/result")
-	public String onlineResult() {
-		return "auction/online/result";
+//	진행경매 : 검색+페이징
+	@RequestMapping(value="/online/current", method=RequestMethod.POST)
+	public String onlineCurrent(@ModelAttribute Current current) {
+		log.debug("current = {}", current);
+		return "auction/online/current";
 	}
 	
+//	예정경매
 	@RequestMapping("/online/upcoming")
-	public String onlineUpcoming() {
+	public String onlineUpcoming(Model model) {
 		return "auction/online/upcoming";
 	}
 	
+//	경매결과
+	@RequestMapping("/online/result")
+	public String onlineResult(Model model) {
+		return "auction/online/result";
+	}	
 	
 }

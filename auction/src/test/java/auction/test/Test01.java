@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import auction.repository.auction.AuctionDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"classpath:/spring/application-config.xml"})
@@ -16,11 +19,19 @@ public class Test01 {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
+	private AuctionDao auctionDao;
+	
+	@Autowired
 	private SqlSession sqlSession;
+	
+	@Autowired
+	private CommonsMultipartResolver multipartResolver;
 	
 	@Test
 	public void test() {
-//		log.debug("auctionDao = {}", auctionDao);
+		log.debug("Logging Test!");
+		log.debug("auctionDao = {}", auctionDao);
 		log.debug("sqlSession = {}", sqlSession);
+		log.debug("multipartResolver = {}", multipartResolver);	
 	}
 }
