@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import auction.entity.Current;
-import auction.repository.auction.AuctionDao;
+import auction.entity.Search;
+import auction.repository.auction.current.CurrentDao;
 
 //온라인경매 관련 컨트롤러
 @Controller
@@ -19,7 +19,7 @@ public class AuctionController {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private AuctionDao auctionDao;
+	private CurrentDao currentDao;
 	
 //	@RequestMapping("/offline/current")
 //	public String offlineCurrent() {
@@ -38,17 +38,18 @@ public class AuctionController {
 	
 //	진행경매 : 출품목록 조회+페이징
 	@RequestMapping("/online/current")
-	public String onlineCurrent(Model model) {
-//		model.addAttribute("list", auctionDao.list());
+	public String onlineCurrent(@ModelAttribute Search search, Model model) {
+			model.addAttribute("currentAuction", currentDao.currentAuction());
+			model.addAttribute("currentList", currentDao.currentSearch(search));
 		return "auction/online/current";
 	}
 	
 //	진행경매 : 검색+페이징
-	@RequestMapping(value="/online/current", method=RequestMethod.POST)
-	public String onlineCurrent(@ModelAttribute Current current) {
-		log.debug("current = {}", current);
-		return "auction/online/current";
-	}
+//	@RequestMapping(value="/online/current", method=RequestMethod.POST)
+//	public String onlineCurrent(@ModelAttribute Search search, Model model) {
+//		model.addAttribute("searchList", currentDao.currentSearch(search));
+//		return "auction/online/current";
+//	}
 	
 //	예정경매
 	@RequestMapping("/online/upcoming")

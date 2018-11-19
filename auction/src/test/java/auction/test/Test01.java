@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import auction.repository.auction.AuctionDao;
+import auction.repository.auction.current.CurrentDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"classpath:/spring/application-config.xml"})
@@ -19,7 +19,7 @@ public class Test01 {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private AuctionDao auctionDao;
+	private CurrentDao currentDao;
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -30,7 +30,7 @@ public class Test01 {
 	@Test
 	public void test() {
 		log.debug("Logging Test!");
-		log.debug("auctionDao = {}", auctionDao);
+		log.debug("currentDao = {}", currentDao);
 		log.debug("sqlSession = {}", sqlSession);
 		log.debug("multipartResolver = {}", multipartResolver);	
 	}

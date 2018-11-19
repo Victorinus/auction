@@ -69,18 +69,18 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="col-md-3">
                     <div>
-                        <h5>경매회차(auction/rownum)</h5>
+                        <h5>${currentAuction.auction_no}</h5>
                     </div>
                     <div>
-                        <h4>경매명(auction)</h4>
+                        <h4>${currentAuction.name}</h4>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div>
-                        <p>AUCTION : 경매일자(auction)</p>
+                        <p>	AUCTION : ${currentAuction.reg}</p>
                     </div>
                     <div>
-                        <p>VENUE : 경매장소(auction)</p>
+                        <p>VENUE : ${currentAuction.addr}</p>
                     </div>
                     <div>
                         <h3>응찰자 주의사항</h3>
@@ -89,7 +89,7 @@
             </div>
         </div>
         <!-- 검색창 -->
-        <form action="current" method="post">
+        <form action="current" method="get">
             <input type="hidden" name="eprice_min" value="" id="eprice_min">
             <input type="hidden" name="eprice_max" value="" id="eprice_max">
             <div class="row">
@@ -111,7 +111,7 @@
                     </div>
                     <div class="col-md-2">
                         번호
-                        <input name="" type="text" placeholder="번호 입력하여 찾기">
+                        <input name="lot" type="text" placeholder="번호 입력하여 찾기">
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1 search text-center">
@@ -125,136 +125,24 @@
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
+            	<c:forEach var="current" items="${currentList}">
                 <div class="col-md-3 gallery">
                     <div>
-                        <h4>LOT. 1(auction/rownum)</h4>
+                        <h4>${current.lot}</h4>
                     </div>
                     <div style="border: 1px solid lightgray;">
                         <div class="margin">
                             <img src="http://dummyimage.com/200x200">
                         </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
+                        <h3>${current.artist}</h3>
+                        <h4>${current.title}</h4>
                         <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
+                        <p>${current.medium}</p>
+                        <p>${current.dimension}</p>
+                        <p>${current.eprice}</p>
                     </div>
                 </div>
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. 2(auction/rownum)</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
-                        </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
-                        <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
-                    </div>
-                </div>
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. 3(auction/rownum)</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
-                        </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
-                        <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
-                    </div>
-                </div>
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. 4(auction/rownum)</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
-                        </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
-                        <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-10 col-md-offset-1 text-center">
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. 5(auction/rownum)</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
-                        </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
-                        <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
-                    </div>
-                </div>
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. 6(auction/rownum)</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
-                        </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
-                        <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
-                    </div>
-                </div>
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. 7(auction/rownum)</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
-                        </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
-                        <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
-                    </div>
-                </div>
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. 8(auction/rownum)</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
-                        </div>
-                        <h3>작가명</h3>
-                        <h4>작품명</h4>
-                        <hr>
-                        <p>재질</p>
-                        <p>규격</p>
-                        <p>추정가</p>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
         <!-- 페이지네이션 -->
