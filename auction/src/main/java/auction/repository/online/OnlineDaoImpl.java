@@ -1,4 +1,4 @@
-package auction.repository.auction.current;
+package auction.repository.online;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import auction.entity.Auction;
-import auction.entity.Current;
+import auction.entity.View;
 import auction.entity.Search;
 
-@Repository("currentDao")
-public class CurrentDaoImpl implements CurrentDao {
+@Repository("onlineDao")
+public class OnlineDaoImpl implements OnlineDao {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -26,11 +26,11 @@ public class CurrentDaoImpl implements CurrentDao {
 	}
 	
 	@Override
-	public List<Current> currentList() {
+	public List<View> currentList() {
 		return sqlSession.selectList("currentList");
 	}
 
-	public List<Current> currentSearch(Search search){
+	public List<View> currentSearch(Search search){
 		log.debug("검색어 = {}", search);
 		if(search.getArtist()==null && search.getTitle()==null && 
 				search.getEprice_min()==null && search.getEprice_max()==null && search.getLot()==0) {
@@ -38,10 +38,15 @@ public class CurrentDaoImpl implements CurrentDao {
 		}
 		return sqlSession.selectList("currentSearch", search);
 	}
-	
-//	@Override
-//	public List<Current> currentSearch(Search search) {
-//		return sqlSession.selectList("currentSearch", search);
-//	}
+
+	@Override
+	public List<Auction> upcomingList() {
+		return sqlSession.selectList("upcomingList");
+	}
+
+	@Override
+	public List<Auction> resultList() {
+		return sqlSession.selectList("resultList");
+	}
 
 }

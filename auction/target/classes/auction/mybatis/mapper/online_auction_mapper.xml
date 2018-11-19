@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="auction.repository.online.OnlineDaoImpl">
+	<!-- 진행경매 개요 -->
+	<select id="currentAuction" resultType="auction">
+		select * from auction where auction_no=4
+	</select>
+	
+	<!-- 진행경매 목록 -->
+	<select id="currentList" resultType="view">
+		select rownum lot, tmp.* from(
+					select * from auction_view
+		)tmp where no=4 order by lot desc
+	</select>
+	
+	<!-- 진행경매 검색 -->	
+	<select id="currentSearch" resultType="view" parameterType="search">
+		select * from(
+			select rownum as lot, tmp.* from(
+				select * from auction_view
+			)tmp 
+		)where no=4 artist like '%'||#{artist}||'%' or title like '%'||#{title}||'%' or lot=#{lot}
+	</select>
+	
+	<!-- 예정경매 목록 -->
+	<select id="upcomingList" resultType="auction">
+		select * from auction where status='예정'
+	</select>
+	
+	<!-- 경매결과 -->
+	<select id="resultList" resultType="auction">
+		select * from auction where status='종료'
+	</select>
+</mapper>
+
+

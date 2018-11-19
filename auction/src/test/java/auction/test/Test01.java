@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import auction.repository.auction.current.CurrentDao;
+import auction.repository.online.OnlineDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"classpath:/spring/application-config.xml"})
@@ -19,7 +19,7 @@ public class Test01 {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private CurrentDao currentDao;
+	private OnlineDao currentDao;
 	
 	@Autowired
 	private SqlSession sqlSession;

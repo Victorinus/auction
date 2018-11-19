@@ -3,12 +3,13 @@ package auction.entity;
 import lombok.Data;
 
 @Data
-public class Current {
+public class View {
 	private int lot;
 	private int no;
-	private String auction_name;
-	private String auction_reg;
-	private String auction_addr;
+	private String a_name;
+	private String a_reg;
+	private String a_addr;
+	private String a_status;
 	private String title;
 	private String dimension;
 	private String birth;

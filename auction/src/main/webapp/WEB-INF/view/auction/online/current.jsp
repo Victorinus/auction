@@ -62,7 +62,7 @@
 <body>
     <div class="container-fluid">
         <div class="row text-center header">
-            <h1>미술품 경매</h1>
+            <h1>진행경매</h1>
         </div>
         <!-- 경매 개요 -->
         <div class="row title">
@@ -115,38 +115,37 @@
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1 search text-center">
-                    <input type="button" value="검색 초기화">
                     <input type="submit" value="검색">
                 </div>
             </div>
         </form>
-        <!-- 페이지네이션 -->
-        <div class="row paging"></div>
+        <!-- 페이징 -->
+        <div class="row"></div>
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-            	<c:forEach var="current" items="${currentList}">
+            	<c:forEach var="view" items="${currentList}">
                 <div class="col-md-3 gallery">
                     <div>
-                        <h4>${current.lot}</h4>
+                        <h4>${view.lot}</h4>
                     </div>
                     <div style="border: 1px solid lightgray;">
                         <div class="margin">
                             <img src="http://dummyimage.com/200x200">
                         </div>
-                        <h3>${current.artist}</h3>
-                        <h4>${current.title}</h4>
+                        <h3>${view.artist}</h3>
+                        <h4>${view.title}</h4>
                         <hr>
-                        <p>${current.medium}</p>
-                        <p>${current.dimension}</p>
-                        <p>${current.eprice}</p>
+                        <p>${view.medium}</p>
+                        <p>${view.dimension}</p>
+                        <p>${view.eprice}</p>
                     </div>
                 </div>
                 </c:forEach>
             </div>
         </div>
-        <!-- 페이지네이션 -->
-
+        <!-- 페이징 -->
+        <div></div>
     </div>
 </body>
 </html>
