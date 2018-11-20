@@ -17,5 +17,13 @@
 	        <property name="prefix" value="/WEB-INF/view/"/>
 	        <property name="suffix" value=".jsp"/>
 	</bean>
+	
+	<!-- 인터셉터 설정 : 스프링에서 구동되므로 이곳에 작성 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/member/**"/> <!-- 어디를 -->
+			<bean class="auction.interceptor.UserInterceptor"></bean> <!-- 누가 -->
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>

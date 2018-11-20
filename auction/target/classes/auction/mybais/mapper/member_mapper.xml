@@ -2,33 +2,39 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="menu">
-	<insert id="regist1" parameterType="map">
-		insert into menu values(
-				<!-- map.get("name") -->
-				#{name}, 
-				<!-- map.get("price") -->
-				#{price}
-				)
-	</insert>
-
-<!-- 	<insert id="regist2" parameterType="spring.entity.Menu"> -->
-	<insert id="regist2" parameterType="menu">
-			
-		insert into menu values(
-				<!-- menu.get("name") -->
-				#{name}, 
-				<!-- menu.get("price") -->
-				#{price}
+<mapper namespace="member">
+	
+	<!-- USER 회원가입 DB 처리. 회원가입 정보를 받아 DB에 저장 -->
+	<insert id="regist_user" parameterType="map">
+		insert into USER_TB values(
+				#{USER_SQ}, 
+				#{USER_ID},
+				#{USER_PW},
+				#{USER_NM},
+				#{USER_BIRTH},
+				#{USER_GENDER},
+				#{USER_PHONE},
+				#{USER_TEL},
+				#{USER_EMAIL},
+				#{USER_POST},
+				#{USER_ADDR1},
+				#{USER_ADDR2},
+				#{DELIVER_POST},
+				#{DELIVER_ADDR1},
+				#{DELIVER_ADDR2},
+				#{USER_GRADE},
+				#{REG_DT},
+				#{CHG_DT},
+				#{SESSION_KEY},
+				#{SESSION_LIMIT}
 				)
 	</insert>
 	
-	<select id="list" resultType="menu">
-		select * from menu order by name asc
+	<!-- 로그인에 대한 DB작업을 정의한다. ID와 PW가 일치하면 사용자 정보를 담고있는 객체를반환한다. -->
+	<select id="login" resultType="Member">
+		select * from USER_TB where USER_ID = #{USER_ID} and USER_PW = #{USER_PW}
 	</select>
-	
-	
-		
+
 	
 	
 	
