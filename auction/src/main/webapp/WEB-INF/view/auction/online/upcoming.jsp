@@ -25,13 +25,13 @@
             <div class="col-md-10 col-md-offset-1 text-center">
 				<c:forEach var="auction" items="${upcomingList}">
 					<div class="col-md-12">
-						<h2>${auction.name}</h2>
+						<h2>${auction.auction_nm}</h2>
 					</div>					
 					<hr>
 					<div class="col-md-12">
 						<h4>[AUCTION]</h4>
-						<h4>${auction.reg}</h4>
-						<h4>${auction.addr}</h4>
+						<h4>${auction.auction_dt}</h4>
+						<h4>${auction.auction_addr1}</h4>
 					</div>
 					<div class="col-md-12">
 						<div>

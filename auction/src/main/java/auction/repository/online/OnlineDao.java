@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import auction.entity.Auction;
+import auction.entity.Paging;
 import auction.entity.View;
 import auction.entity.Search;
 
@@ -20,5 +21,7 @@ public interface OnlineDao {
 	List<Auction> upcomingList();
 
 	List<Auction> resultList();
+
+	int getCount();
 
 }

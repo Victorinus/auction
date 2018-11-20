@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import auction.entity.Auction;
+import auction.entity.Paging;
 import auction.entity.View;
 import auction.entity.Search;
 
@@ -47,6 +48,11 @@ public class OnlineDaoImpl implements OnlineDao {
 	@Override
 	public List<Auction> resultList() {
 		return sqlSession.selectList("resultList");
+	}
+
+	@Override
+	public int getCount() {
+		return sqlSession.selectOne("count");
 	}
 
 }

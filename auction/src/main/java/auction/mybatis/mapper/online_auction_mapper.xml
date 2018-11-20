@@ -10,9 +10,13 @@
 	
 	<!-- 진행경매 목록 -->
 	<select id="currentList" resultType="view">
-		select rownum lot, tmp.* from(
-					select * from auction_view
-		)tmp where no=4 order by lot desc
+		select rownum, tmp.* from(
+			select * from auction_view 
+				where sysdate between 
+					to_date(a_start, 'YY/MM/DD HH24:MI') 
+				and 
+				to_date(a_end, 'YY/MM/DD HH24:MI')
+		)tmp order by rownum desc
 	</select>
 	
 	<!-- 진행경매 검색 -->	
@@ -26,12 +30,22 @@
 	
 	<!-- 예정경매 목록 -->
 	<select id="upcomingList" resultType="auction">
-		select * from auction where status='예정'
+		select rownum as rn, tmp.* from(
+			select * from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+		)tmp order by rn desc
 	</select>
 	
 	<!-- 경매결과 -->
 	<select id="resultList" resultType="auction">
-		select * from auction where status='종료'
+		<!-- select * from( -->
+			select rownum as rn, tmp.* from(
+				select * from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
+			)tmp 
+		<!-- ) where rn between #{sn} and #{fn} -->
+	</select>
+	
+	<select id="count" resultType="integer">
+		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
 	</select>
 </mapper>
 

@@ -1,5 +1,7 @@
 package auction.controller.auction;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +11,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import auction.entity.Paging;
 import auction.entity.Search;
 import auction.repository.online.OnlineDao;
-
+import auction.util.PagingUtil;
 
 //온라인경매 관련 컨트롤러
 @Controller
 public class AuctionController {
-
+	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	private OnlineDao onlineDao;
+	
+	@Autowired
+	private PagingUtil pagingUtil;
 	
 //	@RequestMapping("/offline/current")
 //	public String offlineCurrent() {
@@ -47,13 +52,6 @@ public class AuctionController {
 		return "auction/online/current";
 	}
 	
-//	진행경매 : 검색+페이징
-//	@RequestMapping(value="/online/current", method=RequestMethod.POST)
-//	public String onlineCurrent(@ModelAttribute Search search, Model model) {
-//		model.addAttribute("searchList", currentDao.currentSearch(search));
-//		return "auction/online/current";
-//	}
-	
 //	예정경매
 	@RequestMapping("/online/upcoming")
 	public String onlineUpcoming(Model model) {
@@ -63,7 +61,9 @@ public class AuctionController {
 	
 //	경매결과
 	@RequestMapping("/online/result")
-	public String onlineResult(Model model) {
+	public String onlineResult(Model model, HttpServletRequest request) {
+		log.debug("page = {}", request.getParameter("page"));
+		pagingUtil.setHttpServletRequest(request);
 		model.addAttribute("resultList", onlineDao.resultList());
 		return "auction/online/result";
 	}	
@@ -74,5 +74,5 @@ public class AuctionController {
 	public ResponseEntity<ByteArrayResource> image(){
 		return null;
 	}
-	
+
 }

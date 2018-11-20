@@ -31,12 +31,12 @@
 						<img src="http://dummyimage.com/400x200">
 					</div>
 					<div class="col-md-9">
-                        <h2>${auction.name}</h2>
-                        <p>${auction.reg}</p>
-                        <p>${auction.addr}</p>
+                        <h2>${auction.auction_nm}</h2>
+                        <p>${auction.auction_dt}</p>
+                        <p>${auction.auction_addr1}</p>
 					</div>
 					<div class="col-md-3">
-						<button onclick="location.href='detail?no=${auction.auction_no}';">상세결과보기</button>
+						<button onclick="location.href='detail?no=${auction.auction_sq}';">상세결과보기</button>
 					</div>
                 </div>
                 </c:forEach>
