@@ -10,14 +10,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Auction {
-	private int auction_no;
-	private String name;
-	private String summary;
-	private String reg;
-	private String addr;
-	private String stime;
-	private String etime;
-	private String type;
-	private String post;
-	private String addr2;
+	private int auction_sq;
+	private String auction_nm;
+	private String auction_info;
+	private String auction_dt;
+	private String auction_addr1;
+	private String auction_start;
+	private String auction_end;
+	private String auction_type;
+	private String auction_post;
+	private String auction_addr2;
+	private String auction_image;
 }

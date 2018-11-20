@@ -23,22 +23,23 @@
 		<tbody>
 			<c:forEach var="auction" items="${list}">
 				<tr>
-					<td>${auction.auction_no}</td>
+					<td>${auction.auction_sq}</td>
 					<td>
-						<a href="edit?auction_no=${auction.auction_no}">
-							${auction.name}
+						<img src="${pageContext.request.contextPath}/image/auction/${auction.auction_image}" style="width:100;height:100;">
+						<a href="edit?auction_sq=${auction.auction_sq}">
+							${auction.auction_nm}
 						</a>
 					</td>
-					<td>${auction.summary}</td>
-					<td>${auction.reg}</td>
+					<td>${auction.auction_info}</td>
+					<td>${auction.auction_dt}</td>
 					<td>
-						[${auction.post}] ${auction.addr} ${auction.addr2}
+						[${auction.auction_post}] ${auction.auction_addr1} ${auction.auction_addr2}
 					</td>
-					<td>${auction.stime}</td>
-					<td>${auction.etime}</td>
+					<td>${auction.auction_start}</td>
+					<td>${auction.auction_end}</td>
 					<td>
 						<c:choose>
-							<c:when test="${auction.type == 'online'}">
+							<c:when test="${auction.auction_type eq 'online'}">
 								온라인
 							</c:when>
 							<c:otherwise>

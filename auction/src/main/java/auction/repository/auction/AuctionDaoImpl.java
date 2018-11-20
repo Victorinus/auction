@@ -34,8 +34,15 @@ public class AuctionDaoImpl implements AuctionDao {
 	}
 
 	@Override
-	public Auction find(int no) {
-		Auction auction = sqlSession.selectOne("find", no);
+	public int getListCnt() {
+		int listCnt = sqlSession.selectOne("listCnt");
+		log.debug("결과값 = {}", listCnt);
+		return listCnt;
+	}
+	
+	@Override
+	public Auction find(int auction_sq) {
+		Auction auction = sqlSession.selectOne("find", auction_sq);
 		log.debug(auction.toString());
 		return auction;
 	}
@@ -47,9 +54,11 @@ public class AuctionDaoImpl implements AuctionDao {
 	}
 
 	@Override
-	public void delete(int auction_no) {
-		int result = sqlSession.delete("delete", auction_no);
+	public void delete(int auction_sq) {
+		int result = sqlSession.delete("delete", auction_sq);
 		log.debug("결과값 = {}", result);
 	}
 
+
+	
 }

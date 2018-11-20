@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
@@ -8,7 +8,7 @@
 
 <div class="editForm" align="center">
 	<form action="edit" method="post">
-		<input type="hidden" name="auction_no" value="${auction.auction_no}">
+		<input type="hidden" name="auction_sq" value="${auction.auction_sq}">
 		<table border="1" width="1000px">
 			<thead>
 				<tr>
@@ -20,42 +20,42 @@
 				<tr>
 					<th>경매명</th>
 					<td>
-						<input name="name" type="text" placeholder="경매명을 입력하세요" size="100" maxlength="300" value="${auction.name}">
+						<input name="auction_nm" type="text" placeholder="경매명을 입력하세요"	size="100" maxlength="300" value="${auction.auction_nm}">
 					</td>
 				</tr>
 				<tr>
 					<th>경매요약정보</th>
 					<td>
-						<input name="summary" type="text" placeholder="요약 정보를 입력하세요" size="100" maxlength="4000" value="${auction.summary}">
+						<input name="auction_info" type="text" placeholder="요약 정보를 입력하세요" size="100" maxlength="4000"	value="${auction.auction_info}">
 					</td>
 				</tr>
 				<tr>
 					<th>경매장소</th>
 					<td>
-						<input name="post" type="text" id="sample6_postcode" placeholder="우편번호" value="${auction.post}">
+						<input name="auction_post" type="text" id="sample6_postcode"	placeholder="우편번호" value="${auction.auction_post}">
 						<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input name="addr" type="text" id="sample6_address" placeholder="주소" value="${auction.addr}">
-						<input name="addr2" type="text" id="sample6_address2" placeholder="상세주소" value="${auction.addr2}">
+						<input name="auction_addr1" type="text" id="sample6_address" placeholder="주소" value="${auction.auction_addr1}">
+						<input name="auction_addr2" type="text" id="sample6_address2" placeholder="상세주소" value="${auction.auction_addr2}">
 					</td>
 				</tr>
 				<tr>
 					<th>경매시작시간</th>
 					<td>
-						<input name="stime" class="datetimepicker" type="text"  value="${auction.stime}">
+						<input name="auction_start" class="datetimepicker" type="text" value="${auction.auction_start}">
 					</td>
 				</tr>
 				<tr>
 					<th>경매종료시간</th>
 					<td>
-						<input name="etime" class="datetimepicker" type="text"  value="${auction.etime}">
+						<input name="auction_end" class="datetimepicker" type="text" value="${auction.auction_end}">
 					</td>
 				</tr>
 				<tr>
 					<th>경매종류</th>
 					<td>
-						<select name="type">
+						<select name="auction_type">
 							<c:choose>
-								<c:when test="${auction.type=='online'}">
+								<c:when test="${auction.auction_type ne 'online'}">
 									<option value="online">온라인경매</option>
 									<option value="offline">오프라인경매</option>
 								</c:when>
@@ -67,15 +67,30 @@
 						</select>
 					</td>
 				</tr>
-			</tbody>	
+				<tr>
+					<th>대표이미지</th>
+					<td>
+						<input type="file" name="image">
+					</td>
+				</tr>
+				<c:if test="${not empty auction.auction_image}">
+					<tr>
+						<th>기존이미지</th>
+						<td>
+							<img	src="${pageContext.request.contextPath}/image/auction/${auction.auction_image}" style="width:100;height:100;">
+							<span>${auction.auction_image}</span>
+						</td>
+					</tr>
+				</c:if>
+			</tbody>
 			<tfoot>
 				<tr>
 					<th colspan="2">
 						<input type="submit" value="수정">
-						<a href="list">
+						<a	href="list">
 							<input type="button" value="취소">
 						</a>
-						<a href="delete?auction_no=${auction.auction_no}">
+						<a href="delete?auction_sq=${auction.auction_sq}">
 							<input type="button" value="삭제">
 						</a>
 					</th>
@@ -84,11 +99,11 @@
 		</table>
 	</form>
 </div>
-	
-	
-	<!-- 다음 주소검색 API 등록 -->
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-	<script>
+
+
+<!-- 다음 주소검색 API 등록 -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
 	    function sample6_execDaumPostcode() {
 	        new daum.Postcode({
 	            oncomplete: function(data) {
