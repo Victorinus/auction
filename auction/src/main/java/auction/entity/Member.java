@@ -1,11 +1,31 @@
 package auction.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor @Builder
 public class Member {
-	private String id;
-	private String pw;
-		
-
+	private int user_sq;
+	private String user_id;
+	private String user_pw;
+	private String user_nm;
+	private String user_birth;
+	private String user_gender;
+	private String user_phone;
+	private String user_tel;
+	private String user_email;
+	private String user_post;
+	private String user_addr1;
+	private String user_addr2;
+	private String deliver_post;
+	private String deliver_addr1;
+	private String deliver_addr2;
+	private String reg_dt;
+	private String chg_dt;
+	private String seesion_key;
+	private String session_limit;
 }
