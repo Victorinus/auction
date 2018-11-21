@@ -3,10 +3,6 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="auction.repository.online.OnlineDaoImpl">
-	<!-- 진행경매 개요 -->
-	<select id="currentAuction" resultType="auction">
-		select * from auction where auction_no=4
-	</select>
 	
 	<!-- 진행경매 목록 -->
 	<select id="currentList" resultType="view">
@@ -29,19 +25,25 @@
 	</select>
 	
 	<!-- 예정경매 목록 -->
-	<select id="upcomingList" resultType="auction">
-		select rownum as rn, tmp.* from(
-			select * from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
-		)tmp order by rn desc
+	<select id="upcomingList" resultType="auction" parameterType="paging">
+		select * from(
+			select rownum as rn, tmp.* from(
+				select * from auction_main 
+					where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+				order by auction_sq asc
+			)tmp
+		) where rn between #{sn} and #{fn}
 	</select>
 	
 	<!-- 경매결과 -->
-	<select id="resultList" resultType="auction">
-		<!-- select * from( -->
+	<select id="resultList" resultType="auction" parameterType="paging">
+		select * from(
 			select rownum as rn, tmp.* from(
-				select * from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
-			)tmp 
-		<!-- ) where rn between #{sn} and #{fn} -->
+				select * from auction_main 
+					where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI') 
+				order by auction_sq desc
+			)tmp
+		) where rn between #{sn} and #{fn}
 	</select>
 	
 	<select id="count" resultType="integer">

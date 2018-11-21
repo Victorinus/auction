@@ -1,4 +1,4 @@
-package auction.test;
+package auction.test.chung;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
@@ -19,7 +19,7 @@ public class Test01 {
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private OnlineDao currentDao;
+	private OnlineDao onlineDao;
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -30,7 +30,7 @@ public class Test01 {
 	@Test
 	public void test() {
 		log.debug("Logging Test!");
-		log.debug("currentDao = {}", currentDao);
+		log.debug("onlineDao = {}", onlineDao);
 		log.debug("sqlSession = {}", sqlSession);
 		log.debug("multipartResolver = {}", multipartResolver);	
 	}

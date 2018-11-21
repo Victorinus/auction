@@ -22,17 +22,11 @@ public class OnlineDaoImpl implements OnlineDao {
 	private SqlSession sqlSession;
 	
 	@Override
-	public Auction currentAuction() {
-		return sqlSession.selectOne("currentAuction");
-	}
-	
-	@Override
 	public List<View> currentList() {
 		return sqlSession.selectList("currentList");
 	}
 
 	public List<View> currentSearch(Search search){
-		log.debug("검색어 = {}", search);
 		if(search.getArtist()==null && search.getTitle()==null && 
 				search.getEprice_min()==null && search.getEprice_max()==null && search.getLot()==0) {
 			return currentList();
@@ -41,18 +35,19 @@ public class OnlineDaoImpl implements OnlineDao {
 	}
 
 	@Override
-	public List<Auction> upcomingList() {
-		return sqlSession.selectList("upcomingList");
+	public List<Auction> upcomingList(int sn, int fn) {
+		Paging paging = Paging.builder().sn(sn).fn(fn).build();
+		return sqlSession.selectList("upcomingList", paging);
 	}
 
 	@Override
-	public List<Auction> resultList() {
-		return sqlSession.selectList("resultList");
+	public List<Auction> resultList(int sn, int fn) {
+		Paging paging = Paging.builder().sn(sn).fn(fn).build();
+		return sqlSession.selectList("resultList", paging);
 	}
 
 	@Override
 	public int getCount() {
 		return sqlSession.selectOne("count");
 	}
-
 }

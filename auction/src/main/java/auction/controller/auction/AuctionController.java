@@ -46,25 +46,28 @@ public class AuctionController {
 	
 //	진행경매
 	@RequestMapping("/online/current")
-	public String onlineCurrent(@ModelAttribute Search search, Model model) {
-			model.addAttribute("currentAuction", onlineDao.currentAuction());
-			model.addAttribute("currentList", onlineDao.currentSearch(search));
+	public String onlineCurrent(
+			@ModelAttribute Search search, HttpServletRequest request, Model model) {
+		pagingUtil.setHttpServletRequest(request);	
+		model.addAttribute("currentList", onlineDao.currentSearch(search));
 		return "auction/online/current";
 	}
 	
 //	예정경매
 	@RequestMapping("/online/upcoming")
-	public String onlineUpcoming(Model model) {
-		model.addAttribute("upcomingList", onlineDao.upcomingList());
+	public String onlineUpcoming(HttpServletRequest request, Model model) {
+		pagingUtil.setHttpServletRequest(request);
+		model.addAttribute(
+				"upcomingList", onlineDao.upcomingList(pagingUtil.getSn(), pagingUtil.getFn()));
 		return "auction/online/upcoming";
 	}
 	
 //	경매결과
 	@RequestMapping("/online/result")
-	public String onlineResult(Model model, HttpServletRequest request) {
-		log.debug("page = {}", request.getParameter("page"));
+	public String onlineResult(HttpServletRequest request, Model model) {
 		pagingUtil.setHttpServletRequest(request);
-		model.addAttribute("resultList", onlineDao.resultList());
+		model.addAttribute(
+				"resultList", onlineDao.resultList(pagingUtil.getSn(), pagingUtil.getFn()));
 		return "auction/online/result";
 	}	
 	

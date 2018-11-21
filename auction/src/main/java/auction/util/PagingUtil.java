@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Service
-@Getter @NoArgsConstructor
+@Getter 
 public class PagingUtil {
 	
 	private int page;
@@ -25,13 +25,9 @@ public class PagingUtil {
 	
 	@Autowired
 	private OnlineDao onlineDao;
-	
-	public PagingUtil(HttpServletRequest request) {
-		setHttpServletRequest(request);
-	}
 
 	public void setHttpServletRequest(HttpServletRequest request) {
-		log.debug("page={}", request.getParameter("page"));
+		log.debug(request.getRequestURI());
 		try {
 			this.page = Integer.parseInt(request.getParameter("page"));
 			if(this.page <= 0)	throw new Exception();
@@ -39,18 +35,26 @@ public class PagingUtil {
 		catch(Exception e) {
 			this.page = 1;
 		}
-		log.debug("page try/catch문 이후={}", request.getParameter("page"));
 		try {
-			calculate();
+			if(request.getRequestURI().endsWith("/result")) {
+				result();
+			}
+			else if(request.getRequestURI().endsWith("/upcoming")) {
+				upcoming();
+			}
+			else if(request.getRequestURI().endsWith("/current")){
+				current();
+			}
+			else {}
 		}
 		catch(Exception e) {}
 	}
 	
-	private void calculate() {
+	private void result() {
 		count = onlineDao.getCount();
 		pagesize = 4;
 		
-		sn = (page-1) * page+1;
+		sn = (page-1) * pagesize+1;
 		fn = page * pagesize;
 		
 		totalpage = (count+pagesize-1) / pagesize;
@@ -58,7 +62,39 @@ public class PagingUtil {
 		blocksize = 4;
 		sb = (page-1) / blocksize * blocksize + 1;
 		fb = sb + (blocksize-1);
-		if(fb>blocksize)	fb = totalpage;
+		
+		if(fb>totalpage)	fb = totalpage;
 	}
 	
+	private void upcoming() {
+		count = onlineDao.getCount();
+		pagesize = 1;
+		
+		sn = (page-1) * pagesize+1;
+		fn = page * pagesize;
+		
+		totalpage = (count+pagesize-1) / pagesize;
+		
+		blocksize = 4;
+		sb = (page-1) / blocksize * blocksize + 1;
+		fb = sb + (blocksize-1);
+		
+		if(fb>totalpage)	fb = totalpage;
+	}
+	
+	private void current() {
+		count = onlineDao.getCount();
+		pagesize = 10;
+		
+		sn = (page-1) * pagesize+1;
+		fn = page * pagesize;
+		
+		totalpage = (count+pagesize-1) / pagesize;
+		
+		blocksize = 4;
+		sb = (page-1) / blocksize * blocksize + 1;
+		fb = sb + (blocksize-1);
+
+		if(fb>totalpage)	fb = totalpage;
+	}
 }

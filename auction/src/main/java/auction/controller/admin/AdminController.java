@@ -26,4 +26,5 @@ public class AdminController {
 	public String edit() {
 		return "/admin/edit";
 	}
+	
 }
