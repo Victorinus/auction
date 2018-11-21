@@ -20,6 +20,13 @@
         .margin {
             margin-top: 15px;
         }
+        
+		.nav, .nav > a{
+    		text-decoration: none;    		
+    		font-size: 25px;
+    		color: black;
+    	}
+        
     </style>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -69,18 +76,18 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="col-md-3">
                     <div>
-                        <h5>${currentAuction.auction_no}</h5>
+                        <h5>경매회차</h5>
                     </div>
                     <div>
-                        <h4>${currentAuction.name}</h4>
+                        <h4>경매명</h4>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div>
-                        <p>	AUCTION : ${currentAuction.reg}</p>
+                        <p>경매일자</p>
                     </div>
                     <div>
-                        <p>VENUE : ${currentAuction.addr}</p>
+                        <p>경매장소</p>
                     </div>
                     <div>
                         <h3>응찰자 주의사항</h3>
@@ -90,17 +97,17 @@
         </div>
         <!-- 검색창 -->
         <form action="current" method="get">
-            <input type="hidden" name="eprice_min" value="" id="eprice_min">
-            <input type="hidden" name="eprice_max" value="" id="eprice_max">
+            <input type="hidden" name="art_eprice_min" value="" id="eprice_min">
+            <input type="hidden" name="art_eprice_max" value="" id="eprice_max">
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
                         작가명
-                        <input name="artist" type="text" placeholder="작가명 입력하여 찾기">
+                        <input name="art_artist" type="text" placeholder="작가명 입력하여 찾기">
                     </div>
                     <div class="col-md-3">
                         작품명
-                        <input name="title" type="text" placeholder="작품명 입력하여 찾기">
+                        <input name="art_nm" type="text" placeholder="작품명 입력하여 찾기">
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="col-md-3">추정가</div>
@@ -119,7 +126,7 @@
                 </div>
             </div>
         </form>
-        <!-- 페이징 -->
+        <!-- 네비게이터 -->
         <div class="row"></div>
         <!-- 갤러리 -->
         <div class="row">
@@ -133,19 +140,40 @@
                         <div class="margin">
                             <img src="http://dummyimage.com/200x200">
                         </div>
-                        <h3>${view.artist}</h3>
-                        <h4>${view.title}</h4>
+                        <h3>${view.art_artist}</h3>
+                        <h4>${view.art_name}</h4>
                         <hr>
-                        <p>${view.medium}</p>
-                        <p>${view.dimension}</p>
-                        <p>${view.eprice}</p>
+                        <p>${view.art_medium}</p>
+                        <p>${view.art_size}</p>
+                        <p>${view.art_eprice}</p>
                     </div>
                 </div>
                 </c:forEach>
             </div>
         </div>
-        <!-- 페이징 -->
-        <div></div>
+        <!-- 네비게이터 -->
+        <div class="row">
+        	<div class="col-md-8 col-md-offset-2 text-center">
+        		<div class="nav">
+					<c:if test="${util.hasMorePrevPage()}">
+						<a href="${root}/online/current?page=${util.getSb()-1}">[이전]</a>
+					</c:if>
+		        	<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
+		        		<c:choose>
+		        			<c:when test="${util.isCurrentPage(i) }">
+		        				${i}
+		        			</c:when>
+		        			<c:otherwise>
+								<a href="${root}/online/current?page=${i}">${i}</a>
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</c:forEach>
+					<c:if test="${util.hasMoreNextPage()}">
+						<a href="${root}/online/current?page=${util.getFb()+1}">[다음]</a>
+					</c:if>
+	        	</div>
+        	</div>
+        </div>
     </div>
 </body>
 </html>

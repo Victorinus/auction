@@ -10,6 +10,13 @@
     		/* border: 1px solid lightgray; */
     		backgroundcolor: lightgray;
     	}
+    	
+    	.nav, .nav > a{
+    		text-decoration: none;    		
+    		font-size: 25px;
+    		color: black;
+    	}
+    	
     </style>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -20,7 +27,7 @@
         <div class="row text-center header">
             <h1>경매결과</h1>
         </div>
-        <!-- 페이징 -->
+        <!-- 네비게이터 -->
         <div class="row"></div>
         <!-- 종료된 경매 목록 -->
         <div class="row">
@@ -42,8 +49,29 @@
                 </c:forEach>
             </div>
         </div>
-        <!-- 페이징 -->
-        <div class="row"></div>
+        <!-- 네비게이터 -->
+        <div class="row">
+        	<div class="col-md-8 col-md-offset-2 text-center">
+        		<div class="nav">
+					<c:if test="${util.hasMorePrevPage()}">
+						<a href="${root}/online/result?page=${util.getSb()-1}">[이전]</a>
+					</c:if>
+		        	<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
+		        		<c:choose>
+		        			<c:when test="${util.isCurrentPage(i) }">
+		        				${i}
+		        			</c:when>
+		        			<c:otherwise>
+								<a href="${root}/online/result?page=${i}">${i}</a>
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</c:forEach>
+					<c:if test="${util.hasMoreNextPage()}">
+						<a href="${root}/online/result?page=${util.getFb()+1}">[다음]</a>
+					</c:if>
+	        	</div>
+        	</div>
+        </div>
     </div>
 </body>
 </html>

@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class Search {
-	private String artist;
-	private String title;
-	private String eprice_min;
-	private String eprice_max;
-	private int lot;
+	private String art_artist;
+	private String art_nm;
+	private String art_eprice_min;
+	private String art_eprice_max;
+	private Integer lot;
 }

@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor @Builder
 public class Paging {
+	private String art_artist;
+	private String art_nm;
+	private int lot;
 	private int sn;
 	private int fn;
 }

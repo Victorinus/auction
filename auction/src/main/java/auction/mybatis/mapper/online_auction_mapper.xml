@@ -4,27 +4,32 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="auction.repository.online.OnlineDaoImpl">
 	
-	<!-- 진행경매 목록 -->
+	<!-- 진행경매 : 목록 -->
 	<select id="currentList" resultType="view">
-		select rownum, tmp.* from(
+		select rownum as lot, tmp.* from(
 			select * from auction_view 
 				where sysdate between 
 					to_date(a_start, 'YY/MM/DD HH24:MI') 
 				and 
 				to_date(a_end, 'YY/MM/DD HH24:MI')
-		)tmp order by rownum desc
+		)tmp order by lot desc
 	</select>
 	
-	<!-- 진행경매 검색 -->	
-	<select id="currentSearch" resultType="view" parameterType="search">
+	<!-- 진행경매 : 검색 -->	
+	<select id="currentSearch" resultType="view" parameterType="paging">
 		select * from(
 			select rownum as lot, tmp.* from(
-				select * from auction_view
-			)tmp 
-		)where no=4 artist like '%'||#{artist}||'%' or title like '%'||#{title}||'%' or lot=#{lot}
+				select a_name, a_dt, a_addr1, a_image, art_name, art_artist, art_size, art_dt, art_origin, art_medium, art_sign
+				from auction_view
+					where sysdate between 
+				to_date(a_start, 'YY/MM/DD HH24:MI')  
+					and 
+				to_date(a_end, 'YY/MM/DD HH24:MI')
+			)tmp
+		) where lot between #{sn} and #{fn} order by lot asc
 	</select>
 	
-	<!-- 예정경매 목록 -->
+	<!-- 예정경매 -->
 	<select id="upcomingList" resultType="auction" parameterType="paging">
 		select * from(
 			select rownum as rn, tmp.* from(
@@ -46,9 +51,24 @@
 		) where rn between #{sn} and #{fn}
 	</select>
 	
-	<select id="count" resultType="integer">
+	<!-- 이하 PagingUtil의 각 계산 메소드에서의 전체 경매 또는 작품수 계산과 관련된 sql문 -->
+	<!-- 경매결과 : 종료된 경매의 숫자 -->
+	<select id="resultAuctionCount" resultType="integer">
 		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
 	</select>
+	<!-- 예정경매 : 예정된 경매의 숫자 -->
+	<select id="upcomingAuctionCount" resultType="integer">
+		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+	</select>
+	<!-- 진행경매 : 진행중 경매에 출품된 작품의 숫자 -->
+	<select id="artCount" resultType="integer">
+		select count(*) from auction_view 
+			where sysdate between 
+				to_date(a_start, 'YY/MM/DD HH24:MI') 
+			and 
+				to_date(a_end, 'YY/MM/DD HH24:MI')
+	</select>
+	
 </mapper>
 
 

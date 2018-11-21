@@ -12,14 +12,18 @@ import auction.entity.Search;
 @Repository
 public interface OnlineDao {
 	
-	List<View> currentList();
+	List<View> currentList(int sn, int fn);
 	
-	List<View> currentSearch(Search search);
+	List<View> currentSearch(String art_artist, String art_nm, int lot, int sn, int fn);
 
 	List<Auction> upcomingList(int sn, int fn);
 
 	List<Auction> resultList(int sn, int fn);
 
-	int getCount();
+	int getResultAuctionCount();
+
+	int getUpcomingAuctionCount();
+	
+	int getArtCount();
 
 }
