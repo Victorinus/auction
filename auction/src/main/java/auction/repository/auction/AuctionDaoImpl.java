@@ -1,6 +1,8 @@
 package auction.repository.auction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import auction.entity.Auction;
+import auction.entity.Page;
 
 @Service("auctionDao")
 public class AuctionDaoImpl implements AuctionDao {
@@ -27,6 +30,18 @@ public class AuctionDaoImpl implements AuctionDao {
 	@Override
 	public List<Auction> list() {
 		List<Auction> list = sqlSession.selectList("list");
+		for(Auction auction : list) {
+			log.debug("결과 = {}", auction);
+		}
+		return list;
+	}
+	
+	@Override
+	public List<Auction> list(Page page, String sortType) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page", page);
+		map.put("sortType", sortType);
+		List<Auction> list = sqlSession.selectList("listPage", map);
 		for(Auction auction : list) {
 			log.debug("결과 = {}", auction);
 		}

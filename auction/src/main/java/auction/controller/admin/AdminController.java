@@ -2,6 +2,8 @@ package auction.controller.admin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -17,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import auction.entity.Auction;
+import auction.entity.Page;
 import auction.repository.auction.AuctionDao;
-import auction.util.PagingUtilImpl;
+import auction.util.PagingUtil;
 
 
 //관리자기능 관련 컨트롤러
@@ -30,7 +33,7 @@ public class AdminController {
 	@Autowired
 	private ServletContext application;
 	@Autowired
-	private PagingUtilImpl pagingUtil;
+	private PagingUtil pagingUtil;
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -40,7 +43,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String register(@ModelAttribute Auction auction, @RequestParam MultipartFile image) throws IllegalStateException, IOException {
+	public String register(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image) throws IllegalStateException, IOException {
 		
 		//파일의 존재 및 이미지형식 검사
 		if(image != null && image.getContentType().startsWith("image")) {
@@ -64,9 +67,10 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/list")
-	public String list(@RequestParam(defaultValue="1") int curPage, Model model) {
-		model.addAttribute("pagination", pagingUtil.paging(curPage));
-		model.addAttribute("list", auctionDao.list());
+	public String list(@RequestParam(defaultValue="1") int curPage, Model model, @RequestParam(defaultValue="dt") String sortType) {
+		Page page = pagingUtil.paging(curPage);
+		model.addAttribute("page", page);
+		model.addAttribute("list", auctionDao.list(page, sortType));
 		return "/admin/list";
 	}
 
@@ -78,8 +82,25 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
-	public String edit(@ModelAttribute Auction auction) {
-		auctionDao.edit(auction);
+	public String edit(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image, @RequestParam(required=false) String prevImage) throws IllegalStateException, IOException {
+		
+		//파일의 존재 및 이미지형식 검사
+		if(image != null && image.getContentType().startsWith("image")) {
+			String path = application.getRealPath("/image/auction");
+			File target = new File(path, image.getOriginalFilename());
+			image.transferTo(target);
+			
+			//기존이미지가 있다면 삭제
+			if(prevImage != null) {
+				File prevTarget = new File(path, prevImage);
+				prevTarget.delete();
+			}
+			
+			//객체에 이미지 추가
+			auction.setAuction_image(image.getOriginalFilename());
+		
+			auctionDao.edit(auction);
+		}
 		return "redirect:/list";
 	}
 	

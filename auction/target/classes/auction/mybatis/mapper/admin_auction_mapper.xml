@@ -23,6 +23,32 @@
 		select * from auction_main order by auction_sq desc
 	</select>
 	
+	<select id="listPage" resultType="auction" parameterType="map">
+		<choose>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
+				select X.* from (
+							select rownum as rn, A.* from (
+										select * from auction_main order by auction_nm asc) A 
+							where rownum <![CDATA[ <= ]]> ${page.endIndex}) X
+				where X.rn <![CDATA[ >= ]]> ${page.startIndex}
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('type')">
+				select X.* from (
+							select rownum as rn, A.* from (
+										select * from auction_main order by auction_type desc) A 
+							where rownum <![CDATA[ <= ]]> ${page.endIndex}) X
+				where X.rn <![CDATA[ >= ]]> ${page.startIndex}
+			</when>
+			<otherwise>
+				select X.* from (
+							select rownum as rn, A.* from (
+										select * from auction_main order by auction_sq desc) A 
+							where rownum <![CDATA[ <= ]]> ${page.endIndex}) X
+				where X.rn <![CDATA[ >= ]]> ${page.startIndex}
+			</otherwise>
+		</choose>
+	</select>
+	
 	<select id="listCnt" resultType="int">
 		select count(*) from auction_main
 	</select>
@@ -40,7 +66,8 @@
 			auction_end=#{auction_end}, 
 			auction_type=#{auction_type}, 
 			auction_post=#{auction_post}, 
-			auction_addr2=#{auction_addr2}
+			auction_addr2=#{auction_addr2},
+			auction_image=#{auction_image}
 		where auction_sq=#{auction_sq}
 	</update>
 	

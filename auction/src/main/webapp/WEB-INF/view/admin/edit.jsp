@@ -7,7 +7,7 @@
 <h1>경매 정보수정</h1>
 
 <div class="editForm" align="center">
-	<form action="edit" method="post">
+	<form action="edit" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="auction_sq" value="${auction.auction_sq}">
 		<table border="1" width="1000px">
 			<thead>
@@ -79,6 +79,7 @@
 						<td>
 							<img	src="${pageContext.request.contextPath}/image/auction/${auction.auction_image}" style="width:100;height:100;">
 							<span>${auction.auction_image}</span>
+							<input type="hidden" name="prevImage" value="${auction.auction_image}">
 						</td>
 					</tr>
 				</c:if>

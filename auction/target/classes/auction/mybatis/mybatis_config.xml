@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<typeAlias type="auction.entity.Member" alias="member"/>
 		<typeAlias type="auction.entity.Auction" alias="auction"/>
+		<typeAlias type="auction.entity.Page" alias="page"/>
 	</typeAliases>
 
 

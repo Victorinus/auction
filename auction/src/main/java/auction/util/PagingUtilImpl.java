@@ -15,6 +15,7 @@ public class PagingUtilImpl implements PagingUtil{
 	
 	@Autowired
 	private AuctionDao auctionDao;
+	
 	@Autowired
 	private Page page;
 	
@@ -38,7 +39,9 @@ public class PagingUtilImpl implements PagingUtil{
         
         //DB 질의를 위한 Index
         setStartIndex(curPage);
+        setEndIndex(curPage);
 		
+        System.out.println(page);
 		return page;
 	}
 	
@@ -78,8 +81,14 @@ public class PagingUtilImpl implements PagingUtil{
 
 	// 시작 Index를 설정하는 메소드
 	public void setStartIndex(int curPage) {
-		page.setStartIndex((curPage - 1) * page.getPageSize());
+		page.setStartIndex((curPage - 1) * page.getPageSize() + 1);
 	}
+	
+	// 종료 Index를 설정하는 메소드
+	public void setEndIndex(int curPage) {
+		page.setEndIndex(curPage * page.getPageSize());
+	}
+
 
 }
 

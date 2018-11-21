@@ -1,5 +1,7 @@
 package auction.entity;
 
+import org.springframework.stereotype.Component;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Component
 public class Page {
 	 //한 페이지당 게시글 수
     private int pageSize = 10;
@@ -39,6 +42,9 @@ public class Page {
     
     //시작 index 
     private int startIndex = 0;
+    
+    //종료 index 
+    private int endIndex = 0;
     
     //이전 페이지 
     private int prevPage;
