@@ -5,18 +5,7 @@
 <mapper namespace="auction.repository.online.OnlineDaoImpl">
 	
 	<!-- 진행경매 : 목록 -->
-	<select id="currentList" resultType="view">
-		select rownum as lot, tmp.* from(
-			select * from auction_view 
-				where sysdate between 
-					to_date(a_start, 'YY/MM/DD HH24:MI') 
-				and 
-				to_date(a_end, 'YY/MM/DD HH24:MI')
-		)tmp order by lot desc
-	</select>
-	
-	<!-- 진행경매 : 검색 -->	
-	<select id="currentSearch" resultType="view" parameterType="paging">
+	<select id="currentList" resultType="view" parameterType="paging">
 		select * from(
 			select rownum as lot, tmp.* from(
 				select a_name, a_dt, a_addr1, a_image, art_name, art_artist, art_size, art_dt, art_origin, art_medium, art_sign
@@ -25,8 +14,29 @@
 				to_date(a_start, 'YY/MM/DD HH24:MI')  
 					and 
 				to_date(a_end, 'YY/MM/DD HH24:MI')
+				order by art_sq desc
 			)tmp
-		) where lot between #{sn} and #{fn} order by lot asc
+		) where lot between #{sn} and #{fn}
+	</select>
+	
+	<!-- 진행경매 : 검색 -->	
+	<select id="currentSearch" resultType="view" parameterType="paging">
+		select * from(
+			select rownum as lot, tmp.* from(
+				select a_name, a_dt, a_addr1, a_image, art_name, art_artist, art_size, art_dt, art_origin, art_medium, art_sign
+				from auction_view
+					where 
+						sysdate between 
+							to_date(a_start, 'YY/MM/DD HH24:MI')  
+								and 
+							to_date(a_end, 'YY/MM/DD HH24:MI')
+						and
+						art_artist like '%'||#{art_artist}||'%'
+						or
+						art_name like '%'||#{art_nm}||'%'
+				order by art_sq desc
+			)tmp
+		) where lot between #{sn} and #{fn}
 	</select>
 	
 	<!-- 예정경매 -->

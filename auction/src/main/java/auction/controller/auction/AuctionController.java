@@ -30,44 +30,15 @@ public class AuctionController {
 	@Autowired
 	private PagingUtil pagingUtil;
 	
-//	@RequestMapping("/offline/current")
-//	public String offlineCurrent() {
-//		return "auction/offline/current";
-//	}
-//	
-//	@RequestMapping("/offline/result")
-//	public String offlineResult() {
-//		return "auction/offline/result";
-//	}
-//	
-//	@RequestMapping("/offline/upcoming")
-//	public String offlineUpcoming() {
-//		return "auction/offline/upcoming";
-//	}
-	
 //	진행경매	
 	@RequestMapping("/online/current")
 	public String onlineCurrent(
-			@ModelAttribute Search search, HttpServletRequest request, Model model) {
-		log.debug("search = {}", search);
-		
-		if(search.getArt_artist()==null && search.getArt_nm()==null && search.getLot()==null) {
-			pagingUtil.setHttpServletRequest(request);
-			
-			model.addAttribute("util", pagingUtil);
-			model.addAttribute("currentList", onlineDao.currentList(pagingUtil.getSn(), pagingUtil.getFn()));
-		}
-		
+			@ModelAttribute Search search, HttpServletRequest request, Model model) {		
 		pagingUtil.setHttpServletRequest(search, request);
 		
-//		log.debug("sn, fn, sb, fb = {}, {}, {}, {}", 
-//				pagingUtil.getSn(), pagingUtil.getFn(), pagingUtil.getSb(), pagingUtil.getFb());
-//		log.debug("pagingUtil = {}", pagingUtil);
-		log.debug("작가명(art_artist) = {}", pagingUtil.getArt_artist());
-		log.debug("작품명(art_nm) = {}", pagingUtil.getArt_nm());
-		log.debug("최소 추정가(art_eprice_min) = {}", pagingUtil.getArt_eprice_min());
-		log.debug("최대 추정가(art_eprice_max) = {}", pagingUtil.getArt_eprice_max());
-		log.debug("번호(lot) = {}", pagingUtil.getLot());
+//		log.debug("작가명(art_artist) = {}", pagingUtil.getArt_artist());
+//		log.debug("작품명(art_nm) = {}", pagingUtil.getArt_nm());
+//		log.debug("번호(lot) = {}", pagingUtil.getLot());
 		
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
@@ -88,9 +59,6 @@ public class AuctionController {
 	@RequestMapping("/online/result")
 	public String onlineResult(HttpServletRequest request, Model model) {
 		pagingUtil.setHttpServletRequest(request);
-		log.debug("sn, fn, sb, fb = {}, {}, {}, {}", 
-				pagingUtil.getSn(), pagingUtil.getFn(), pagingUtil.getSb(), pagingUtil.getFb());
-		log.debug("pagingUtil = {}", pagingUtil);
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
 				"resultList", onlineDao.resultList(pagingUtil.getSn(), pagingUtil.getFn()));
@@ -104,4 +72,19 @@ public class AuctionController {
 		return null;
 	}
 
+//	@RequestMapping("/offline/current")
+//	public String offlineCurrent() {
+//		return "auction/offline/current";
+//	}
+//	
+//	@RequestMapping("/offline/result")
+//	public String offlineResult() {
+//		return "auction/offline/result";
+//	}
+//	
+//	@RequestMapping("/offline/upcoming")
+//	public String offlineUpcoming() {
+//		return "auction/offline/upcoming";
+//	}
+	
 }

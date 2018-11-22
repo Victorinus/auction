@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import auction.entity.Search;
 import auction.repository.online.OnlineDao;
@@ -17,7 +18,6 @@ import lombok.NoArgsConstructor;
 public class PagingUtil {
 	
 	private int page;
-//	private Search search;
 	private String art_artist;
 	private String art_nm;
 	private String art_eprice_min;
@@ -35,20 +35,14 @@ public class PagingUtil {
 	private OnlineDao onlineDao;
 
 	public void setHttpServletRequest(Search search, HttpServletRequest request) {
-		log.debug("search = {}", search);
+		log.debug("PagingUtil : search, request");
 		
 		this.art_artist = search.getArt_artist();
 		this.art_nm = search.getArt_nm();
 		this.art_eprice_min = search.getArt_eprice_min();
 		this.art_eprice_max = search.getArt_eprice_max();
 		this.lot = search.getLot();
-		
-		log.debug("작가명(art_artist) = {}", art_artist);
-		log.debug("작품명(art_nm) = {}", art_nm);
-		log.debug("최소 추정가(art_eprice_min) = {}", art_eprice_min);
-		log.debug("최대 추정가(art_eprice_max) = {}", art_eprice_max);
-		log.debug("번호(lot) = {}", lot);
-		
+
 //		page 파라미터 받아서 변환 처리 
 		try {
 			this.page = Integer.parseInt(request.getParameter("page"));
@@ -61,13 +55,13 @@ public class PagingUtil {
 		log.debug(request.getRequestURI());
 //		위 로그에 찍힌 요청주소에 해당하는 계산 메소드 배정(?)
 		try {
-			if(request.getRequestURI().endsWith("/result")) {
-				result();
-			}
-			else if(request.getRequestURI().endsWith("/upcoming")) {
-				upcoming();
-			}
-			else if(request.getRequestURI().endsWith("/current")){
+//			if(request.getRequestURI().endsWith("/result")) {
+//				result();
+//			}
+//			else if(request.getRequestURI().endsWith("/upcoming")) {
+//				upcoming();
+//			}
+			if(request.getRequestURI().endsWith("/current")){
 				current();
 			}
 			else {}
@@ -76,6 +70,7 @@ public class PagingUtil {
 	}
 	
 	public void setHttpServletRequest(HttpServletRequest request) {		
+		log.debug("PagingUtil : request");
 //		page 파라미터 받아서 변환 처리 
 		try {
 			this.page = Integer.parseInt(request.getParameter("page"));
@@ -85,7 +80,6 @@ public class PagingUtil {
 			this.page = 1;
 		}
 		
-		log.debug(request.getRequestURI());
 //		위 로그에 찍힌 요청주소에 해당하는 계산 메소드 배정(?)
 		try {
 			if(request.getRequestURI().endsWith("/result")) {
@@ -94,9 +88,9 @@ public class PagingUtil {
 			else if(request.getRequestURI().endsWith("/upcoming")) {
 				upcoming();
 			}
-			else if(request.getRequestURI().endsWith("/current")){
-				current();
-			}
+//			else if(request.getRequestURI().endsWith("/current")){
+//				current();
+//			}
 			else {}
 		}
 		catch(Exception e) {}

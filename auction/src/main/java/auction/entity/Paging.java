@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Paging {
 	private String art_artist;
 	private String art_nm;
-	private int lot;
+	private int no;
 	private int sn;
 	private int fn;
 }
