@@ -6,7 +6,7 @@ import auction.entity.Page;
 
 @Service
 public interface PagingUtil {
-	Page paging(int curPage);
+	Page paging(int curPage, String searchType, String searchKey);
 	void setPageCnt();
 	void setRangeCnt();
 	void rangeSetting(int curPage);

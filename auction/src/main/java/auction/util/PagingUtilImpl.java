@@ -19,14 +19,18 @@ public class PagingUtilImpl implements PagingUtil{
 	@Autowired
 	private Page page;
 	
-	//Controller에서 curPage(현재페이지)를 받아와 페이징 처리를 하는 메소드
-	public Page paging(int curPage) {
+	//Controller에서 curPage(현재페이지) 및 검색정보를 받아와 페이징 처리를 하는 메소드
+	public Page paging(int curPage, String searchType, String searchKey) {
 
 		//현재페이지
 		page.setCurPage(curPage);
 		
-		//총 게시물 수
-		page.setListCnt(auctionDao.getListCnt());
+		//총 게시물 수(검색 or 리스트)
+		if(searchType.equals("empty") || searchKey.equals("empty")) {
+			page.setListCnt(auctionDao.getListCnt());
+		}else {
+			page.setListCnt(auctionDao.getSearchCnt(searchType, searchKey));
+		}
 		
 		//총 페이지 수
 		setPageCnt();
@@ -41,7 +45,7 @@ public class PagingUtilImpl implements PagingUtil{
         setStartIndex(curPage);
         setEndIndex(curPage);
 		
-        System.out.println(page);
+        System.out.println(page);//테스트코드
 		return page;
 	}
 	

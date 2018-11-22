@@ -12,7 +12,9 @@ public interface AuctionDao {
 	void insert(Auction auction);
 	List<Auction> list();
 	List<Auction> list(Page page, String sortType);
+	List<Auction> search(Page page, String sortType, String searchType, String searchKey);
 	int getListCnt();
+	int getSearchCnt(String searchType, String searchKey);
 	Auction find(int no);
 	void edit(Auction auction);
 	void delete(int auction_no);

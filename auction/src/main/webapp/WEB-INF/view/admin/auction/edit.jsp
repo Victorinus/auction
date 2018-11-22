@@ -88,12 +88,10 @@
 				<tr>
 					<th colspan="2">
 						<input type="submit" value="수정">
-						<a	href="list">
-							<input type="button" value="취소">
-						</a>
+						<a	href="list?curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<input type="button" value="취소"></a>
 						<a href="delete?auction_sq=${auction.auction_sq}">
-							<input type="button" value="삭제">
-						</a>
+							<input type="button" value="삭제"></a>
 					</th>
 				</tr>
 			</tfoot>

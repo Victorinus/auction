@@ -47,12 +47,36 @@ public class AuctionDaoImpl implements AuctionDao {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<Auction> search(Page page, String sortType, String searchType, String searchKey) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page", page);
+		map.put("sortType", sortType);
+		map.put("searchType", searchType);
+		map.put("searchKey", searchKey);
+		List<Auction> list = sqlSession.selectList("search", map);
+		for(Auction auction : list) {
+			log.debug("결과 = {}", auction);
+		}
+		return list;
+	}
 
 	@Override
 	public int getListCnt() {
-		int listCnt = sqlSession.selectOne("listCnt");
-		log.debug("결과값 = {}", listCnt);
-		return listCnt;
+		int result = sqlSession.selectOne("listCnt");
+		log.debug("결과값 = {}", result);
+		return result;
+	}
+	
+	@Override
+	public int getSearchCnt(String searchType, String searchKey) {
+		Map<String, String> map = new HashMap<>();
+		map.put("searchType", searchType);
+		map.put("searchKey", searchKey);
+		int result = sqlSession.selectOne("searchCnt", map);
+		log.debug("결과값 = {}", result);
+		return result;
 	}
 	
 	@Override
