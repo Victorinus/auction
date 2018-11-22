@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import auction.entity.Search;
 import auction.repository.online.OnlineDao;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Service
 @Getter 
@@ -22,10 +21,10 @@ public class PagingUtil {
 	private String art_nm;
 	private String art_eprice_min;
 	private String art_eprice_max;
-	private Integer lot;
+	private int lot;
 
 	private int sn, fn, sb, fb;
-//	private String param;
+	private String param;
 	private int count;
 	private int pagesize, blocksize, totalpage;
 	
@@ -34,15 +33,21 @@ public class PagingUtil {
 	@Autowired
 	private OnlineDao onlineDao;
 
-	public void setHttpServletRequest(Search search, HttpServletRequest request) {
+	public void setHttpServletRequest(@ModelAttribute Search search, HttpServletRequest request) {
 		log.debug("PagingUtil : search, request");
+		log.debug("작가명, 작품명, 번호 = {}, {}, {}", search.getArt_artist(), search.getArt_nm(), search.getLot());
 		
 		this.art_artist = search.getArt_artist();
 		this.art_nm = search.getArt_nm();
 		this.art_eprice_min = search.getArt_eprice_min();
 		this.art_eprice_max = search.getArt_eprice_max();
-		this.lot = search.getLot();
-
+		try {
+			this.lot = Integer.parseInt(search.getLot());
+		}
+		catch(Exception e) {
+			this.lot = 0;
+		}
+		
 //		page 파라미터 받아서 변환 처리 
 		try {
 			this.page = Integer.parseInt(request.getParameter("page"));
@@ -132,7 +137,8 @@ public class PagingUtil {
 	
 //	진행중인 경매의 페이징 처리
 	private void current() {
-		count = onlineDao.getArtCount();
+		count = onlineDao.getArtCount(art_artist, art_nm, lot);
+		log.debug("count = {}", count);
 		pagesize = 10;
 		
 		sn = (page-1) * pagesize+1;
@@ -143,8 +149,15 @@ public class PagingUtil {
 		blocksize = 4;
 		sb = (page-1) / blocksize * blocksize + 1;
 		fb = sb + (blocksize-1);
-
+		
 		if(fb>totalpage)	fb = totalpage;
+		log.debug("sn, fn, sb, fb, totalpage= {}, {}, {}, {}, {}", sb, fn, sb, fb, totalpage);
+		if(art_artist != null || art_nm != null || lot != 0) {
+			param = "&art_artist="+art_artist+"&art_nm="+art_nm+"&lot="+lot;
+		}
+		else {
+			param ="";
+		}
 	}
 
 //	기타 처리사항

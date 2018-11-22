@@ -156,7 +156,7 @@
         	<div class="col-md-8 col-md-offset-2 text-center">
         		<div class="nav">
 					<c:if test="${util.hasMorePrevPage()}">
-						<a href="${root}/online/current?page=${util.getSb()-1}">[이전]</a>
+						<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
 					</c:if>
 		        	<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
 		        		<c:choose>
@@ -164,12 +164,12 @@
 		        				${i}
 		        			</c:when>
 		        			<c:otherwise>
-								<a href="${root}/online/current?page=${i}">${i}</a>
+								<a href="${root}/online/current?page=${i}${util.param}">${i}</a>
 		        			</c:otherwise>
 		        		</c:choose>
 		        	</c:forEach>
 					<c:if test="${util.hasMoreNextPage()}">
-						<a href="${root}/online/current?page=${util.getFb()+1}">[다음]</a>
+						<a href="${root}/online/current?page=${util.getFb()+1}${util.param}">[다음]</a>
 					</c:if>
 	        	</div>
         	</div>

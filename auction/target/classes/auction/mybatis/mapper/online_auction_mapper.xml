@@ -23,18 +23,34 @@
 	<select id="currentSearch" resultType="view" parameterType="paging">
 		select * from(
 			select rownum as lot, tmp.* from(
-				select a_name, a_dt, a_addr1, a_image, art_name, art_artist, art_size, art_dt, art_origin, art_medium, art_sign
-				from auction_view
-					where 
-						sysdate between 
-							to_date(a_start, 'YY/MM/DD HH24:MI')  
-								and 
-							to_date(a_end, 'YY/MM/DD HH24:MI')
-						and
-						art_artist like '%'||#{art_artist}||'%'
-						or
-						art_name like '%'||#{art_nm}||'%'
-				order by art_sq desc
+				select 
+					a_name, 
+					a_dt, 
+					a_addr1, 
+					a_image, 
+					art_name, 
+					art_artist, 
+					art_size, 
+					art_dt, 
+					art_origin, 
+					art_medium, 
+					art_sign
+				from 
+					auction_view
+				where sysdate between to_date(a_start, 'YY/MM/DD HH24:MI') and to_date(a_end, 'YY/MM/DD HH24:MI')
+				<choose>
+					<when test="@auction.util.MybatisUtil@empty(art_artist)">
+						<if test="@auction.util.MybatisUtil@empty(art_nm)">
+							and art_sq=#{no}
+						</if>
+						<if test="@auction.util.MybatisUtil@empty(no)">
+							and art_name like '%'||#{art_nm}||'%'
+						</if>
+					</when>
+					<otherwise>
+						and art_artist like '%'||#{art_artist}||'%'
+					</otherwise>
+				</choose>
 			)tmp
 		) where lot between #{sn} and #{fn}
 	</select>
@@ -62,21 +78,33 @@
 	</select>
 	
 	<!-- 이하 PagingUtil의 각 계산 메소드에서의 전체 경매 또는 작품수 계산과 관련된 sql문 -->
-	<!-- 경매결과 : 종료된 경매의 숫자 -->
+	<!-- 경매결과 -->
 	<select id="resultAuctionCount" resultType="integer">
 		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
 	</select>
-	<!-- 예정경매 : 예정된 경매의 숫자 -->
+	
+	<!-- 예정경매 -->
 	<select id="upcomingAuctionCount" resultType="integer">
 		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
 	</select>
-	<!-- 진행경매 : 진행중 경매에 출품된 작품의 숫자 -->
-	<select id="artCount" resultType="integer">
+	
+	<!-- 진행경매 -->
+	<select id="artListCount" parameterType="paging" resultType="integer">
 		select count(*) from auction_view 
 			where sysdate between 
 				to_date(a_start, 'YY/MM/DD HH24:MI') 
 			and 
 				to_date(a_end, 'YY/MM/DD HH24:MI')
+	</select>
+	<select id="artSearchCount" parameterType="paging" resultType="integer">
+		select count(*) from auction_view 
+			where sysdate between 
+				to_date(a_start, 'YY/MM/DD HH24:MI') 
+			and 
+				to_date(a_end, 'YY/MM/DD HH24:MI')
+			and art_artist like '%'||#{art_artist}||'%'		
+			and art_name like '%'||#{art_nm}||'%'
+			and art_sq=#{no}
 	</select>
 	
 </mapper>

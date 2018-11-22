@@ -8,5 +8,5 @@ public class Search {
 	private String art_nm;
 	private String art_eprice_min;
 	private String art_eprice_max;
-	private Integer lot;
+	private String lot;
 }

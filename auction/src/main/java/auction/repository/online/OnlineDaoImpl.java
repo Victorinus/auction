@@ -34,39 +34,24 @@ public class OnlineDaoImpl implements OnlineDao {
 //	진행경매 : 검색
 	@Override
 	public List<View> currentSearch(
-			String art_artist, String art_nm, Integer lot, int sn, int fn){
-		if(art_artist==null && art_nm==null && lot==null) {
+			String art_artist, String art_nm, int lot, int sn, int fn){
+		if(art_artist==null && art_nm==null && lot==0) {
 			log.debug("currentList");
 			return currentList(sn, fn);
 		}
 		
-		if(lot == null) {
-			log.debug("currentSearch(lot == null)");
-			log.debug("작가명, 작품명 = {}, {}", art_artist, art_nm);
-			Paging paging = Paging.builder()
-												.art_artist(art_artist)
-												.art_nm(art_nm)
-												.sn(sn)
-												.fn(fn)
-											.build();
-			log.debug("paging = {}", paging);
-			return sqlSession.selectList("currentSearch", paging);
-		}
+		log.debug("작가명 = {}, 작품명 = {}, 번호 = {}", art_artist, art_nm, lot);		
 		
-		if(lot != null) {
-			log.debug("currentSearch(lot != null)");
-			Paging paging = Paging.builder()
+		Paging paging = Paging.builder()
 												.art_artist(art_artist)
 												.art_nm(art_nm)
 												.no(lot)
 												.sn(sn)
 												.fn(fn)
 											.build();
-			log.debug("paging = {}", paging);
-			return sqlSession.selectList("currentSearch", paging);
-		}
+		log.debug("paging = {}", paging);
 		
-		return null;
+		return sqlSession.selectList("currentSearch", paging);
 
 	}
 
@@ -96,8 +81,17 @@ public class OnlineDaoImpl implements OnlineDao {
 	}
 	
 	@Override
-	public int getArtCount() {
-		return sqlSession.selectOne("artCount");
+	public int getArtCount(String art_artist, String art_nm, int lot) {
+		if(art_artist==null && art_nm==null && lot==0) {
+			return sqlSession.selectOne("artListCount");
+		}
+		Paging paging = Paging.builder()
+												.art_artist(art_artist)
+												.art_nm(art_nm)
+												.no(lot)
+											.build();
+		log.debug("paging = {}", paging);
+		return sqlSession.selectOne("artSearchCount", paging);
 	}
 
 }

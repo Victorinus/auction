@@ -11,9 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import auction.entity.Paging;
 import auction.entity.Search;
 import auction.repository.online.OnlineDao;
 import auction.util.PagingUtil;
@@ -36,9 +34,9 @@ public class AuctionController {
 			@ModelAttribute Search search, HttpServletRequest request, Model model) {		
 		pagingUtil.setHttpServletRequest(search, request);
 		
-//		log.debug("작가명(art_artist) = {}", pagingUtil.getArt_artist());
-//		log.debug("작품명(art_nm) = {}", pagingUtil.getArt_nm());
-//		log.debug("번호(lot) = {}", pagingUtil.getLot());
+		log.debug("작가명(art_artist) = {}", pagingUtil.getArt_artist());
+		log.debug("작품명(art_nm) = {}", pagingUtil.getArt_nm());
+		log.debug("번호(lot) = {}", pagingUtil.getLot());
 		
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
