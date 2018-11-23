@@ -24,13 +24,25 @@
 	<script>
 	    $(document).ready(function(){
 	    	
-	    	<!-- datetimepicker 라이브러리 사용 -->
+	    	// datetimepicker 라이브러리 사용
     		var nowTime = new Date();
-	    	$('.datetimepicker').datetimepicker({
-	    		<!-- 옵션추가 기본값 : 현재시간으로 -->
-	    		defaultDate:nowTime,
-	    		value:nowTime
-	    	});
+    		var addrFlag = document.getElementById('sample6_postcode').value;
+
+    		if(addrFlag){
+    			console.log(addrFlag);
+		    	$('.datetimepicker').datetimepicker({
+		    		// 옵션추가 기본값 : 현재시간으로
+		    		format:'Y-m-d H:i'
+		    	});
+    		}else{
+    			console.log(addrFlag);
+		    	$('.datetimepicker').datetimepicker({
+		    		// 옵션추가 기본값 : 현재시간으로
+	    			defaultDate:nowTime,
+		    		value:nowTime,
+		    		format:'Y-m-d H:i'
+		    	});
+    		}
 	    	$.datetimepicker.setLocale('ko');
 	    	
 	    });
