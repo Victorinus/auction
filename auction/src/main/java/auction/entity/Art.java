@@ -22,6 +22,7 @@ public class Art {
         private String art_origin;
         private String art_medium;
         private String art_sign;
-        private int auction_sq;
         private int art_ep;
+        private String art_eval;
+        private String art_status;
 }

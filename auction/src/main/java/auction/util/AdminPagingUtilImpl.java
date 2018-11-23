@@ -21,7 +21,7 @@ public class AdminPagingUtilImpl implements AdminPagingUtil{
 	
 	//Controller에서 curPage(현재페이지) 및 검색정보를 받아와 페이징 처리를 하는 메소드
 	public Page paging(int curPage, String searchType, String searchKey) {
-
+		
 		//현재페이지
 		page.setCurPage(curPage);
 		

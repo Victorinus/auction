@@ -29,13 +29,13 @@
                     var addrFlag = document.getElementById('sample6_postcode').value;
 
                     if(addrFlag){
-                            console.log(addrFlag);
+                            //console.log(addrFlag);
                             $('.datetimepicker').datetimepicker({
                                     // 옵션추가 기본값 : 현재시간으로
                                     format:'Y-m-d H:i'
                             });
                     }else{
-                            console.log(addrFlag);
+                            //console.log(addrFlag);
                             $('.datetimepicker').datetimepicker({
                                     // 옵션추가 기본값 : 현재시간으로
                                     defaultDate:nowTime,
