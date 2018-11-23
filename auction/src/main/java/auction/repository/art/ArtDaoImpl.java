@@ -97,7 +97,4 @@ public class ArtDaoImpl implements ArtDao {
 		int result = sqlSession.delete("delete", art_sq);
 		log.debug("결과값 = {}", result);
 	}
-
-
-	
 }

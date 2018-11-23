@@ -11,12 +11,12 @@ import auction.entity.Page;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:/spring/application-config.xml")
 public class TestPage {
-	
-	@Autowired
-	private Page page;
-	
-	@Test
-	public void test() {
-		System.out.println("page = "+page);
-	}
+        
+        @Autowired
+        private Page page;
+        
+        @Test
+        public void test() {
+                System.out.println("page = "+page);
+        }
 }

@@ -12,13 +12,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<!-- 별칭등록 : 풀패키지 경로 대신 사용할 별명을 이곳에 구현 -->
 	<typeAliases>
-		<typeAlias type="auction.entity.Member" alias="member"/>
 		<typeAlias type="auction.entity.Auction" alias="auction"/>
+		<typeAlias type="auction.entity.View" alias="view"/>
+		<typeAlias type="auction.entity.Search" alias="search"/>
+		<typeAlias type="auction.entity.Paging" alias="paging"/>
+		<typeAlias type="auction.entity.Member" alias="member"/>
 		<typeAlias type="auction.entity.Page" alias="page"/>
 	</typeAliases>
 
-
-	
 </configuration>
 
 

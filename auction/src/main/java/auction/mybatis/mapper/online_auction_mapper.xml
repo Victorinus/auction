@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="auction.repository.online.OnlineDaoImpl">
+	
+	<!-- 진행경매 : 목록 -->
+	<select id="currentList" resultType="view" parameterType="paging">
+		select * from(
+			select rownum as lot, tmp.* from(
+				select a_name, a_dt, a_addr1, a_image, art_name, art_artist, art_size, art_dt, art_origin, art_medium, art_sign
+				from auction_view
+					where sysdate between 
+				to_date(a_start, 'YY/MM/DD HH24:MI')  
+					and 
+				to_date(a_end, 'YY/MM/DD HH24:MI')
+				order by art_sq desc
+			)tmp
+		) where lot between #{sn} and #{fn}
+	</select>
+	
+	<!-- 진행경매 : 검색 -->	
+	<select id="currentSearch" resultType="view" parameterType="paging">
+		select * from(
+			select rownum as lot, tmp.* from(
+				select 
+					a_name, 
+					a_dt, 
+					a_addr1, 
+					a_image, 
+					art_name, 
+					art_artist, 
+					art_size, 
+					art_dt, 
+					art_origin, 
+					art_medium, 
+					art_sign
+				from 
+					auction_view
+				where sysdate between to_date(a_start, 'YY/MM/DD HH24:MI') and to_date(a_end, 'YY/MM/DD HH24:MI')
+			<if test="no != null and no == 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+			</if>
+			<if test="no != null and no != 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+				and art_sq=#{no}
+			</if>
+			)tmp
+		) where lot between #{sn} and #{fn}
+	</select>
+	
+	<!-- 예정경매 -->
+	<select id="upcomingList" resultType="auction" parameterType="paging">
+		select * from(
+			select rownum as rn, tmp.* from(
+				select * from auction_main 
+					where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+				order by auction_sq asc
+			)tmp
+		) where rn between #{sn} and #{fn}
+	</select>
+	
+	<!-- 경매결과 -->
+	<select id="resultList" resultType="auction" parameterType="paging">
+		select * from(
+			select rownum as rn, tmp.* from(
+				select * from auction_main 
+					where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI') 
+				order by auction_sq desc
+			)tmp
+		) where rn between #{sn} and #{fn}
+	</select>
+	
+	<!-- 이하 PagingUtil의 각 계산 메소드에서의 전체 경매 또는 작품수 계산과 관련된 sql문 -->
+	<!-- 경매결과 -->
+	<select id="resultAuctionCount" resultType="integer">
+		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
+	</select>
+	
+	<!-- 예정경매 -->
+	<select id="upcomingAuctionCount" resultType="integer">
+		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+	</select>
+	
+	<!-- 진행경매 -->
+	<select id="artListCount" parameterType="paging" resultType="integer">
+		select count(*) from auction_view 
+			where sysdate between 
+				to_date(a_start, 'YY/MM/DD HH24:MI') 
+			and 
+				to_date(a_end, 'YY/MM/DD HH24:MI')
+	</select>
+	<select id="artSearchCount" parameterType="paging" resultType="integer">
+		select count(*) from auction_view 
+			where sysdate between 
+				to_date(a_start, 'YY/MM/DD HH24:MI') 
+			and 
+				to_date(a_end, 'YY/MM/DD HH24:MI')
+			<if test="no != null and no == 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+			</if>
+			<if test="no != null and no != 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+				and art_sq=#{no}
+			</if>
+	</select>
+	
+</mapper>
+
+

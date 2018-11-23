@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import auction.entity.Auction;
 import auction.entity.Page;
 import auction.repository.auction.AuctionDao;
-import auction.util.PagingUtil;
+import auction.util.AdminPagingUtil;
 
 
 //관리자_경매 관련 컨트롤러
@@ -33,7 +33,7 @@ public class AdminAuctionController {
 	@Autowired
 	private ServletContext application;
 	@Autowired
-	private PagingUtil pagingUtil;
+	private AdminPagingUtil pagingUtil;
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -118,3 +118,5 @@ public class AdminAuctionController {
 	}
 	
 }
+
+

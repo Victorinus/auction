@@ -1,171 +1,179 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
-
-<h1>진행중 경매</h1>
-
-<!-- <html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
+<html>
     <head>
-        <title>auction</title>
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>
-            div{
-                display: block;
-            }
-            ul{
-               list-style: none; 
-            }
-            hr{
-                height: 3px;
-                background: black;
-                width:80%;
-            }
-            
-            .empty-row{
-                height: 200px;
-            }
-            
-            #auctioninfo{
-                margin-top: 100px;
-                min-height: 200px;
-                text-align: left;
-                line-height: 22px;
-            }
-            #auctioninfo > .title{
-                padding-right: 30px;
-                float: left;
-                position: relative;
-                width: 200px;
+    <title>미술품 경매 | 진행경매</title>
+    <style>
+        .row {
+            padding: 15px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
 
-            }
-            #auctioninfo > .title > span{
-                display: block;
-            }
-            #auctioninfo > .title > #auctionname{
-                font-size: 20px;
-                font-weight: 600;
-            }
-            #auctioninfo > .sub{
-                width: 60%;
-                float: left;
-                position: relative;
-            }
-            #auctioninfo > .sub > span{
-                display: block;
-            }
-            
-            #list{
-                min-height: 500px;
-                position: relative;
-            }
-                #list > ul > li{
-                float: left;
-                    margin: 50px 20px;
-            }
-            #list > ul > li > .num{
-                color: darkgray;
-                font-size: 30px;
-                padding-bottom: 10px;
-                display: block;
-            }
-            #list > ul > li > .img{
-                width: 300px;
-                height: 300px;
-                border: 0.5px solid gray;
-                padding: 10px;
-            }
-            
-            
-        </style>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function(){
-                
+        .gallery {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .margin {
+            margin-top: 15px;
+        }
+        
+		.nav, .nav > a{
+    		text-decoration: none;    		
+    		font-size: 25px;
+    		color: black;
+    	}
+        
+    </style>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="${root}/library/js/nouislider.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="${root}/library/css/nouislider.css">
+    <script>
+        window.onload = function(){
+            var slider = document.getElementById('slider');
+            noUiSlider.create(slider, {
+                start: [100000, 50000000],
+                connect: true,
+                range: {
+                    'min': [100000],
+                    'max': [50000000]
+                },
+                format: wNumb({
+                    decimals: 0,
+                    thousand: ',',
+                    prefix: '￦',
+                })
             });
-        </script>
-    </head>
-    <body>
-        <div class="container-fluid">
-            
-            <div class="container text-center" id="auctioninfo">
-                <div class="title">
-                    <span id="auctionnum">제1회</span>
-                    <span id="auctionname">2018 국외소재 문화재 환수를 위한 후원경매</span>
-                </div>
-                <div class="sub">
-                    <span>
-                        <span>AUCTION :</span>
-                        <span>2018.11.15(목)2:00 PM KST</span>
-                    </span>
-                    <span>
-                        <span>1일 20시간 0분 9초</span>
-                        <span>옥션 홈페이지 www.auction.com</span>
-                    </span>
-                    <div style="padding-top: 10px"></div>
-                </div>
-            </div>
-            
-            <hr>
-            <div class="empty-row"></div>
-            <hr>
-            
-            <div class="container text-center" id="list">
-                <ul class="ul">
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                    <li class="li">
-                        <div class="num">LOT. 1</div>
-                        <div class="img">
-                            <img src="http://placehold.it/280x280">
-                        </div>
-                    </li>
-                </ul>
-                
-            </div>
-            
+            var value = [
+                document.getElementById('lower'),
+                document.getElementById('upper'),
+            ];
+            var epriceMin = document.getElementById('eprice_min')
+            var epriceMax = document.getElementById('eprice_max')
+            console.log(value)
+            slider.noUiSlider.on('update', function (values, handle, positions) {
+                value[handle].innerHTML = values[handle]
+                epriceMin.value = values[0]
+                epriceMax.value = values[1]
+            });
+        };
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row text-center header">
+            <h1>진행경매</h1>
         </div>
-    </body>
-</html> -->
-<jsp:include page="/WEB-INF/view/template/footer.jsp"></jsp:include>
+        <!-- 경매 개요 -->
+        <div class="row title">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="col-md-3">
+                    <div>
+                        <h5>경매회차</h5>
+                    </div>
+                    <div>
+                        <h4>경매명</h4>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <p>경매일자</p>
+                    </div>
+                    <div>
+                        <p>경매장소</p>
+                    </div>
+                    <div>
+                        <h3>응찰자 주의사항</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 검색창 -->
+        <form action="current" method="get">
+            <input type="hidden" name="art_eprice_min" value="" id="eprice_min">
+            <input type="hidden" name="art_eprice_max" value="" id="eprice_max">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        작가명
+                        <input name="art_artist" type="text" placeholder="작가명 입력하여 찾기">
+                    </div>
+                    <div class="col-md-3">
+                        작품명
+                        <input name="art_nm" type="text" placeholder="작품명 입력하여 찾기">
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="col-md-3">추정가</div>
+                        <div class="col-md-9" id="slider"></div>
+                        <span id="lower"></span>
+                        ~
+                        <span id="upper"></span>
+                    </div>
+                    <div class="col-md-2">
+                        번호
+                        <input name="lot" type="text" placeholder="번호 입력하여 찾기">
+                    </div>
+                </div>
+                <div class="col-md-10 col-md-offset-1 search text-center">
+                    <input type="submit" value="검색">
+                </div>
+            </div>
+        </form>
+        <!-- 네비게이터 -->
+        <div class="row"></div>
+        <!-- 갤러리 -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 text-center">
+            	<c:forEach var="view" items="${currentList}">
+                <div class="col-md-3 gallery">
+                    <div>
+                        <h4>${view.lot}</h4>
+                    </div>
+                    <div style="border: 1px solid lightgray;">
+                        <div class="margin">
+                            <img src="http://dummyimage.com/200x200">
+                        </div>
+                        <h3>${view.art_artist}</h3>
+                        <h4>${view.art_name}</h4>
+                        <hr>
+                        <p>${view.art_medium}</p>
+                        <p>${view.art_size}</p>
+                        <p>${view.art_eprice}</p>
+                    </div>
+                </div>
+                </c:forEach>
+            </div>
+        </div>
+        <!-- 네비게이터 -->
+        <div class="row">
+        	<div class="col-md-8 col-md-offset-2 text-center">
+        		<div class="nav">
+					<c:if test="${util.hasMorePrevPage()}">
+						<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
+					</c:if>
+		        	<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
+		        		<c:choose>
+		        			<c:when test="${util.isCurrentPage(i) }">
+		        				${i}
+		        			</c:when>
+		        			<c:otherwise>
+								<a href="${root}/online/current?page=${i}${util.param}">${i}</a>
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</c:forEach>
+					<c:if test="${util.hasMoreNextPage()}">
+						<a href="${root}/online/current?page=${util.getFb()+1}${util.param}">[다음]</a>
+					</c:if>
+	        	</div>
+        	</div>
+        </div>
+    </div>
+</body>
+</html>

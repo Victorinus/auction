@@ -17,17 +17,17 @@ import auction.entity.Auction;
 @ContextConfiguration(locations= {"classpath:/spring/application-config.xml"})
 public class TestList {
 
-	@Autowired
-	private SqlSession sqlSession;
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
-	
-	@Test
-	public void list() {
-		List<Auction> list = sqlSession.selectList("list");
-		for(Auction auction : list) {
-			log.debug("결과 = {}", auction);
-		}
-	}
-	
+        @Autowired
+        private SqlSession sqlSession;
+        
+        private Logger log = LoggerFactory.getLogger(getClass());
+        
+        @Test
+        public void list() {
+                List<Auction> list = sqlSession.selectList("list");
+                for(Auction auction : list) {
+                        log.debug("결과 = {}", auction);
+                }
+        }
+        
 }

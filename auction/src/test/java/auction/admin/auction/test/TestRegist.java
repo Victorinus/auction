@@ -15,23 +15,23 @@ import auction.entity.Auction;
 @ContextConfiguration(locations= {"classpath:/spring/application-config.xml"})
 public class TestRegist {
 
-	@Autowired
-	private SqlSession sqlSession;
-	
-	private Logger log = LoggerFactory.getLogger(getClass());
-	
-	@Test
-	public void regist() {
-//		log.debug("sqlSession = {}", sqlSession);
-//		Auction auction = Auction.builder().name("").build();
-//		int result = sqlSession.insert("regist", auction);
-//		log.debug("결과값 = {}", result);
-	}
-	
-//	@After
-//	public void clear() {
-//		sqlSession.delete("deleteAll");
-//	}
-	
-	
+        @Autowired
+        private SqlSession sqlSession;
+        
+        private Logger log = LoggerFactory.getLogger(getClass());
+        
+        @Test
+        public void regist() {
+//                log.debug("sqlSession = {}", sqlSession);
+//                Auction auction = Auction.builder().name("").build();
+//                int result = sqlSession.insert("regist", auction);
+//                log.debug("결과값 = {}", result);
+        }
+        
+//        @After
+//        public void clear() {
+//                sqlSession.delete("deleteAll");
+//        }
+        
+        
 }
