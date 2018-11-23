@@ -17,5 +17,5 @@ public interface AuctionDao {
 	int getSearchCnt(String searchType, String searchKey);
 	Auction find(int no);
 	void edit(Auction auction);
-	void delete(int auction_no);
+	void delete(int auction_sq);
 }

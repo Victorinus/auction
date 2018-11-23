@@ -2,8 +2,6 @@ package auction.controller.admin.art;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -18,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import auction.entity.Auction;
+import auction.entity.Art;
 import auction.entity.Page;
-import auction.repository.auction.AuctionDao;
+import auction.repository.art.ArtDao;
 import auction.util.PagingUtil;
 
 
@@ -29,7 +27,7 @@ import auction.util.PagingUtil;
 public class AdminArtController {
 	
 	@Autowired
-	private AuctionDao auctionDao;
+	private ArtDao artDao;
 	@Autowired
 	private ServletContext application;
 	@Autowired
@@ -43,19 +41,19 @@ public class AdminArtController {
 	}
 	
 	@RequestMapping(value="/art/register", method=RequestMethod.POST)
-	public String register(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image) throws IllegalStateException, IOException {
+	public String register(@ModelAttribute Art art, @RequestParam(required=false) MultipartFile image) throws IllegalStateException, IOException {
 		
 		//파일의 존재 및 이미지형식 검사
 		if(image != null && image.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/image/auction");
+			String path = application.getRealPath("/image/art");
 			File target = new File(path, image.getOriginalFilename());	
 			image.transferTo(target);
 			
 			//객체에 이미지 추가
-			auction.setAuction_image(image.getOriginalFilename());
+			art.setArt_image(image.getOriginalFilename());
 			
 			//DB등록
-			auctionDao.insert(auction);
+			artDao.insert(art);
 			
 		}
 		return "redirect:/art/list";
@@ -73,27 +71,27 @@ public class AdminArtController {
 		model.addAttribute("page", page);
 		if(searchType.equals("empty") || searchKey.equals("empty")) {
 			System.out.println("리스트");
-			model.addAttribute("list", auctionDao.list(page, sortType));
+			model.addAttribute("list", artDao.list(page, sortType));
 		}else {
 			System.out.println("검색");
-			model.addAttribute("list", auctionDao.search(page, sortType, searchType, searchKey));
+			model.addAttribute("list", artDao.search(page, sortType, searchType, searchKey));
 		}
 		return "/admin/art/list";
 	}
 
 	@RequestMapping("/art/edit")
-	public String edit(Model model, @RequestParam int auction_sq) {
-		Auction auction = auctionDao.find(auction_sq);
-		model.addAttribute("auction", auction);
+	public String edit(Model model, @RequestParam int art_sq) {
+		Art art = artDao.find(art_sq);
+		model.addAttribute("art", art);
 		return "/admin/art/edit";
 	}
 	
 	@RequestMapping(value="/art/edit", method=RequestMethod.POST)
-	public String edit(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image, @RequestParam(required=false) String prevImage) throws IllegalStateException, IOException {
+	public String edit(@ModelAttribute Art art, @RequestParam(required=false) MultipartFile image, @RequestParam(required=false) String prevImage) throws IllegalStateException, IOException {
 		
 		//파일의 존재 및 이미지형식 검사
 		if(image != null && image.getContentType().startsWith("image")) {
-			String path = application.getRealPath("/image/auction");
+			String path = application.getRealPath("/image/art");
 			File target = new File(path, image.getOriginalFilename());
 			image.transferTo(target);
 			
@@ -104,16 +102,16 @@ public class AdminArtController {
 			}
 			
 			//객체에 이미지 추가
-			auction.setAuction_image(image.getOriginalFilename());
+			art.setArt_image(image.getOriginalFilename());
 		
-			auctionDao.edit(auction);
+			artDao.edit(art);
 		}
 		return "redirect:/art/list";
 	}
 	
 	@RequestMapping("/art/delete")
-	public String delete(@RequestParam int auction_sq) {
-		auctionDao.delete(auction_sq);
+	public String delete(@RequestParam int art_sq) {
+		artDao.delete(art_sq);
 		return "redirect:/art/list";
 	}
 	
