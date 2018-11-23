@@ -5,8 +5,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     
-    <context:component-scan base-package="auction.repository.**"></context:component-scan>
+	<context:component-scan base-package="auction.entity.**"></context:component-scan>
+	<context:component-scan base-package="auction.repository.**"></context:component-scan>
 	<context:component-scan base-package="auction.configuration.**"></context:component-scan>
 	<context:component-scan base-package="auction.util.**"></context:component-scan>
-
+	
 </beans>

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import auction.entity.Search;
 import auction.repository.online.OnlineDao;
-import auction.util.PagingUtil;
+import auction.util.OnlinePagingUtil;
 
 //온라인경매 관련 컨트롤러
 @Controller
@@ -26,7 +26,7 @@ public class AuctionController {
 	private OnlineDao onlineDao;
 	
 	@Autowired
-	private PagingUtil pagingUtil;
+	private OnlinePagingUtil pagingUtil;
 	
 //	진행경매	
 	@RequestMapping("/online/current")

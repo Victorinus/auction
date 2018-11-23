@@ -1,8 +1,14 @@
 package auction.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Auction {
 	private int auction_sq;
 	private String auction_nm;
