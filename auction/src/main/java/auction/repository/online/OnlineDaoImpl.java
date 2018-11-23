@@ -34,13 +34,14 @@ public class OnlineDaoImpl implements OnlineDao {
 //	진행경매 : 검색
 	@Override
 	public List<View> currentSearch(
-			String art_artist, String art_nm, int lot, int sn, int fn){
-		if(art_artist==null && art_nm==null && lot==0) {
+			String art_artist, String art_nm, int lot, int sn, int fn, int art_eprice_min, int art_eprice_max){
+		if(art_artist==null && art_nm==null && art_eprice_min==0 && art_eprice_max==0 && lot==0) {
 			log.debug("currentList");
 			return currentList(sn, fn);
 		}
 		
-		log.debug("작가명 = {}, 작품명 = {}, 번호 = {}", art_artist, art_nm, lot);		
+		log.debug("작가명 = {}, 작품명 = {}, 번호 = {}", art_artist, art_nm, lot);
+		log.debug("최소가 = {}, 최대가 = {}", art_eprice_min, art_eprice_max);
 		
 		Paging paging = Paging.builder()
 												.art_artist(art_artist)
@@ -48,6 +49,8 @@ public class OnlineDaoImpl implements OnlineDao {
 												.no(lot)
 												.sn(sn)
 												.fn(fn)
+//												.art_eprice_min(art_eprice_min)
+//												.art_eprice_max(art_eprice_max)
 											.build();
 		log.debug("paging = {}", paging);
 		
@@ -81,14 +84,17 @@ public class OnlineDaoImpl implements OnlineDao {
 	}
 	
 	@Override
-	public int getArtCount(String art_artist, String art_nm, int lot) {
-		if(art_artist==null && art_nm==null && lot==0) {
+	public int getArtCount(
+			String art_artist, String art_nm, int art_eprice_min, int art_eprice_max, int lot) {
+		if(art_artist==null && art_nm==null && art_eprice_min==0 && art_eprice_max==0 && lot==0) {
 			return sqlSession.selectOne("artListCount");
 		}
 		Paging paging = Paging.builder()
 												.art_artist(art_artist)
 												.art_nm(art_nm)
 												.no(lot)
+//												.art_eprice_min(art_eprice_min)
+//												.art_eprice_max(art_eprice_max)
 											.build();
 		log.debug("paging = {}", paging);
 		return sqlSession.selectOne("artSearchCount", paging);

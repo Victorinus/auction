@@ -37,10 +37,13 @@ public class AuctionController {
 		log.debug("작가명(art_artist) = {}", pagingUtil.getArt_artist());
 		log.debug("작품명(art_nm) = {}", pagingUtil.getArt_nm());
 		log.debug("번호(lot) = {}", pagingUtil.getLot());
+		log.debug("최소가(art_eprice_min) = {}", pagingUtil.getArt_eprice_min());
+		log.debug("최대가(art_eprice_max) = {}", pagingUtil.getArt_eprice_max());
 		
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
-				"currentList", onlineDao.currentSearch(pagingUtil.getArt_artist(), pagingUtil.getArt_nm(), pagingUtil.getLot(), pagingUtil.getSn(), pagingUtil.getFn()));
+				"currentList", onlineDao.currentSearch(
+						pagingUtil.getArt_artist(), pagingUtil.getArt_nm(), pagingUtil.getLot(), pagingUtil.getArt_eprice_min(), pagingUtil.getArt_eprice_max(), pagingUtil.getSn(), pagingUtil.getFn()));
 		return "auction/online/current";
 	}
 	

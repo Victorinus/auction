@@ -19,8 +19,8 @@ public class PagingUtil {
 	private int page;
 	private String art_artist;
 	private String art_nm;
-	private String art_eprice_min;
-	private String art_eprice_max;
+	private int art_eprice_min;
+	private int art_eprice_max;
 	private int lot;
 
 	private int sn, fn, sb, fb;
@@ -34,21 +34,57 @@ public class PagingUtil {
 	private OnlineDao onlineDao;
 
 	public void setHttpServletRequest(@ModelAttribute Search search, HttpServletRequest request) {
-		log.debug("PagingUtil : search, request");
-		log.debug("작가명, 작품명, 번호 = {}, {}, {}", search.getArt_artist(), search.getArt_nm(), search.getLot());
+		log.debug("페이징유틸 : search, request");
+		log.debug("작가명 = {}", search.getArt_artist());
+		log.debug("작품명 = {}", search.getArt_nm());
+		log.debug("번호 = {}", search.getLot());
+		log.debug("최소가 = {}", search.getArt_eprice_min());
+		log.debug("최대가 = {}", search.getArt_eprice_max());
 		
 		this.art_artist = search.getArt_artist();
 		this.art_nm = search.getArt_nm();
-		this.art_eprice_min = search.getArt_eprice_min();
-		this.art_eprice_max = search.getArt_eprice_max();
+		
+//		[1] 사용자가 입력한 작품번호의 변환 처리(String → int)
 		try {
 			this.lot = Integer.parseInt(search.getLot());
 		}
 		catch(Exception e) {
 			this.lot = 0;
 		}
+		log.debug("변환된 번호 = {}", lot);
 		
-//		page 파라미터 받아서 변환 처리 
+//		[2] 사용자가 입력한 추정가의 변환 처리(String →  int)
+//		e.g. ￦10,000,000 → 10000000
+		
+//		if(search.getArt_eprice_min() != null && search.getArt_eprice_max() != null) {
+		try {
+			String eprice_min = search.getArt_eprice_min().substring(1);
+			String[] eprices_min = eprice_min.split(",");
+			StringBuffer sb_min = new StringBuffer();
+			for(int i=0; i<eprices_min.length; i++) {
+				sb_min.append(eprices_min[i]);
+			}
+			this.art_eprice_min = Integer.parseInt(sb_min.toString());
+//			log.debug("변환된 최소가 = {}", art_eprice_min);
+	
+			String eprice_max = search.getArt_eprice_max().substring(1);
+			String[] eprices_max = eprice_max.split(",");
+			StringBuffer sb_max = new StringBuffer();
+			for(int i=0; i<eprices_max.length; i++) {
+				sb_max.append(eprices_max[i]);
+			}
+			this.art_eprice_max = Integer.parseInt(sb_max.toString());
+//			log.debug("변환된 최대가 = {}", art_eprice_max);
+		}
+		catch(Exception e) {
+			this.art_eprice_min = 0;
+			this.art_eprice_max = 0;
+		}
+		log.debug("변환된 최소가 = {}", art_eprice_min);
+		log.debug("변환된 최대가 = {}", art_eprice_max);
+//		}
+			
+//		[3] page 파라미터의 변환 처리 
 		try {
 			this.page = Integer.parseInt(request.getParameter("page"));
 			if(this.page <= 0)	throw new Exception();
@@ -58,7 +94,8 @@ public class PagingUtil {
 		}
 		
 		log.debug(request.getRequestURI());
-//		위 로그에 찍힌 요청주소에 해당하는 계산 메소드 배정(?)
+		
+//		[4] 로그에 찍힌 요청주소에 해당하는 계산 메소드 배정(?)
 		try {
 //			if(request.getRequestURI().endsWith("/result")) {
 //				result();
@@ -137,7 +174,8 @@ public class PagingUtil {
 	
 //	진행중인 경매의 페이징 처리
 	private void current() {
-		count = onlineDao.getArtCount(art_artist, art_nm, lot);
+		count = onlineDao.getArtCount(
+				art_artist, art_nm, art_eprice_min, art_eprice_max, lot);
 		log.debug("count = {}", count);
 		pagesize = 10;
 		

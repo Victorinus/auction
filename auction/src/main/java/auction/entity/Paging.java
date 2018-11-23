@@ -14,4 +14,7 @@ public class Paging {
 	private int no;
 	private int sn;
 	private int fn;
+	private int art_eprice_min;
+	private int art_eprice_max;
+	
 }

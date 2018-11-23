@@ -38,19 +38,23 @@
 				from 
 					auction_view
 				where sysdate between to_date(a_start, 'YY/MM/DD HH24:MI') and to_date(a_end, 'YY/MM/DD HH24:MI')
-				<choose>
-					<when test="@auction.util.MybatisUtil@empty(art_artist)">
-						<if test="@auction.util.MybatisUtil@empty(art_nm)">
-							and art_sq=#{no}
-						</if>
-						<if test="@auction.util.MybatisUtil@empty(no)">
-							and art_name like '%'||#{art_nm}||'%'
-						</if>
-					</when>
-					<otherwise>
-						and art_artist like '%'||#{art_artist}||'%'
-					</otherwise>
-				</choose>
+			<if test="no != null and no == 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+			</if>
+			<if test="no != null and no != 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+				and art_sq=#{no}
+			</if>
 			)tmp
 		) where lot between #{sn} and #{fn}
 	</select>
@@ -102,9 +106,23 @@
 				to_date(a_start, 'YY/MM/DD HH24:MI') 
 			and 
 				to_date(a_end, 'YY/MM/DD HH24:MI')
-			and art_artist like '%'||#{art_artist}||'%'		
-			and art_name like '%'||#{art_nm}||'%'
-			and art_sq=#{no}
+			<if test="no != null and no == 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+			</if>
+			<if test="no != null and no != 0">
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_name like '%'||#{art_nm}||'%'
+				</if>
+				and art_sq=#{no}
+			</if>
 	</select>
 	
 </mapper>

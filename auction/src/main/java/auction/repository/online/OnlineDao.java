@@ -14,7 +14,8 @@ public interface OnlineDao {
 	
 	List<View> currentList(int sn, int fn);
 	
-	List<View> currentSearch(String art_artist, String art_nm, int lot, int sn, int fn);
+	List<View> currentSearch(
+			String art_artist, String art_nm, int lot, int sn, int fn, int art_eprice_min, int art_eprice_max);
 
 	List<Auction> upcomingList(int sn, int fn);
 
@@ -24,6 +25,7 @@ public interface OnlineDao {
 
 	int getUpcomingAuctionCount();
 	
-	int getArtCount(String art_artist, String art_nm, int lot);
+	int getArtCount(
+			String art_artist, String art_nm, int art_eprice_min, int art_eprice_max, int lot);
 
 }
