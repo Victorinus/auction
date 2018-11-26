@@ -56,9 +56,7 @@ public class OnlinePagingUtil {
 //		[2] 사용자가 입력한 추정가의 변환 처리(String →  int)
 //		e.g. ￦10,000,000 → 10000000
 		
-//		if(search.getArt_eprice_min() != null && search.getArt_eprice_max() != null) {
 		try {
-//			String eprice_min = search.getArt_eprice_min().substring(1);
 			String[] eprices_min = search.getArt_eprice_min().split("￦|,");
 			StringBuffer sb_min = new StringBuffer();
 			for(int i=0; i<eprices_min.length; i++) {
@@ -66,7 +64,6 @@ public class OnlinePagingUtil {
 			}
 			this.art_eprice_min = Integer.parseInt(sb_min.toString());
 	
-//			String eprice_max = search.getArt_eprice_max().substring(1);
 			String[] eprices_max = search.getArt_eprice_max().split("￦|,");
 			StringBuffer sb_max = new StringBuffer();
 			for(int i=0; i<eprices_max.length; i++) {
@@ -80,7 +77,6 @@ public class OnlinePagingUtil {
 		}
 		log.debug("변환된 최소가 = {}", art_eprice_min);
 		log.debug("변환된 최대가 = {}", art_eprice_max);
-//		}
 			
 //		[3] page 파라미터의 변환 처리 
 		try {

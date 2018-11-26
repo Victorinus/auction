@@ -31,38 +31,48 @@ public class AuctionController {
 //	진행경매	
 	@RequestMapping("/online/current")
 	public String onlineCurrent(
-			@ModelAttribute Search search, HttpServletRequest request, Model model) {		
+								@ModelAttribute Search search, 
+								HttpServletRequest request, 
+								Model model) {		
 		pagingUtil.setHttpServletRequest(search, request);
-		
-		log.debug("작가명(art_artist) = {}", pagingUtil.getArt_artist());
-		log.debug("작품명(art_nm) = {}", pagingUtil.getArt_nm());
-		log.debug("번호(lot) = {}", pagingUtil.getLot());
-		log.debug("최소가(art_eprice_min) = {}", pagingUtil.getArt_eprice_min());
-		log.debug("최대가(art_eprice_max) = {}", pagingUtil.getArt_eprice_max());
 		
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
 				"currentList", onlineDao.currentSearch(
-						pagingUtil.getArt_artist(), pagingUtil.getArt_nm(), pagingUtil.getLot(), pagingUtil.getArt_eprice_min(), pagingUtil.getArt_eprice_max(), pagingUtil.getSn(), pagingUtil.getFn()));
+						pagingUtil.getArt_artist(), 
+						pagingUtil.getArt_nm(), 
+						pagingUtil.getLot(), 
+						pagingUtil.getArt_eprice_min(), 
+						pagingUtil.getArt_eprice_max(), 
+						pagingUtil.getSn(), 
+						pagingUtil.getFn()));
 		return "auction/online/current";
 	}
 	
 //	예정경매
 	@RequestMapping("/online/upcoming")
-	public String onlineUpcoming(HttpServletRequest request, Model model) {
+	public String onlineUpcoming(
+								HttpServletRequest request, 
+								Model model) {
 		pagingUtil.setHttpServletRequest(request);
 		model.addAttribute(
-				"upcomingList", onlineDao.upcomingList(pagingUtil.getSn(), pagingUtil.getFn()));
+				"upcomingList", onlineDao.upcomingList(
+						pagingUtil.getSn(), 
+						pagingUtil.getFn()));
 		return "auction/online/upcoming";
 	}
 	
 //	경매결과
 	@RequestMapping("/online/result")
-	public String onlineResult(HttpServletRequest request, Model model) {
+	public String onlineResult(
+								HttpServletRequest request, 
+								Model model) {
 		pagingUtil.setHttpServletRequest(request);
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
-				"resultList", onlineDao.resultList(pagingUtil.getSn(), pagingUtil.getFn()));
+				"resultList", onlineDao.resultList(
+						pagingUtil.getSn(), 
+						pagingUtil.getFn()));
 		return "auction/online/result";
 	}	
 	
