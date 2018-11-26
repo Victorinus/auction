@@ -34,7 +34,7 @@ public class OnlineDaoImpl implements OnlineDao {
 //	진행경매 : 검색
 	@Override
 	public List<View> currentSearch(
-			String art_artist, String art_nm, int lot, int sn, int fn, int art_eprice_min, int art_eprice_max){
+			String art_artist, String art_nm, int lot, int art_eprice_min, int art_eprice_max, int sn, int fn){
 		if(art_artist==null && art_nm==null && art_eprice_min==0 && art_eprice_max==0 && lot==0) {
 			log.debug("currentList");
 			return currentList(sn, fn);
@@ -49,8 +49,8 @@ public class OnlineDaoImpl implements OnlineDao {
 												.no(lot)
 												.sn(sn)
 												.fn(fn)
-//												.art_eprice_min(art_eprice_min)
-//												.art_eprice_max(art_eprice_max)
+												.art_eprice_min(art_eprice_min)
+												.art_eprice_max(art_eprice_max)
 											.build();
 		log.debug("paging = {}", paging);
 		
@@ -93,8 +93,8 @@ public class OnlineDaoImpl implements OnlineDao {
 												.art_artist(art_artist)
 												.art_nm(art_nm)
 												.no(lot)
-//												.art_eprice_min(art_eprice_min)
-//												.art_eprice_max(art_eprice_max)
+												.art_eprice_min(art_eprice_min)
+												.art_eprice_max(art_eprice_max)
 											.build();
 		log.debug("paging = {}", paging);
 		return sqlSession.selectOne("artSearchCount", paging);

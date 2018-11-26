@@ -58,23 +58,21 @@ public class OnlinePagingUtil {
 		
 //		if(search.getArt_eprice_min() != null && search.getArt_eprice_max() != null) {
 		try {
-			String eprice_min = search.getArt_eprice_min().substring(1);
-			String[] eprices_min = eprice_min.split(",");
+//			String eprice_min = search.getArt_eprice_min().substring(1);
+			String[] eprices_min = search.getArt_eprice_min().split("￦|,");
 			StringBuffer sb_min = new StringBuffer();
 			for(int i=0; i<eprices_min.length; i++) {
 				sb_min.append(eprices_min[i]);
 			}
 			this.art_eprice_min = Integer.parseInt(sb_min.toString());
-//			log.debug("변환된 최소가 = {}", art_eprice_min);
 	
-			String eprice_max = search.getArt_eprice_max().substring(1);
-			String[] eprices_max = eprice_max.split(",");
+//			String eprice_max = search.getArt_eprice_max().substring(1);
+			String[] eprices_max = search.getArt_eprice_max().split("￦|,");
 			StringBuffer sb_max = new StringBuffer();
 			for(int i=0; i<eprices_max.length; i++) {
 				sb_max.append(eprices_max[i]);
 			}
 			this.art_eprice_max = Integer.parseInt(sb_max.toString());
-//			log.debug("변환된 최대가 = {}", art_eprice_max);
 		}
 		catch(Exception e) {
 			this.art_eprice_min = 0;
@@ -190,8 +188,8 @@ public class OnlinePagingUtil {
 		
 		if(fb>totalpage)	fb = totalpage;
 		log.debug("sn, fn, sb, fb, totalpage= {}, {}, {}, {}, {}", sb, fn, sb, fb, totalpage);
-		if(art_artist != null || art_nm != null || lot != 0) {
-			param = "&art_artist="+art_artist+"&art_nm="+art_nm+"&lot="+lot;
+		if(art_artist != null || art_nm != null || art_eprice_min != 0 || art_eprice_max != 0  || lot != 0) {
+			param = "&art_artist="+art_artist+"&art_nm="+art_nm+"&art_eprice_min="+art_eprice_min+"&art_eprice_max="+art_eprice_max+"&lot="+lot;
 		}
 		else {
 			param ="";
