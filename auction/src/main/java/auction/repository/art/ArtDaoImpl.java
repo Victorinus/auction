@@ -23,13 +23,13 @@ public class ArtDaoImpl implements ArtDao {
 	
 	@Override
 	public void insert(Art art) {
-		int result = sqlSession.insert("regist", art);
+		int result = sqlSession.insert("admin_art_regist", art);
 		log.debug("결과값 = {}", result);
 	}
 
 	@Override
 	public List<Art> list() {
-		List<Art> list = sqlSession.selectList("list");
+		List<Art> list = sqlSession.selectList("admin_art_list");
 		for(Art art : list) {
 			log.debug("결과 = {}", art);
 		}
@@ -41,7 +41,7 @@ public class ArtDaoImpl implements ArtDao {
 		Map<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("sortType", sortType);
-		List<Art> list = sqlSession.selectList("listPage", map);
+		List<Art> list = sqlSession.selectList("admin_art_listPage", map);
 		for(Art art : list) {
 			log.debug("결과 = {}", art);
 		}
@@ -55,7 +55,7 @@ public class ArtDaoImpl implements ArtDao {
 		map.put("sortType", sortType);
 		map.put("searchType", searchType);
 		map.put("searchKey", searchKey);
-		List<Art> list = sqlSession.selectList("search", map);
+		List<Art> list = sqlSession.selectList("admin_art_search", map);
 		for(Art art : list) {
 			log.debug("결과 = {}", art);
 		}
@@ -64,7 +64,7 @@ public class ArtDaoImpl implements ArtDao {
 
 	@Override
 	public int getListCnt() {
-		int result = sqlSession.selectOne("listCnt");
+		int result = sqlSession.selectOne("admin_art_listCnt");
 		log.debug("결과값 = {}", result);
 		return result;
 	}
@@ -74,27 +74,27 @@ public class ArtDaoImpl implements ArtDao {
 		Map<String, String> map = new HashMap<>();
 		map.put("searchType", searchType);
 		map.put("searchKey", searchKey);
-		int result = sqlSession.selectOne("searchCnt", map);
+		int result = sqlSession.selectOne("admin_art_searchCnt", map);
 		log.debug("결과값 = {}", result);
 		return result;
 	}
 	
 	@Override
 	public Art find(int art_sq) {
-		Art art = sqlSession.selectOne("find", art_sq);
+		Art art = sqlSession.selectOne("admin_art_find", art_sq);
 		log.debug(art.toString());
 		return art;
 	}
 
 	@Override
 	public void edit(Art art) {
-		int result = sqlSession.update("edit", art);
+		int result = sqlSession.update("admin_art_edit", art);
 		log.debug("결과값 = {}", result);
 	}
 
 	@Override
 	public void delete(int art_sq) {
-		int result = sqlSession.delete("delete", art_sq);
+		int result = sqlSession.delete("admin_art_delete", art_sq);
 		log.debug("결과값 = {}", result);
 	}
 }

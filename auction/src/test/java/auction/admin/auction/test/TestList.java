@@ -24,7 +24,7 @@ public class TestList {
         
         @Test
         public void list() {
-                List<Auction> list = sqlSession.selectList("list");
+                List<Auction> list = sqlSession.selectList("admin_auction_list");
                 for(Auction auction : list) {
                         log.debug("결과 = {}", auction);
                 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import auction.entity.Art;
 import auction.entity.Page;
 import auction.repository.art.ArtDao;
 import auction.util.AdminPagingUtil;
+import auction.util.UUIDUtil;
 
 
 //관리자_상품 기능 관련 컨트롤러
@@ -32,6 +34,8 @@ public class AdminArtController {
         private ServletContext application;
         @Autowired
         private AdminPagingUtil pagingUtil;
+        @Autowired
+        private UUIDUtil uuidUtil;
         
         private Logger log = LoggerFactory.getLogger(getClass());
         
@@ -42,15 +46,17 @@ public class AdminArtController {
         
         @RequestMapping(value="/art/register", method=RequestMethod.POST)
         public String register(@ModelAttribute Art art, @RequestParam(required=false) MultipartFile image) throws IllegalStateException, IOException {
-                
+                System.out.println(art.getArt_cdt());
                 //파일의 존재 및 이미지형식 검사
                 if(image != null && image.getContentType().startsWith("image")) {
                         String path = application.getRealPath("/image/art");
-                        File target = new File(path, image.getOriginalFilename());        
+                        //파일명 중복을 피해가 위해 랜덤문자열을 추가하여 저장
+                        String saveName = uuidUtil.getSaveName(image.getOriginalFilename());
+                        File target = new File(path, saveName);        
                         image.transferTo(target);
                         
                         //객체에 이미지 추가
-                        art.setArt_image(image.getOriginalFilename());
+                        art.setArt_image(saveName);
                         
                         //DB등록
                         artDao.insert(art);
@@ -60,23 +66,23 @@ public class AdminArtController {
         }
         
         @RequestMapping("/art/list")
-        public String list(
-                                @RequestParam(defaultValue="1") int curPage,
-                                Model model,
-                                @RequestParam(defaultValue="dt") String sortType,
-                                @RequestParam(defaultValue="empty") String searchType,
-                                @RequestParam(defaultValue="empty") String searchKey
-                        ) {
-                Page page = pagingUtil.paging(curPage, searchType, searchKey);
-                model.addAttribute("page", page);
-                if(searchType.equals("empty") || searchKey.equals("empty")) {
-                        System.out.println("리스트");
-                        model.addAttribute("list", artDao.list(page, sortType));
-                }else {
-                        System.out.println("검색");
-                        model.addAttribute("list", artDao.search(page, sortType, searchType, searchKey));
-                }
-                return "/admin/art/list";
+    	public String list(
+				Model model,
+				HttpServletRequest request,
+				@RequestParam(defaultValue="1") int curPage,
+				@RequestParam(defaultValue="dt") String sortType,
+				@RequestParam(defaultValue="empty") String searchType,
+				@RequestParam(defaultValue="empty") String searchKey
+			) {
+        	String uri = request.getRequestURI();
+        	Page page = pagingUtil.paging(curPage, searchType, searchKey, uri);
+			model.addAttribute("page", page);
+			if (searchType.equals("empty") || searchKey.equals("empty")) {
+				model.addAttribute("list", artDao.list(page, sortType));
+			} else {
+				model.addAttribute("list", artDao.search(page, sortType, searchType, searchKey));
+			}
+			return "/admin/art/list";
         }
 
         @RequestMapping("/art/edit")

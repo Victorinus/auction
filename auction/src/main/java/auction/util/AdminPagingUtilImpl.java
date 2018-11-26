@@ -1,9 +1,12 @@
 package auction.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import auction.entity.Page;
+import auction.repository.art.ArtDao;
 import auction.repository.auction.AuctionDao;
 
 
@@ -15,40 +18,60 @@ public class AdminPagingUtilImpl implements AdminPagingUtil{
 	
 	@Autowired
 	private AuctionDao auctionDao;
-	
+	@Autowired
+	private ArtDao artDao;
 	@Autowired
 	private Page page;
 	
-	//Controller에서 curPage(현재페이지) 및 검색정보를 받아와 페이징 처리를 하는 메소드
-	public Page paging(int curPage, String searchType, String searchKey) {
-		
-		//현재페이지
+	private Logger log = LoggerFactory.getLogger(getClass());
+	
+	// Controller에서 curPage(현재페이지) 및 검색정보를 받아와 페이징 처리를 하는 메소드
+	public Page paging(int curPage, String searchType, String searchKey, String uri) {
+
+		// 현재페이지
 		page.setCurPage(curPage);
+
+		//컨텐츠 전체 개수
+		setListCnt(uri, searchType, searchKey);
 		
-		//총 게시물 수(검색 or 리스트)
-		if(searchType.equals("empty") || searchKey.equals("empty")) {
-			page.setListCnt(auctionDao.getListCnt());
-		}else {
-			page.setListCnt(auctionDao.getSearchCnt(searchType, searchKey));
-		}
-		
-		//총 페이지 수
+		// 총 페이지 수
 		setPageCnt();
-		
-       //총 블럭 수
-        setRangeCnt();
-        
-        //블럭의 범위
-        rangeSetting(curPage);
-        
-        //DB 질의를 위한 Index
-        setStartIndex(curPage);
-        setEndIndex(curPage);
-		
-        System.out.println(page);//테스트코드
+
+		// 총 블럭 수
+		setRangeCnt();
+
+		// 블럭의 범위
+		rangeSetting(curPage);
+
+		// DB 질의를 위한 Index
+		setStartIndex(curPage);
+		setEndIndex(curPage);
+
+//		log.debug("페이지 = {}", page);//테스트코드
 		return page;
 	}
 	
+	//컨텐츠 전체 개수를 설정하는 메소드
+	public void setListCnt(String uri, String searchType, String searchKey) {
+		//작품/경매 페이징 구분
+		if(uri.substring(9).startsWith("art")) {
+			//총 게시물 수(검색 or 리스트)
+			if(searchType.equals("empty") || searchKey.equals("empty")) {
+				page.setListCnt(artDao.getListCnt());
+			}else {
+				page.setListCnt(artDao.getSearchCnt(searchType, searchKey));
+			}
+		}else if(uri.substring(9).startsWith("auction")) {
+			//총 게시물 수(검색 or 리스트)
+			if(searchType.equals("empty") || searchKey.equals("empty")) {
+				page.setListCnt(auctionDao.getListCnt());
+			}else {
+				page.setListCnt(auctionDao.getSearchCnt(searchType, searchKey));
+			}
+		}else {
+			return;
+		}
+	}
 	
 	// 페이지 수를 설정하는 메소드
 	public void setPageCnt() {

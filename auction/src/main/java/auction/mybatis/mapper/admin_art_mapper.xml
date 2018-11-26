@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="auction.repository.art.ArtDaoImpl">
+	<insert id="admin_art_regist" parameterType="art">
+		insert into art values(
+			art_seq.nextval,
+			#{art_nm},
+			#{art_info},
+			#{art_info2},
+			#{art_size},
+			#{art_cdt},
+			#{art_bp},
+			#{art_artist},
+			#{art_image},
+			#{art_origin},
+			#{art_medium},
+			#{art_sign},
+			#{art_ep},
+			null,
+			#{art_status},
+			sysdate
+			)
+	</insert>
+	
+	<select id="admin_art_list" resultType="art">
+		select * from art order by art_sq desc
+	</select>
+	
+	<select id="admin_art_listPage" resultType="art" parameterType="map">
+		select X.* from (
+					select rownum as rn, A.* from (
+		<choose>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
+				select * from art order by art_nm asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
+				select * from art order by art_nm desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('status')">
+				select * from art order by art_status desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('statusReverse')">
+				select * from art order by art_status asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
+				select * from art order by art_sq asc) A 
+			</when>
+			<otherwise>
+				select * from art order by art_sq desc) A 
+			</otherwise>
+		</choose>
+					where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+		where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+	</select>
+	
+	<select id="admin_art_listCnt" resultType="int">
+		select count(*) from art
+	</select>
+	
+	<select id="admin_art_search" resultType="art" parameterType="map">
+		select X.* from (
+					select rownum as rn, A.* from (
+		<choose>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
+				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_nm asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
+				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_nm desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('status')">
+				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_status desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('statusReverse')">
+				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_status asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
+				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_sq asc) A 
+			</when>
+			<otherwise>
+				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_sq desc) A 
+			</otherwise>
+		</choose>
+					where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+			where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+	</select>
+	
+	<select id="admin_art_searchCnt" resultType="int" parameterType="map">
+		select count(*) from art where ${searchType} like '%'||#{searchKey}||'%'
+	</select>
+	
+	<select id="admin_art_find" resultType="art" parameterType="int">
+		select * from art where art_sq=#{art_sq}
+	</select>
+	
+	<update id="admin_art_edit" parameterType="art">
+		update art set 
+			art_nm=#{art_nm},
+			art_info=#{art_info},
+			art_info2=#{art_info2},
+			art_size=#{art_size},
+			art_cdt=#{art_cdt},
+			art_bp=#{art_bp},
+			art_artist=#{art_artist},
+			art_image=#{art_image},
+			art_origin=#{art_origin},
+			art_medium=#{art_medium},
+			art_sign=#{art_sign},
+			art_ep=#{art_ep},
+			art_eval=#{art_eval},
+			art_status=#{art_status}
+		where art_sq=#{art_sq}
+	</update>
+	
+	<update id="admin_art_testEditImage" parameterType="map">
+		update art set 
+			art_image=#{saveName}
+		where art_sq=#{sq}
+	</update>
+	
+	<delete id="admin_art_delete" parameterType="int">
+		delete from art where art_sq=#{art_sq}
+	</delete>
+	
+	<delete id="admin_art_deleteAll">
+		delete from art
+	</delete>
+		
+</mapper>

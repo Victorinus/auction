@@ -1,5 +1,7 @@
 package auction.entity;
 
+import org.springframework.stereotype.Component;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,13 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Component
 public class Art {
         private int art_sq;
         private String art_nm;
         private String art_info;
         private String art_info2;
         private String art_size;
-        private String art_dt;
+        private String art_cdt;
         private int art_bp;
         private String art_artist;
         private String art_image;
@@ -25,4 +28,6 @@ public class Art {
         private int art_ep;
         private String art_eval;
         private String art_status;
+        private String art_dt;
+        
 }

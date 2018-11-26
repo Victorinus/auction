@@ -1,5 +1,7 @@
 package auction.entity;
 
+import org.springframework.stereotype.Component;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Component
 public class Auction {
 	private int auction_sq;
 	private String auction_nm;

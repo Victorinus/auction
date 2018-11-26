@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
@@ -21,7 +22,7 @@
 				<tr>
 					<th>작품명</th>
 					<td><input name="art_nm" type="text" placeholder="작품명을 입력하세요"
-						size="100" maxlength="300"></td>
+						size="100" maxlength="300" required></td>
 				</tr>
 				<tr>
 					<th>작품요약정보</th>
@@ -36,31 +37,28 @@
 				<tr>
 					<th>사이즈</th>
 					<td><input name="art_size" type="text"
-						placeholder="사이즈를 입력하세요" size="100" maxlength="150"></td>
+						placeholder="사이즈를 입력하세요" size="100" maxlength="150" required></td>
 				</tr>
 				<tr>
 					<th>제작연도</th>
 					<td>
-						<script>
-<%-- 							var date = new Date();
-							var year = date.getFullYear();
-							var idx = 0;
-						</script>
-						<c:forEach var="" begin="" end="">
-							for(var i=year-10; i<=year; i++){ $select.prepend("
-						<option value='"+i+"'>"+i+"년"+"</option>"); idx++; }
-						$select.find("option:eq(0)").prop("selected", true);
-						</c:forEach> --%>
+						<select name="art_cdt" required>
+							<c:set var="today" value="<%=new java.util.Date()%>"/>
+							<fmt:formatDate value="${today}" pattern="yyyy" var="start"/> 
+							<c:forEach begin="0" end="250" var="i" step="1">
+								<option value="<c:out value="${start - i}"/>"><c:out value="${start - i}"/></option>
+							</c:forEach>
+						</select>
 					</td>
 				</tr>
 				<tr>
 					<th>작가명</th>
 					<td><input name="art_artist" type="text" placeholder="작가명을 입력하세요"
-						size="100" maxlength="90"></td>
+						size="100" maxlength="90" required></td>
 				</tr>
 				<tr>
 					<th>작품 이미지</th>
-					<td><input type="file" name="image"></td>
+					<td><input type="file" name="image" required></td>
 				</tr>
 				<tr>
 					<th>제작지</th>
@@ -79,11 +77,11 @@
 				</tr>
 				<tr>
 					<th>등록상태</th>
-					<td><select name="art_status">
-							<option value="online">미감정</option>
-							<option value="offline" disabled>출품대기</option>
-							<option value="offline" disabled>출품</option>
-							<option value="offline" disabled>판매완료</option>
+					<td><select name="art_status" required>
+							<option value="미감정">미감정</option>
+							<option value="출품대기" disabled>출품대기</option>
+							<option value="출품" disabled>출품</option>
+							<option value="판매완료" disabled>판매완료</option>
 					</select></td>
 				</tr>
 			</tbody>
