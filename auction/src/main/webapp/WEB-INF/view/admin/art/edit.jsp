@@ -43,19 +43,20 @@
 				<tr>
 					<th>제작연도</th>
 					<td>
-						<select name="art_cdt" required>
-							<c:set var="today" value="<%=new java.util.Date()%>"/>
-							<fmt:formatDate value="${today}" pattern="yyyy" var="start"/> 
-							<c:forEach begin="0" end="250" var="i" step="1">
-								<option value="<c:out value="${start - i}"/>" <c:if test="${art.art_cdt eq start-i}">selected</c:if>><c:out value="${start - i}"/></option>
-							</c:forEach>
-						</select>
+						<input name="art_cdt" type="text" placeholder="제작연도를 입력하세요" size="100" maxlength="150" value="${art.art_cdt}" required>
+					</td>
+				</tr>
+				<tr>
+					<th>낙찰가</th>
+					<td>
+						<input name="art_bp" type="text" size="100" maxlength="150" placeholder="낙찰가를 입력하세요" value="${art.art_bp}">
 					</td>
 				</tr>
 				<tr>
 					<th>작가명</th>
-					<td><input name="art_artist" type="text" placeholder="작가명을 입력하세요"
-						size="100" maxlength="90" value="${art.art_artist}" required></td>
+					<td>
+						<input name="art_artist" type="text" placeholder="작가명을 입력하세요" size="100" maxlength="90" value="${art.art_artist}" required>
+					</td>
 				</tr>
 				<tr>
 					<th>작품 이미지</th>
@@ -85,8 +86,20 @@
 				<tr>
 					<th>서명정보</th>
 					<td><input name="art_sign" type="text" placeholder="서명 정보를 입력하세요"
-						size="100" maxlength="150" value="${art.art_sign}"></td>
+						size="100" maxlength="150" value='${art.art_sign}'></td>
 				</tr>
+			<tr>
+				<th>추정가</th>
+				<td>
+					<input name="art_ep" type="text" size="100" maxlength="150" placeholder="추정가를 입력하세요" value="${art.art_ep}">
+				</td>
+			</tr>
+			<tr>
+				<th>감정내용</th>
+				<td>
+					<input name="art_eval" type="text" size="100" maxlength="150" placeholder="감정내용을 입력하세요" value="${art.art_eval}">
+				</td>
+			</tr>
 				<tr>
 					<th>등록상태</th>
 					<td>
@@ -120,15 +133,19 @@
 						</select>
 					</td>
 				</tr>
+				<tr>
+					<th>등록일</th>
+					<td>
+						<input name="art_dt" type="text" size="100" maxlength="150" value="${art.art_dt}" readonly>
+					</td>
+				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th colspan="2">
-						<input type="submit" value="등록">
-						<a	href="list?curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<input type="submit" value="변경">
+						<a	href="detail?art_sq=${art.art_sq}&curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<input type="button" value="취소"></a>
-						<a href="delete?art_sq=${art.art_sq}">
-						<input type="button" value="삭제"></a>
 					</th>
 				</tr>
 			</tfoot>

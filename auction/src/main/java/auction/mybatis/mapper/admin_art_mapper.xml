@@ -35,16 +35,40 @@
 			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
 				select * from art order by art_nm asc, art_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
 				select * from art order by art_nm desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('ep')">
+				select * from art order by art_ep desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('epR')">
+				select * from art order by art_ep asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('bp')">
+				select * from art order by art_bp desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('bpR')">
+				select * from art order by art_bp asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artist')">
+				select * from art order by art_artist asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artistR')">
+				select * from art order by art_artist desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('origin')">
+				select * from art order by art_origin asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('originR')">
+				select * from art order by art_origin desc, art_sq desc) A 
 			</when>
 			<when test="sortType != null and sortType.equalsIgnoreCase('status')">
 				select * from art order by art_status desc, art_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('statusReverse')">
+			<when test="sortType != null and sortType.equalsIgnoreCase('statusR')">
 				select * from art order by art_status asc, art_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
 				select * from art order by art_sq asc) A 
 			</when>
 			<otherwise>
@@ -62,24 +86,49 @@
 	<select id="admin_art_search" resultType="art" parameterType="map">
 		select X.* from (
 					select rownum as rn, A.* from (
+						select * from art where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%' 
 		<choose>
 			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
-				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_nm asc, art_sq desc) A 
+				order by art_nm asc, art_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
-				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_nm desc, art_sq desc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
+				order by art_nm desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('ep')">
+				order by art_ep desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('epR')">
+				order by art_ep asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('bp')">
+				order by art_bp desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('bpR')">
+				order by art_bp asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artist')">
+				order by art_artist asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artistR')">
+				order by art_artist desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('origin')">
+				order by art_origin asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('originR')">
+				order by art_origin desc, art_sq desc) A 
 			</when>
 			<when test="sortType != null and sortType.equalsIgnoreCase('status')">
-				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_status desc, art_sq desc) A 
+				order by art_status desc, art_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('statusReverse')">
-				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_status asc, art_sq desc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('statusR')">
+				order by art_status asc, art_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
-				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_sq asc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
+				order by art_sq asc) A 
 			</when>
 			<otherwise>
-				select * from art where ${searchType} like '%'||#{searchKey}||'%' order by art_sq desc) A 
+				order by art_sq desc) A 
 			</otherwise>
 		</choose>
 					where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
@@ -87,7 +136,7 @@
 	</select>
 	
 	<select id="admin_art_searchCnt" resultType="int" parameterType="map">
-		select count(*) from art where ${searchType} like '%'||#{searchKey}||'%'
+		select count(*) from art where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
 	</select>
 	
 	<select id="admin_art_find" resultType="art" parameterType="int">

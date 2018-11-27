@@ -4,83 +4,100 @@
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
-<h1>경매 목록</h1>
+<script>
+	function webInit(){
 
+		var uri = "ws://localhost:8080/auction/echo";
+			if(!websocket){
+				websocket = new WebSocket(uri);
+				//연결 수립 이후에 특정 상태에서 실행할 콜백 함수를 지정
+				//onopen(), onclose(), onerror(), onmessage()
+				console.log("웹소켓 : " + websocket);
+				
+				websocket.onopen = function(e){
+					console.log("연결되었습니다");
+				};
+				websocket.onclose = function(e){
+					console.log("연결이 종료되었습니다");
+				};
+				websocket.onmessage = function(e){
+					$("#timer").val("e.data");
+				}
+			}
+		
+	};
+	$(window).on("beforeunload", function(){
+		if(window.websocket){
+			window.websocket.close();
+			window.websocket = null;
+		}
+	});
+
+
+</script>
+<div class="timerTest" align="center">
+	<h2>경매 시작까지 남은시간 : <span id="timer"></span></h2>
+</div>
+
+<style>
+	th{
+		text-align: center;
+		padding: 3px 3px;
+	}
+</style>
+
+<h1>경매 목록</h1>
 <div class="auctionList" align="center">
 
-	<table border="1" width="1400px">
+	<table border="1" width="1600px">
 		<thead>
 			<tr>
-				<td colspan="8">
-					<div class="sortNav"
-						style="text-align: right; min-height: 30px; padding: 10px 10px; color: gray;">
-						<span style="margin-right: 5px"> <c:choose>
-								<c:when test="${empty param.sortType or param.sortType eq 'dt'}">
-									<a
-										href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=dtReverse&searchType=${param.searchType}&searchKey=${param.searchKey}">
-										등록순 <img
-										src="${pageContext.request.contextPath}/image/icon/sortReverse.png"
-										style="width: 13px; height: 13px;">
-									</a>
-								</c:when>
-								<c:otherwise>
-									<a
-										href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=dt&searchType=${param.searchType}&searchKey=${param.searchKey}">
-										등록순 <img
-										src="${pageContext.request.contextPath}/image/icon/sortReverse.png"
-										style="width: 13px; height: 13px">
-									</a>
-								</c:otherwise>
-							</c:choose>
-						</span> <span style="margin-right: 5px"> <c:choose>
-								<c:when test="${param.sortType eq 'nm'}">
-									<a
-										href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=nmReverse&searchType=${param.searchType}&searchKey=${param.searchKey}">
-										경매명 <img
-										src="${pageContext.request.contextPath}/image/icon/sortReverse.png"
-										style="width: 13px; height: 13px">
-									</a>
-								</c:when>
-								<c:otherwise>
-									<a
-										href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=nm&searchType=${param.searchType}&searchKey=${param.searchKey}">
-										경매명 <img
-										src="${pageContext.request.contextPath}/image/icon/sortReverse.png"
-										style="width: 13px; height: 13px">
-									</a>
-								</c:otherwise>
-							</c:choose>
-						</span> <span style="margin-right: 5px"> <c:choose>
-								<c:when test="${param.sortType eq 'type'}">
-									<a
-										href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=typeReverse&searchType=${param.searchType}&searchKey=${param.searchKey}">
-										경매종류 <img
-										src="${pageContext.request.contextPath}/image/icon/sortReverse.png"
-										style="width: 13px; height: 13px">
-									</a>
-								</c:when>
-								<c:otherwise>
-									<a
-										href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=type&searchType=${param.searchType}&searchKey=${param.searchKey}">
-										경매종류 <img
-										src="${pageContext.request.contextPath}/image/icon/sortReverse.png"
-										style="width: 13px; height: 13px">
-									</a>
-								</c:otherwise>
-							</c:choose>
-						</span>
-					</div>
-				</td>
+				<th colspan="8">
+					<div class="topBar" style="text-align: right; min-height: 50px; padding: 10px 10px; color: gray;"></div>
+				</th>
 			</tr>
 			<tr>
-				<th>번호</th>
-				<th>경매명</th>
+				<th style="padding: 3px 3px;">번호
+				<c:choose>
+					<c:when test="${empty param.sortType or param.sortType eq 'dt'}">
+						<a	href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=dtR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<img src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px;"></a>
+					</c:when>
+					<c:otherwise>
+						<a href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=dt&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
+					</c:otherwise>
+				</c:choose>
+				</th>
+				<th>경매명
+				<c:choose>
+					<c:when test="${param.sortType eq 'nm'}">
+						<a	href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=nmR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<img src="${pageContext.request.contextPath}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
+					</c:when>
+					<c:otherwise>
+					<a	href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=nm&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
+					</c:otherwise>
+				</c:choose>
+				</th>
 				<th>요약정보</th>
 				<th>등록일</th>
 				<th>주소</th>
 				<th>경매시작시간</th>
 				<th>경매종료시간</th>
-				<th>경매종류</th>
+				<th>경매종류
+				<c:choose>
+					<c:when test="${param.sortType eq 'type'}">
+						<a	href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=typeR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"style="width: 13px; height: 13px"></a>
+					</c:when>
+					<c:otherwise>
+						<a	href="${pageContext.request.contextPath}/auction/list?curPage=${param.curPage}&sortType=type&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
+					</c:otherwise>
+				</c:choose>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -90,7 +107,7 @@
 					<td><img
 						src="${pageContext.request.contextPath}/image/auction/${auction.auction_image}"
 						style="width: 50; height: 50;"> <a
-						href="edit?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=${sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						href="edit?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							${auction.auction_nm} </a></td>
 					<td>${auction.auction_info}</td>
 					<td>${auction.auction_dt}</td>

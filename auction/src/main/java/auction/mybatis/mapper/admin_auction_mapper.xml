@@ -30,16 +30,16 @@
 			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
 				select * from auction_main order by auction_nm asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
 				select * from auction_main order by auction_nm desc, auction_sq desc) A 
 			</when>
 			<when test="sortType != null and sortType.equalsIgnoreCase('type')">
 				select * from auction_main order by auction_type desc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('typeReverse')">
+			<when test="sortType != null and sortType.equalsIgnoreCase('typeR')">
 				select * from auction_main order by auction_type asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
 				select * from auction_main order by auction_sq asc) A 
 			</when>
 			<otherwise>
@@ -56,33 +56,34 @@
 	
 	<select id="admin_auction_search" resultType="auction" parameterType="map">
 		select X.* from (
-					select rownum as rn, A.* from (
+			select rownum as rn, A.* from (
+				select * from auction_main where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%' 
 		<choose>
 			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_nm asc, auction_sq desc) A 
+				order by auction_nm asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_nm desc, auction_sq desc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
+				order by auction_nm desc, auction_sq desc) A 
 			</when>
 			<when test="sortType != null and sortType.equalsIgnoreCase('type')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_type desc, auction_sq desc) A 
+				order by auction_type desc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('typeReverse')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_type asc, auction_sq desc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('typeR')">
+				order by auction_type asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_sq asc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
+				order by auction_sq asc) A 
 			</when>
 			<otherwise>
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_sq desc) A 
+				order by auction_sq desc) A 
 			</otherwise>
 		</choose>
-					where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
-			where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+			where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+		where X.rn <![CDATA[ >= ]]> #{page.startIndex}
 	</select>
 	
 	<select id="admin_auction_searchCnt" resultType="int" parameterType="map">
-		select count(*) from auction_main where ${searchType} like '%'||#{searchKey}||'%'
+		select count(*) from auction_main where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
 	</select>
 	
 	<select id="admin_auction_find" resultType="auction" parameterType="int">

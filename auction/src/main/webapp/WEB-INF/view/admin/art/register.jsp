@@ -42,13 +42,7 @@
 				<tr>
 					<th>제작연도</th>
 					<td>
-						<select name="art_cdt" required>
-							<c:set var="today" value="<%=new java.util.Date()%>"/>
-							<fmt:formatDate value="${today}" pattern="yyyy" var="start"/> 
-							<c:forEach begin="0" end="250" var="i" step="1">
-								<option value="<c:out value="${start - i}"/>"><c:out value="${start - i}"/></option>
-							</c:forEach>
-						</select>
+						<input name="art_cdt" type="text" placeholder="제작연도를 입력하세요" size="100" maxlength="150" required>
 					</td>
 				</tr>
 				<tr>
