@@ -46,14 +46,14 @@ public class OnlineDaoImpl implements OnlineDao {
 			log.debug("currentList");
 			return currentList(sn, fn);
 		}
-		
+		log.debug("currentSearch");
 		log.debug("작가명 = {}, 작품명 = {}, 번호 = {}", art_artist, art_nm, lot);
 		log.debug("최소가 = {}, 최대가 = {}", art_eprice_min, art_eprice_max);
 		
 		Paging paging = Paging.builder()
 												.art_artist(art_artist)
 												.art_nm(art_nm)
-												.no(lot)
+												.lot(lot)
 												.sn(sn)
 												.fn(fn)
 												.art_eprice_min(art_eprice_min)
@@ -78,18 +78,33 @@ public class OnlineDaoImpl implements OnlineDao {
 		Paging paging = Paging.builder().sn(sn).fn(fn).build();
 		return sqlSession.selectList("resultList", paging);
 	}
-
-//	이하 PagingUtil에서 필요로 하는 전체 경매 또는 출품된 작품의 수 계산 메소드 호출
+	
 	@Override
-	public int getResultAuctionCount() {
-		return sqlSession.selectOne("resultAuctionCount");
-	}
-
-	@Override
-	public int getUpcomingAuctionCount() {
-		return sqlSession.selectOne("upcomingAuctionCount");
+	public List<View> detailList(int sn, int fn, int no) {
+		Paging paging = Paging.builder().sn(sn).fn(fn).no(no).build();
+		return sqlSession.selectList("detailList", paging);
 	}
 	
+	@Override
+	public List<View> detailSearch(
+												String art_artist, 
+												String art_nm, 
+												int lot, 
+												int art_eprice_min, 
+												int art_eprice_max, 
+												int sn, 
+												int fn, 
+												int no) {
+		if(art_artist == null && art_nm == null 
+				&& lot == 0 && art_eprice_min == 0 && art_eprice_max == 0) {
+			log.debug("detailList");
+			return detailList(sn, fn, no);
+		}
+		return null;
+		
+	}
+
+	//	이하 PagingUtil에서 필요로 하는 전체 경매 또는 출품된 작품의 수 계산 메소드 호출
 	@Override
 	public int getArtCount(
 							String art_artist, 
@@ -104,12 +119,48 @@ public class OnlineDaoImpl implements OnlineDao {
 		Paging paging = Paging.builder()
 												.art_artist(art_artist)
 												.art_nm(art_nm)
-												.no(lot)
+												.lot(lot)
 												.art_eprice_min(art_eprice_min)
 												.art_eprice_max(art_eprice_max)
 											.build();
 		log.debug("paging = {}", paging);
 		return sqlSession.selectOne("artSearchCount", paging);
+	}
+	
+	@Override
+	public int getUpcomingAuctionCount() {
+		return sqlSession.selectOne("upcomingAuctionCount");
+	}
+
+	@Override
+	public int getResultAuctionCount() {
+		return sqlSession.selectOne("resultAuctionCount");
+	}
+	
+	@Override
+	public int getResultArtCount(
+									String art_artist, 
+									String art_nm, 
+									int art_eprice_min, 
+									int art_eprice_max, 
+									int lot,
+									int no) {
+		if(art_artist == null && art_nm == null 
+				&& art_eprice_min == 0 && art_eprice_max == 0 && lot == 0) {
+			log.debug("resultArtCount");
+			return sqlSession.selectOne("resultArtCount", no);
+		}
+		log.debug("resultSearchCount");
+		Paging paging = Paging.builder()
+						.art_artist(art_artist)
+						.art_nm(art_nm)
+						.art_eprice_min(art_eprice_min)
+						.art_eprice_max(art_eprice_max)
+						.lot(lot)
+						.no(no)
+					.build();
+		log.debug("paging = {}", paging);
+		return sqlSession.selectOne("resultSearchCount", paging);
 	}
 
 }

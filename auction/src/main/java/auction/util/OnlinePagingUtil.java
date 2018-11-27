@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import auction.entity.Search;
 import auction.repository.online.OnlineDao;
@@ -22,6 +23,7 @@ public class OnlinePagingUtil {
 	private int art_eprice_min;
 	private int art_eprice_max;
 	private int lot;
+	private int no;
 
 	private int sn, fn, sb, fb;
 	private String param;
@@ -34,12 +36,7 @@ public class OnlinePagingUtil {
 	private OnlineDao onlineDao;
 
 	public void setHttpServletRequest(@ModelAttribute Search search, HttpServletRequest request) {
-		log.debug("페이징유틸 : search, request");
-		log.debug("작가명 = {}", search.getArt_artist());
-		log.debug("작품명 = {}", search.getArt_nm());
-		log.debug("번호 = {}", search.getLot());
-		log.debug("최소가 = {}", search.getArt_eprice_min());
-		log.debug("최대가 = {}", search.getArt_eprice_max());
+		log.debug("PagingUtil : search, request");
 		
 		this.art_artist = search.getArt_artist();
 		this.art_nm = search.getArt_nm();
@@ -51,11 +48,8 @@ public class OnlinePagingUtil {
 		catch(Exception e) {
 			this.lot = 0;
 		}
-		log.debug("변환된 번호 = {}", lot);
 		
 //		[2] 사용자가 입력한 추정가의 변환 처리(String →  int)
-//		e.g. ￦10,000,000 → 10000000
-		
 		try {
 			String[] eprices_min = search.getArt_eprice_min().split("￦|,");
 			StringBuffer sb_min = new StringBuffer();
@@ -75,8 +69,6 @@ public class OnlinePagingUtil {
 			this.art_eprice_min = 0;
 			this.art_eprice_max = 0;
 		}
-		log.debug("변환된 최소가 = {}", art_eprice_min);
-		log.debug("변환된 최대가 = {}", art_eprice_max);
 			
 //		[3] page 파라미터의 변환 처리 
 		try {
@@ -86,28 +78,49 @@ public class OnlinePagingUtil {
 		catch(Exception e) {
 			this.page = 1;
 		}
-		
-		log.debug(request.getRequestURI());
-		
-//		[4] 로그에 찍힌 요청주소에 해당하는 계산 메소드 배정(?)
+
+//		[4] 계산 메소드 실행	
 		try {
-//			if(request.getRequestURI().endsWith("/result")) {
-//				result();
-//			}
-//			else if(request.getRequestURI().endsWith("/upcoming")) {
-//				upcoming();
-//			}
-			if(request.getRequestURI().endsWith("/current")){
-				current();
-			}
-			else {}
+			current();
 		}
 		catch(Exception e) {}
 	}
+
+	public void setHttpServletRequest(@ModelAttribute Search search, @RequestParam String no, HttpServletRequest request) {
+		log.debug("PagingUtil : search, no, request");
+		
+		this.art_artist = search.getArt_artist();
+		this.art_nm = search.getArt_nm();
+		
+//		[1] 사용자가 입력한 작품번호의 변환 처리(String → int)
+		try {
+			this.lot = Integer.parseInt(search.getLot());
+		}
+		catch(Exception e) {
+			this.lot = 0;
+		}
+		
+//		[2] 사용자가 입력한 추정가의 변환 처리(String →  int)
+		try {
+			String[] eprices_min = search.getArt_eprice_min().split("￦|,");
+			StringBuffer sb_min = new StringBuffer();
+			for(int i=0; i<eprices_min.length; i++) {
+				sb_min.append(eprices_min[i]);
+			}
+			this.art_eprice_min = Integer.parseInt(sb_min.toString());
 	
-	public void setHttpServletRequest(HttpServletRequest request) {		
-		log.debug("PagingUtil : request");
-//		page 파라미터 받아서 변환 처리 
+			String[] eprices_max = search.getArt_eprice_max().split("￦|,");
+			StringBuffer sb_max = new StringBuffer();
+			for(int i=0; i<eprices_max.length; i++) {
+				sb_max.append(eprices_max[i]);
+			}
+			this.art_eprice_max = Integer.parseInt(sb_max.toString());
+		}
+		catch(Exception e) {
+			this.art_eprice_min = 0;
+			this.art_eprice_max = 0;
+		}		
+//		[3] page 파라미터의 변환 처리 
 		try {
 			this.page = Integer.parseInt(request.getParameter("page"));
 			if(this.page <= 0)	throw new Exception();
@@ -115,8 +128,36 @@ public class OnlinePagingUtil {
 		catch(Exception e) {
 			this.page = 1;
 		}
+
+//		[4] no 파라미터의 변환 처리
+		this.no = Integer.parseInt(no);
 		
-//		위 로그에 찍힌 요청주소에 해당하는 계산 메소드 배정(?)
+		log.debug("작가명 = {}", art_artist);
+		log.debug("작품명 = {}", art_nm);
+		log.debug("lot = {}", lot);
+		log.debug("최소가 = {}", art_eprice_min);
+		log.debug("최대가 = {}", art_eprice_max);
+		log.debug("page : {}", page);
+		log.debug("no : {}", this.no);
+		
+//		[5] 계산 메소드 실행	
+		try {
+			detail();
+		}
+		catch(Exception e) {}
+
+	}
+	
+	public void setHttpServletRequest(HttpServletRequest request) {		
+		log.debug("PagingUtil : request");
+		try {
+			this.page = Integer.parseInt(request.getParameter("page"));
+			if(this.page <= 0)	throw new Exception();
+		}
+		catch(Exception e) {
+			this.page = 1;
+		}
+//		계산 메소드 실행
 		try {
 			if(request.getRequestURI().endsWith("/result")) {
 				result();
@@ -124,15 +165,12 @@ public class OnlinePagingUtil {
 			else if(request.getRequestURI().endsWith("/upcoming")) {
 				upcoming();
 			}
-//			else if(request.getRequestURI().endsWith("/current")){
-//				current();
-//			}
 			else {}
 		}
 		catch(Exception e) {}
 	}
 	
-//	종료된 경매의 페이징 처리
+//	이하 계산 메소드
 	private void result() {
 		count = onlineDao.getResultAuctionCount();
 		pagesize = 4;
@@ -149,7 +187,6 @@ public class OnlinePagingUtil {
 		if(fb>totalpage)	fb = totalpage;
 	}
 	
-//	예정된 경매의 페이징 처리 : pagesize=1로 설정(네비게이터 별도 양식 적용할 것!)
 	private void upcoming() {
 		count = onlineDao.getUpcomingAuctionCount();
 		pagesize = 1;
@@ -166,7 +203,6 @@ public class OnlinePagingUtil {
 		if(fb>totalpage)	fb = totalpage;
 	}
 	
-//	진행중인 경매의 페이징 처리
 	private void current() {
 		count = onlineDao.getArtCount(
 				art_artist, art_nm, art_eprice_min, art_eprice_max, lot);
@@ -183,7 +219,6 @@ public class OnlinePagingUtil {
 		fb = sb + (blocksize-1);
 		
 		if(fb>totalpage)	fb = totalpage;
-		log.debug("sn, fn, sb, fb, totalpage= {}, {}, {}, {}, {}", sb, fn, sb, fb, totalpage);
 		if(art_artist != null || art_nm != null || art_eprice_min != 0 || art_eprice_max != 0  || lot != 0) {
 			param = "&art_artist="+art_artist+"&art_nm="+art_nm+"&art_eprice_min="+art_eprice_min+"&art_eprice_max="+art_eprice_max+"&lot="+lot;
 		}
@@ -192,7 +227,25 @@ public class OnlinePagingUtil {
 		}
 	}
 
-//	기타 처리사항
+	private void detail() {
+		count = onlineDao.getResultArtCount(
+				art_artist, art_nm, art_eprice_min, art_eprice_max, lot, no);
+		log.debug("count : {}", count);
+		pagesize = 10;
+		
+		sn = (page-1) * pagesize+1;
+		fn = page * pagesize;
+		
+		totalpage = (count+pagesize-1) / pagesize;
+		
+		blocksize = 4;
+		sb = (page-1) / blocksize * blocksize + 1;
+		fb = sb + (blocksize-1);
+		
+		if(fb>totalpage)	fb = totalpage;
+		log.debug("sn, fn, sb, fb, totalpage = {}, {}, {}, {}, {}", sn, fn, sb, fb, totalpage);
+	}
+	
 	public boolean hasMorePrevPage() {
 		return sb>1;
 	}

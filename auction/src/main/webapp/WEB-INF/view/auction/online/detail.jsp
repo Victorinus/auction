@@ -4,7 +4,7 @@
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 <html>
     <head>
-    <title>미술품 경매 | 진행경매 출품목록</title>
+    <title>미술품 경매 | 종료경매 출품목록</title>
     <style>
         .row {
             padding: 15px;
@@ -75,7 +75,7 @@
 <body>
     <div class="container-fluid">
         <div class="row text-center header">
-            <h1>진행경매</h1>
+            <h1>종료경매 출품목록</h1>
         </div>
         <!-- 경매 개요 -->
         <div class="row title">
@@ -102,7 +102,8 @@
             </div>
         </div>
         <!-- 검색창 -->
-        <form action="current" method="get">
+        <form action="detail" method="get">
+        	<input type="hidden"  name="no" value="${util.no}">
             <input type="hidden" name="art_eprice_min" value="" id="eprice_min">
             <input type="hidden" name="art_eprice_max" value="" id="eprice_max">
             <div class="row">
@@ -133,51 +134,11 @@
             </div>
         </form>
         <!-- 네비게이터/정렬 -->
-        <div class="row">
-        	<div class="col-md-10 col-md-offset-1">
-        		<div class="col-md-6 text-left">
-             		네비게이터
-        		</div>
-        		<form action="current" method="post">
-	        		<div class="col-md-6 text-right">
-	        			정렬
-	        			<select name="sortType">
-	        				<c:choose>
-	        					<c:when test="">
-									<option value="lot_asc">번호 오름차순</option>
-			        				<option value="lot_desc">번호 내림차순</option>
-			        				<option value="art_artist_asc">작가명 오름차순 </option>
-			        				<option value="art_artist_desc">작가명 내림차순</option>
-			        				<option value="art_nm_asc">작품명 오름차순 </option>
-			        				<option value="art_nm_desc">작품명 내림차순</option>
-	        					</c:when>
-	        					<c:when test="">
-			        				<option value="lot_asc">번호 오름차순</option>
-			        				<option value="lot_desc">번호 내림차순</option>
-			        				<option value="art_artist_asc">작가명 오름차순 </option>
-			        				<option value="art_artist_desc">작가명 내림차순</option>
-			        				<option value="art_nm_asc">작품명 오름차순 </option>
-			        				<option value="art_nm_desc">작품명 내림차순</option>	        					
-	        					</c:when>
-								<c:otherwise>
-									<option value="lot_asc">번호 오름차순</option>
-			        				<option value="lot_desc">번호 내림차순</option>
-			        				<option value="art_artist_asc">작가명 오름차순 </option>
-			        				<option value="art_artist_desc">작가명 내림차순</option>
-			        				<option value="art_nm_asc">작품명 오름차순 </option>
-			        				<option value="art_nm_desc">작품명 내림차순</option>								
-								</c:otherwise>
-	        				</c:choose>
-	        			</select>
-	        			<input type="submit" value="보기">
-	        		</div>
-        		</form>
-        	</div>
-        </div>
+        <div class="row"></div>
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-            	<c:forEach var="view" items="${currentList}">
+            	<c:forEach var="view" items="${detailList}">
                 <div class="col-md-3 gallery">
                     <div>
                         <h4>LOT. ${view.lot}</h4>
@@ -202,7 +163,7 @@
         	<div class="col-md-8 col-md-offset-2 text-center">
         		<div class="navLower">
 					<c:if test="${util.hasMorePrevPage()}">
-						<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
+						<a href="${root}/online/detail?page=${util.getSb()-1}${util.param}">[이전]</a>
 					</c:if>
 		        	<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
 		        		<c:choose>
@@ -210,12 +171,12 @@
 		        				${i}
 		        			</c:when>
 		        			<c:otherwise>
-								<a href="${root}/online/current?page=${i}${util.param}">${i}</a>
+								<a href="${root}/online/detail?page=${i}${util.param}">${i}</a>
 		        			</c:otherwise>
 		        		</c:choose>
 		        	</c:forEach>
 					<c:if test="${util.hasMoreNextPage()}">
-						<a href="${root}/online/current?page=${util.getFb()+1}${util.param}">[다음]</a>
+						<a href="${root}/online/detail?page=${util.getFb()+1}${util.param}">[다음]</a>
 					</c:if>
 	        	</div>
         	</div>

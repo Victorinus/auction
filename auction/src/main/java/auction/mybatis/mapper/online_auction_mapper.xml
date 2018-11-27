@@ -33,7 +33,7 @@
 				)tmp
 			)
 			<where> 
-				<if test="no != null and no == 0">
+				<if test="lot != null and lot == 0">
 						<if test="art_eprice_min != null and art_eprice_min != 0">
 							art_ep between #{art_eprice_min} 
 							<if test="art_eprice_max != null and art_eprice_max != 0">
@@ -47,7 +47,7 @@
 							and art_nm like '%'||#{art_nm}||'%'
 						</if>
 					</if>
-					<if test="no != null and no != 0">
+					<if test="lot != null and lot != 0">
 						<if test="art_eprice_min != null and art_eprice_min != 0">
 							art_ep between #{art_eprice_min} 
 							<if test="art_eprice_max != null and art_eprice_max != 0">
@@ -60,7 +60,7 @@
 						<if test="art_nm != null and art_nm != ''">
 							and art_nm like '%'||#{art_nm}||'%'
 						</if>
-						and lot=#{no}
+						and lot=#{lot}
 					</if>
 				</where>
 				order by lot asc
@@ -90,6 +90,17 @@
 		) where rn between #{sn} and #{fn}
 	</select>
 	
+	<select id="detailList" resultType="view" parameterType="paging">
+		
+		select * from(
+			select rownum as lot, tmp.* from(
+				select * from auction_view
+				where a_sq=#{no}
+				<!-- order by art_sq asc -->
+			)tmp
+		) where lot between #{sn} and #{fn}
+	</select>
+	
 	<!-- 이하 PagingUtil의 각 계산 메소드에서의 전체 경매 또는 작품수 계산과 관련된 sql문 -->
 	<!-- 진행경매 : 목록 -->
 	<select id="artListCount" parameterType="paging" resultType="integer">
@@ -112,7 +123,7 @@
 			)tmp
 		)
 		<where>
-			<if test="no != null and no == 0">
+			<if test="lot != null and lot == 0">
 				<if test="art_eprice_min != null and art_eprice_min != 0">
 					art_ep between #{art_eprice_min} 
 					<if test="art_eprice_max != null and art_eprice_max != 0">
@@ -126,7 +137,7 @@
 					and art_nm like '%'||#{art_nm}||'%'
 				</if>
 			</if>
-			<if test="no != null and no != 0">
+			<if test="lot != null and lot != 0">
 				<if test="art_eprice_min != null and art_eprice_min != 0">
 					art_ep between #{art_eprice_min} 
 					<if test="art_eprice_max != null and art_eprice_max != 0">
@@ -139,21 +150,64 @@
 				<if test="art_nm != null and art_nm != ''">
 					and art_nm like '%'||#{art_nm}||'%'
 				</if>
-				and lot = #{no}
+				and lot = #{lot}
 			</if>
 		</where>
+	</select>
+
+	<!-- 예정경매 -->
+	<select id="upcomingAuctionCount" resultType="integer">
+		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
 	</select>
 	
 	<!-- 경매결과 -->
 	<select id="resultAuctionCount" resultType="integer">
 		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
 	</select>
-	
-	<!-- 예정경매 -->
-	<select id="upcomingAuctionCount" resultType="integer">
-		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+
+	<select id="resultArtCount"  parameterType="integer" resultType="integer">
+		select count(*) from auction_view where a_sq = #{no}
 	</select>
 	
+	<select id="resultSearchCount" parameterType="paging" resultType="integer">
+		select count(*) from(
+			select rownum as lot, tmp.* from(
+				select * from auction_view
+				where a_sq=#{no}
+			)tmp
+		)
+		<where>
+			<if test="lot != null and lot == 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_nm like '%'||#{art_nm}||'%'
+				</if>
+			</if>
+			<if test="lot != null and lot != 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_nm like '%'||#{art_nm}||'%'
+				</if>
+				and lot = #{lot}
+			</if> 
+		</where>
+	</select>
 </mapper>
 
 
