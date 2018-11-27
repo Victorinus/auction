@@ -21,9 +21,15 @@
             margin-top: 15px;
         }
         
-		.nav, .nav > a{
+		.navLower, .navLower > a{
     		text-decoration: none;    		
     		font-size: 25px;
+    		color: black;
+    	}
+    	
+    	.navUpper, .navUpper > a{
+    		text-decoration: none;    		
+    		font-size: 20px;
     		color: black;
     	}
         
@@ -103,11 +109,11 @@
                 <div class="col-md-12">
                     <div class="col-md-3">
                         작가명
-                        <input name="art_artist" type="text" placeholder="작가명 입력하여 찾기">
+                        <input name="art_artist" type="text" value="${util.art_artist }" placeholder="작가명 입력하여 찾기">
                     </div>
                     <div class="col-md-3">
                         작품명
-                        <input name="art_nm" type="text" placeholder="작품명 입력하여 찾기">
+                        <input name="art_nm" type="text" value="${util.art_nm}" placeholder="작품명 입력하여 찾기">
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="col-md-3">추정가</div>
@@ -118,7 +124,7 @@
                     </div>
                     <div class="col-md-2">
                         번호
-                        <input name="lot" type="text" placeholder="번호 입력하여 찾기">
+                        <input name="lot" type="text" value="${util.lot}" placeholder="번호 입력하여 찾기">
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1 search text-center">
@@ -126,15 +132,55 @@
                 </div>
             </div>
         </form>
-        <!-- 네비게이터 -->
-        <div class="row"></div>
+        <!-- 네비게이터/정렬 -->
+        <div class="row">
+        	<div class="col-md-10 col-md-offset-1">
+        		<div class="col-md-6 text-left">
+             		<div class="navUpper">
+						<c:if test="${util.hasMorePrevPage()}">
+							<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
+						</c:if>
+		        		<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
+		        			<c:choose>
+		        				<c:when test="${util.isCurrentPage(i) }">
+		        					${i}
+		        				</c:when>
+		        				<c:otherwise>
+									<a href="${root}/online/current?page=${i}${util.param}">${i}</a>
+		        				</c:otherwise>
+		        			</c:choose>
+		        		</c:forEach>
+						<c:if test="${util.hasMoreNextPage()}">
+							<a href="${root}/online/current?page=${util.getFb()+1}${util.param}">[다음]</a>
+						</c:if>
+	        		</div>   			
+        		</div>
+        		<div class="col-md-6 text-right">
+        			정렬
+        			<select>
+        				<option>번호 오름차순</option>
+        				<option>번호 내림차순</option>
+        				<option>작가명 오름차순 </option>
+        				<option>작가명 내림차순</option>
+        				<option>작품명 오름차순 </option>
+        				<option>작품명 내림차순</option>
+        			</select>
+					<select>
+        				<option>10건씩</option>
+        				<option>20건씩</option>
+        				<option>40건씩</option>
+        			</select>
+        			<input type="submit" value="적용">
+        		</div>
+        	</div>
+        </div>
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
             	<c:forEach var="view" items="${currentList}">
                 <div class="col-md-3 gallery">
                     <div>
-                        <h4>${view.lot}</h4>
+                        <h4>LOT. ${view.lot}</h4>
                     </div>
                     <div style="border: 1px solid lightgray;">
                         <div class="margin">
@@ -154,7 +200,7 @@
         <!-- 네비게이터 -->
         <div class="row">
         	<div class="col-md-8 col-md-offset-2 text-center">
-        		<div class="nav">
+        		<div class="navLower">
 					<c:if test="${util.hasMorePrevPage()}">
 						<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
 					</c:if>
