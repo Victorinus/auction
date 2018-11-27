@@ -1,18 +1,37 @@
 package auction.controller.member;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import auction.entity.Member;
+import auction.repository.member.MemberDao;
 
 
 //회원기능 관련 컨트롤러
 @Controller
 public class MemberController {
 	
-//	회원가입을 위한 페이지
+	@Autowired
+	private MemberDao memberdao;
+	
+//	회원가입을 위한 페이지(페이지 이동만)
 	@RequestMapping("/joinform")
 	public String join() {
-//		sqlSession.insert("regist_user", member);
 		return "/member/joinform";
+	}
+	
+	//정보를 가지고 넘어갈때(member를 넘겨줌)
+	@RequestMapping(value="/joinform", method=RequestMethod.POST)
+	public String regist(@ModelAttribute Member member) {
+		memberdao.regist(member);
+		return "member/joinresult";
+		
 	}
 	
 //	로그인을 위한 페이지

@@ -27,7 +27,7 @@ public class Member {
 	private String user_grade;
 	private String reg_dt;
 	private String chg_dt;
-	private String seesion_key;
+	private String session_id;
 	private String session_limit;
 
 }

@@ -97,13 +97,18 @@
 			domain.value = select.value;
 		}
 	}
+	
+	function submitEmail(){
+		document.getElementById("user_email").value=
+			document.getElementById("email_front").value+'@'+document.getElementById("domain").value;
+	}
 </script>
 
 <div class="join-title">
 	<h1>회원가입 페이지</h1>
 </div>
 <div class="join-form">
-	<form action="join" method="post">
+	<form action="joinform" method="post">
 		<table>
 			<tr>
 				<th>아이디</th>
@@ -150,9 +155,9 @@
 			<tr>
 				<th>이메일</th>
 				<td>
-						<input type="text" name="user_email1" placeholder="이메일앞부분입력">
+						<input type="text" id="email_front" placeholder="이메일앞부분입력">
 						@
-						<input type="text" name="user_email2" id="domain" placeholder="이메일도메인(뒷부분)입력">
+						<input type="text" id="domain" placeholder="이메일도메인(뒷부분)입력">
 						<select id="emaildomain" onchange="chooseEmail();">
 							<option value="직접입력">직접입력</option>
 							<option value="naver.com">naver.com</option>
@@ -160,12 +165,13 @@
 							<option value="gmail.com">gmail.com</option>
 							<option value="daum.net">daum.net</option>
 						</select>
+						<input type="hidden" id ="user_email" name="user_email" value="">
 				</td>
 			</tr>
 			<tr>
 				<th>주소</th>
 				<td>
-					<input id="user_post" name="user_post" type="text" value="우편번호" readonly="readonly"><input type="button" onclick="userFindPost()" value="주소검색"><span class="addr_alert">※주소를 입력해 주세요</span><br>
+					<input id="user_post" name="user_post" type="text" placeholder="우편번호" readonly="readonly"><input type="button" onclick="userFindPost()" value="주소검색"><span class="addr_alert">※주소를 입력해 주세요</span><br>
 					<input id="user_addr1" name="user_addr1" type="text" width="500px" placeholder="주소첫째줄"><br>
 					<input id="user_addr2" name="user_addr2" type="text" placeholder="주소둘째줄">
 				</td>
@@ -173,14 +179,18 @@
 			<tr>
 				<th>배송주소</th>
 				<td>
-					<input id="deliver_post" name="deliver_post" type="text" value="우편번호" readonly="readonly"><input type="button" onclick="deliverFindPost()" value="주소검색"><span class="addr_alert">※주소를 입력해 주세요</span><br>
+					<input id="deliver_post" name="deliver_post" type="text" placeholder="우편번호" readonly="readonly"><input type="button" onclick="deliverFindPost()" value="주소검색"><span class="addr_alert">※주소를 입력해 주세요</span><br>
 					<input id="deliver_addr1" name="deliver_addr1" type="text" width="500px" placeholder="주소첫째줄"><br>
 					<input id="deliver_addr2" name="deliver_addr2" type="text" placeholder="주소둘째줄">
+					<input type="hidden" name="user_grade" value="준회원">
 				</td>
 			</tr>
 		</table>
 		<div class="joinConfirm">
-			<input type="submit" value="회원가입하기">
+			<input type="submit" value="회원가입하기" onclick="submitEmail();">
+			<input type="hidden" name="session_id" value="">
+			<input type="hidden" name="session_limit" value="">
+			<!-- <input type="hidden" id ="user_email" name="user_email" value=""> -->
 		</div>
 	</form>
 </div>

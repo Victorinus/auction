@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	
+	<!-- USER 회원가입 DB 처리. 회원가입 정보를 받아 DB에 저장 -->
+	<insert id="regist_user" parameterType="member">
+		insert into USER_TB values(
+				user_tb_seq.nextval, 
+				#{user_id},
+				#{user_pw},
+				#{user_nm},
+				#{user_birth},
+				#{user_gender},
+				#{user_phone},
+				#{user_tel},
+				#{user_email},
+				#{user_post},
+				#{user_addr1},
+				#{user_addr2},
+				#{deliver_post},
+				#{deliver_addr1},
+				#{deliver_addr2},
+				#{user_grade},
+				sysdate,
+				sysdate,
+				#{session_id},
+				#{session_limit}
+				)
+	</insert>
+	
+	<!-- 로그인에 대한 DB작업을 정의한다. ID와 PW가 일치하면 사용자 정보를 담고있는 객체를반환한다. -->
+	<select id="login" resultType="member">
+		select * from USER_TB where USER_ID = #{USER_ID} and USER_PW = #{USER_PW}
+	</select>
+
+	
+	
+	
+</mapper>
+
+
