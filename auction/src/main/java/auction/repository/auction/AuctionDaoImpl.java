@@ -98,6 +98,18 @@ public class AuctionDaoImpl implements AuctionDao {
 		log.debug("결과값 = {}", result);
 	}
 
+	@Override
+	public String getStart(int auction_sq) {
+		String auction_start = sqlSession.selectOne("admin_auction_getStart", auction_sq);
+		return auction_start;
+	}
+	
+	@Override
+	public String getEnd(int auction_sq) {
+		String auction_end = sqlSession.selectOne("admin_auction_getEnd", auction_sq);
+		return auction_end;
+	}
+
 
 	
 }

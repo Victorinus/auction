@@ -4,27 +4,42 @@
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
+<!-- 테스트 -->
+<div class="timerTest" align="center">
+	<h2>
+		경매 시작까지 남은시간 : 
+		<span id="counter"></span>
+	</h2>
+</div>
 <script>
+	var stime;
+	webInit();
 	function webInit(){
-
 		var uri = "ws://localhost:8080/auction/echo";
-			if(!websocket){
+			if(!window.websocket){
 				websocket = new WebSocket(uri);
-				//연결 수립 이후에 특정 상태에서 실행할 콜백 함수를 지정
-				//onopen(), onclose(), onerror(), onmessage()
-				console.log("웹소켓 : " + websocket);
+				//console.log("웹소켓 : " + websocket);
 				
+				//연결 수립 이후에 특정 상태에서 실행할 콜백 함수를 지정
 				websocket.onopen = function(e){
-					console.log("연결되었습니다");
+					//console.log("연결되었습니다");
+					websocket.send('23');//테스트를위해  Auction_sq를 임의지정
 				};
 				websocket.onclose = function(e){
-					console.log("연결이 종료되었습니다");
+					//console.log("연결이 종료되었습니다");
 				};
+				websocket.onerror = function(e){
+					//console.log("연결 중 오류가 발생하였습니다");
+				}
 				websocket.onmessage = function(e){
-					$("#timer").val("e.data");
+					stime = e.data;
+					console.log(stime);//테스트
+					setInterval(getTime, 1000);
+					window.websocket.close();
+					window.websocket = null;
 				}
 			}
-		
+
 	};
 	$(window).on("beforeunload", function(){
 		if(window.websocket){
@@ -32,12 +47,128 @@
 			window.websocket = null;
 		}
 	});
+	
+	function getTime() { 
+        var now = new Date();
+		var rTime = new Date(stime); 
+		
+		//계산
+        var gap = Math.round((rTime - now.getTime()) / 1000);
+        var D = Math.floor(gap / (60 * 60 * 24));
+        var H = Math.floor((gap - D * (60 * 60 * 24)) / (60 * 60) % (60 * 60));
+        var M = Math.floor((gap - H * (60 * 60)) / 60 % 60);
+        var S = Math.floor((gap - M * 60) % 60);
+		
+		document.getElementById("counter").innerHTML = D + "일	 " + H + "시간 " + M + "분 " + S + "초"; 
+	};
+    
+</script>
 
+<!-- 테스트 -->
+<div id="mask" align="center"></div>
+<div class="frame" align="center">
+	<div class="info-bar">
+		<span class="left">경매 응찰하기</span>
+		<input type="button" class="close right" value="닫기"/>
+	</div>
+	<div class="wrap-info">
+		<div class="auction-info">
+			경매정보
+		</div>
+		<div class="art-info">
+			작품정보
+		</div>
+		<div class="bid-info">
+			응찰현황
+		</div>
+	</div>
+</div>
+<div align="center">
+	<h2><a class="openMask">응찰하기</a></h2>
+</div>
+<style>
+	#mask {
+		position: absolute;
+		z-index: 9000;
+		background-color: #000;
+		display: none;
+		left: 0;
+		top: 0;
+	}
+	
+	.frame {
+		display: none;
+		position: absolute;
+        top: 15%;
+        left: 25%;
+        width: 50%;
+        height: 70%;
+        padding: 0px;
+		z-index: 10000;
+		background-color: white;
+		overflow: auto;
+	}
+	
+	.info-bar{
+		width:100%;
+		min-height: 40px;
+		background-color: #c33234;
+		padding: 10px 10px;
+		font-size: 20px;
+		color: white;
+		display: flex;
+	}
+	
+	.left{
+		text-align: left;
+	}
+	.right{
+		text-align: right;
+	}
+	
+	
+</style>
+<script>
+	function wrapWindowByMask() {
+		//화면의 높이와 너비를 구한다
+		var maskHeight = $(document).height();
+		var maskWidth = $(window).width();
+
+		//마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다
+		$('#mask').css({
+			'width' : maskWidth,
+			'height' : maskHeight
+		});
+
+		//애니메이션 효과 - 일단 0.5초동안 까맣게 됐다가 80% 불투명도로 간다
+		$('#mask').fadeIn(500);
+		$('#mask').fadeTo("slow", 0.8);
+
+		//화면을 보여준다
+		$('.frame').show();
+	}
+
+	//검은 막 띄우기
+	$('.openMask').click(function(e) {
+		e.preventDefault();
+		wrapWindowByMask();
+	});
+
+	//닫기 버튼을 눌렀을 때
+	$('.frame .info-bar .close').click(function(e) {
+		//링크 기본동작은 작동하지 않도록 한다
+		e.preventDefault();
+		$('#mask, .frame').hide();
+	});
+
+	//검은 막을 눌렀을 때
+	$('#mask').click(function() {
+		$(this).hide();
+		$('.frame').hide();
+	});
 
 </script>
-<div class="timerTest" align="center">
-	<h2>경매 시작까지 남은시간 : <span id="timer"></span></h2>
-</div>
+<!-- 테스트 -->
 
 <style>
 	th{

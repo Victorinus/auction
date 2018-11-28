@@ -90,6 +90,14 @@
 		select * from auction_main where auction_sq=#{auction_sq}
 	</select>
 	
+	<select id="admin_auction_getStart" resultType="String" parameterType="int">
+		select auction_start from auction_main where auction_sq=#{auction_sq}
+	</select>
+	
+	<select id="admin_auction_getEnd" resultType="String" parameterType="int">
+		select auction_end from auction_main where auction_sq=#{auction_sq}
+	</select>
+	
 	<update id="admin_auction_edit" parameterType="auction">
 		update auction_main set 
 			auction_nm=#{auction_nm}, 
