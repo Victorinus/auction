@@ -63,7 +63,7 @@ public class AuctionController {
 		return "auction/online/upcoming";
 	}
 	
-//	종료경매 목록
+//	경매결과
 	@RequestMapping("/online/result")
 	public String onlineResult(
 								HttpServletRequest request, 
@@ -77,7 +77,7 @@ public class AuctionController {
 		return "auction/online/result";
 	}	
 	
-//	종료경매 상세보기
+//	상세보기(경매결과)
 	@RequestMapping("/online/detail")
 	public String onlineDetail(
 								@ModelAttribute Search search,
