@@ -24,7 +24,8 @@ public class OnlinePagingUtil {
 	private int art_eprice_max;
 	private int lot;
 	private int no;
-
+	private String sortType;
+	
 	private int sn, fn, sb, fb;
 	private String param;
 	private int count;
@@ -40,6 +41,7 @@ public class OnlinePagingUtil {
 		
 		this.art_artist = search.getArt_artist();
 		this.art_nm = search.getArt_nm();
+		this.sortType = "lot asc";
 		
 //		[1] 사용자가 입력한 작품번호의 변환 처리(String → int)
 		try {
@@ -69,7 +71,7 @@ public class OnlinePagingUtil {
 			this.art_eprice_min = 0;
 			this.art_eprice_max = 0;
 		}
-			
+		
 //		[3] page 파라미터의 변환 처리 
 		try {
 			this.page = Integer.parseInt(request.getParameter("page"));

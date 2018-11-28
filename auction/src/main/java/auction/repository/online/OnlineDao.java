@@ -10,16 +10,17 @@ import auction.entity.View;
 @Repository
 public interface OnlineDao {
 	
-	List<View> currentList(int sn, int fn);
+	List<View> currentList(String sortType, int sn, int fn);
 	
 	List<View> currentSearch(
 										String art_artist, 
 										String art_nm, 
-										int lot, 
-										int sn, 
-										int fn, 
+										int lot,  
+										int art_eprice_max, 
 										int art_eprice_min, 
-										int art_eprice_max);
+										String sortType,
+										int sn, 
+										int fn);
 	
 	List<Auction> upcomingList(int sn, int fn);
 	

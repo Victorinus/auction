@@ -36,15 +36,15 @@ public class AuctionController {
 								HttpServletRequest request, 
 								Model model) {		
 		pagingUtil.setHttpServletRequest(search, request);
-		
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
 				"currentList", onlineDao.currentSearch(
 						pagingUtil.getArt_artist(), 
 						pagingUtil.getArt_nm(), 
-						pagingUtil.getLot(), 
 						pagingUtil.getArt_eprice_min(), 
-						pagingUtil.getArt_eprice_max(), 
+						pagingUtil.getArt_eprice_max(),
+						pagingUtil.getLot(), 
+						pagingUtil.getSortType(),
 						pagingUtil.getSn(), 
 						pagingUtil.getFn()));
 		return "auction/online/current";
@@ -84,8 +84,6 @@ public class AuctionController {
 								@RequestParam(required=false) String no,
 								HttpServletRequest request,
 								Model model) {
-		log.debug("search = {}", search);
-		log.debug("no = {}", no);
 		pagingUtil.setHttpServletRequest(search, no, request);
 		model.addAttribute("util", pagingUtil);
 		model.addAttribute(
@@ -107,22 +105,5 @@ public class AuctionController {
 	public ResponseEntity<ByteArrayResource> image(){
 		return null;
 	}
-
-	
-	
-//	@RequestMapping("/offline/current")
-//	public String offlineCurrent() {
-//		return "auction/offline/current";
-//	}
-//	
-//	@RequestMapping("/offline/result")
-//	public String offlineResult() {
-//		return "auction/offline/result";
-//	}
-//	
-//	@RequestMapping("/offline/upcoming")
-//	public String offlineUpcoming() {
-//		return "auction/offline/upcoming";
-//	}
 	
 }

@@ -20,5 +20,5 @@ public class Paging {
 	private int art_eprice_min;
 	private int art_eprice_max;
 	private int no;
-	
+	private String sortType;
 }

@@ -67,7 +67,15 @@
                 value[handle].innerHTML = values[handle]
                 epriceMin.value = values[0]
                 epriceMax.value = values[1]
+            });          
+            
+            $(".reset").click(function(){
+            	console.log($(this))
+            	$("input[name=art_artist]").val("");
+            	$("input[name=art_nm]").val("");
+            	$("input[name=lot]").val("");
             });
+            
         };
     </script>
 </head>
@@ -108,12 +116,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
-                        작가명
-                        <input name="art_artist" type="text" value="${util.art_artist }" placeholder="작가명 입력하여 찾기">
+						작가명
+                        <input name="art_artist" type="text" value="${util.art_artist}" placeholder="작가명 입력하여 찾기">
                     </div>
                     <div class="col-md-3">
-                        작품명
-                        <input name="art_nm" type="text" value="${util.art_nm}" placeholder="작품명 입력하여 찾기">
+						작품명
+                   		<input name="art_nm" type="text" value="${util.art_nm}" placeholder="작품명 입력하여 찾기">
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="col-md-3">추정가</div>
@@ -123,11 +131,19 @@
                         <span id="upper"></span>
                     </div>
                     <div class="col-md-2">
-                        번호
-                        <input name="lot" type="text" value="${util.lot}" placeholder="번호 입력하여 찾기">
+						번호 
+						<c:choose>
+							<c:when test="${util.lot eq 0}">
+								<input name="lot" type="text" value="" placeholder="번호 입력하여 찾기">
+							</c:when>
+							<c:otherwise>
+								<input name="lot" type="text" value="${util.lot}" placeholder="번호 입력하여 찾기">
+							</c:otherwise>
+						</c:choose> 
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1 search text-center">
+                	<input class="reset" type="button" value="초기화">
                     <input type="submit" value="검색">
                 </div>
             </div>
@@ -142,32 +158,12 @@
 	        		<div class="col-md-6 text-right">
 	        			정렬
 	        			<select name="sortType">
-	        				<c:choose>
-	        					<c:when test="">
-									<option value="lot_asc">번호 오름차순</option>
-			        				<option value="lot_desc">번호 내림차순</option>
-			        				<option value="art_artist_asc">작가명 오름차순 </option>
-			        				<option value="art_artist_desc">작가명 내림차순</option>
-			        				<option value="art_nm_asc">작품명 오름차순 </option>
-			        				<option value="art_nm_desc">작품명 내림차순</option>
-	        					</c:when>
-	        					<c:when test="">
-			        				<option value="lot_asc">번호 오름차순</option>
-			        				<option value="lot_desc">번호 내림차순</option>
-			        				<option value="art_artist_asc">작가명 오름차순 </option>
-			        				<option value="art_artist_desc">작가명 내림차순</option>
-			        				<option value="art_nm_asc">작품명 오름차순 </option>
-			        				<option value="art_nm_desc">작품명 내림차순</option>	        					
-	        					</c:when>
-								<c:otherwise>
-									<option value="lot_asc">번호 오름차순</option>
-			        				<option value="lot_desc">번호 내림차순</option>
-			        				<option value="art_artist_asc">작가명 오름차순 </option>
-			        				<option value="art_artist_desc">작가명 내림차순</option>
-			        				<option value="art_nm_asc">작품명 오름차순 </option>
-			        				<option value="art_nm_desc">작품명 내림차순</option>								
-								</c:otherwise>
-	        				</c:choose>
+							<option value="lot asc">번호 오름차순</option>
+			        		<option value="lot desc">번호 내림차순</option>
+			        		<option value="art_artist asc">작가명 오름차순 </option>
+			        		<option value="art_artist desc">작가명 내림차순</option>
+			        		<option value="art_nm asc">작품명 오름차순 </option>
+			        		<option value="art_nm desc">작품명 내림차순</option>
 	        			</select>
 	        			<input type="submit" value="보기">
 	        		</div>
