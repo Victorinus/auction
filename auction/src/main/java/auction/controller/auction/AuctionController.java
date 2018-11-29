@@ -1,18 +1,28 @@
 package auction.controller.auction;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import auction.entity.Art;
+import auction.entity.Auction;
 import auction.entity.Search;
 import auction.repository.online.OnlineDao;
 import auction.util.OnlinePagingUtil;
@@ -28,6 +38,9 @@ public class AuctionController {
 	
 	@Autowired
 	private OnlinePagingUtil pagingUtil;
+	
+	@Autowired
+	private ServletContext application;
 	
 //	진행경매	
 	@RequestMapping("/online/current")
@@ -99,10 +112,46 @@ public class AuctionController {
 		return "auction/online/detail";
 	}
 	
-//	이미지 출력
-//	@RequestMapping("/image")
-//	@ResponseBody
-	public ResponseEntity<ByteArrayResource> image(){
+//	이미지(art) 출력
+	@RequestMapping("/image/art")
+	@ResponseBody
+	public ResponseEntity<ByteArrayResource> artImage(
+							@ModelAttribute Art art) throws IOException{
+		String path = application.getRealPath("/image/art");
+		File target = new File(path, art.getArt_image());
+		if(!target.exists())	throw new FileNotFoundException();
+		
+		byte[] arr = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(arr);
+		
+		return ResponseEntity.ok()
+				.contentType(getImageType(art.getArt_image()))
+//				.contentLength(contentLength)
+				.body(resource);
+	}
+
+//	이미지(auction) 출력
+	@RequestMapping("/image/auction")
+	@ResponseBody
+	public ResponseEntity<ByteArrayResource> auctionImage(
+							@ModelAttribute Auction auction) throws IOException{
+		String path = application.getRealPath("/image/auction");
+		File target = new File(path, auction.getAuction_image());
+		if(!target.exists())	throw new FileNotFoundException();
+		
+		byte[] arr = FileUtils.readFileToByteArray(target);
+		ByteArrayResource resource = new ByteArrayResource(arr);
+		
+		return ResponseEntity.ok()
+				.contentType(getImageType(auction.getAuction_image()))
+//				.contentLength(contentLength)
+				.body(resource);
+	}
+	
+	private MediaType getImageType(String art_image) {
+		if(art_image.endsWith(".jpg"))		return MediaType.IMAGE_JPEG;
+		if(art_image.endsWith(".png"))		return MediaType.IMAGE_PNG;
+		if(art_image.endsWith(".gif"))		return MediaType.IMAGE_GIF;
 		return null;
 	}
 	

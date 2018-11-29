@@ -5,7 +5,7 @@
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 <html>
     <head>
-    <title>미술품 경매 | 진행경매 출품목록</title>
+    <title>미술품 경매 | 진행경매</title>
     <style>
         .row {
             padding: 15px;
@@ -181,7 +181,8 @@
                     </div>
                     <div style="border: 1px solid lightgray;">
                         <div class="margin">
-                            <img src="http://dummyimage.com/200x200">
+                            <!-- <img src="http://dummyimage.com/200x200"> -->
+                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
                         </div>
                         <div>
 	                        <h3>${view.art_artist}</h3>
