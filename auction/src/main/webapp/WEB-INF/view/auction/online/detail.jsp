@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 <html>
     <head>
-    <title>미술품 경매 | 진행경매</title>
+    <title>미술품 경매 | 종료경매 출품목록</title>
     <style>
         .row {
             padding: 15px;
@@ -33,11 +32,6 @@
     		font-size: 20px;
     		color: black;
     	}
-        
-        .left > p{
-        	text-align: left;
-        	font-size: 15px;
-        }
         
     </style>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
@@ -73,41 +67,7 @@
                 value[handle].innerHTML = values[handle]
                 epriceMin.value = values[0]
                 epriceMax.value = values[1]
-            });          
-            
-            $(".reset").click(function(){
-            	console.log($(this))
-            	$("input[name=art_artist]").val("");
-            	$("input[name=art_nm]").val("");
-            	$("input[name=lot]").val("");
             });
-            
-			setInterval(timer, 1000);
-          	
-			var a_end_parsed = document.querySelector("#a_end_parsed");
-			
-			console.log(a_end_parsed);
-			console.log(a_end_parsed.val());
-          	var a_end = "2018-12-01 00:00:00"
-          
-            function timer(){
-                var sysdate = new Date();
-                var end = new Date(a_end);
-                var gap = Math.round((end - sysdate) / 1000);
-                console.log("millis : "+gap)
-                var D = Math.floor(gap / (60 * 60 * 24));
-                var H = Math.floor((gap - D*(60 * 60 * 24)) / (60 * 60) % (60 * 60));
-                var M = Math.floor((gap - H*(60 * 60)) / 60 % 60);
-                var S = Math.floor((gap - M*60) % 60);
-                console.log(D+"일");
-                console.log(H+"시간");
-                console.log(M+"분");
-                console.log(S+"초");
-                
-                document.querySelector("#timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
-                
-            };
-            
         };
     </script>
 </head>
@@ -115,7 +75,7 @@
 <body>
     <div class="container-fluid">
         <div class="row text-center header">
-            <h1>진행경매</h1>
+            <h1>종료경매 출품목록</h1>
         </div>
         <!-- 경매 개요 -->
         <div class="row title">
@@ -142,18 +102,19 @@
             </div>
         </div>
         <!-- 검색창 -->
-        <form action="current" method="get">
+        <form action="detail" method="get">
+        	<input type="hidden"  name="no" value="${util.no}">
             <input type="hidden" name="art_eprice_min" value="" id="eprice_min">
             <input type="hidden" name="art_eprice_max" value="" id="eprice_max">
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
-						작가명
-                        <input name="art_artist" type="text" value="${util.art_artist}" placeholder="작가명 입력하여 찾기">
+                        작가명
+                        <input name="art_artist" type="text" value="${util.art_artist }" placeholder="작가명 입력하여 찾기">
                     </div>
                     <div class="col-md-3">
-						작품명
-                   		<input name="art_nm" type="text" value="${util.art_nm}" placeholder="작품명 입력하여 찾기">
+                        작품명
+                        <input name="art_nm" type="text" value="${util.art_nm}" placeholder="작품명 입력하여 찾기">
                     </div>
                     <div class="col-md-4 text-center">
                         <div class="col-md-3">추정가</div>
@@ -163,87 +124,35 @@
                         <span id="upper"></span>
                     </div>
                     <div class="col-md-2">
-						번호 
-						<c:choose>
-							<c:when test="${util.lot eq 0}">
-								<input name="lot" type="text" value="" placeholder="번호 입력하여 찾기">
-							</c:when>
-							<c:otherwise>
-								<input name="lot" type="text" value="${util.lot}" placeholder="번호 입력하여 찾기">
-							</c:otherwise>
-						</c:choose> 
+                        번호
+                        <input name="lot" type="text" value="${util.lot}" placeholder="번호 입력하여 찾기">
                     </div>
                 </div>
                 <div class="col-md-10 col-md-offset-1 search text-center">
-                	<input class="reset" type="button" value="초기화">
                     <input type="submit" value="검색">
                 </div>
             </div>
         </form>
         <!-- 네비게이터/정렬 -->
-        <div class="row">
-        	<div class="col-md-10 col-md-offset-1">
-        		<div class="col-md-6 text-left">
-             		네비게이터
-        		</div>
-        		<form action="current" method="post">
-	        		<div class="col-md-6 text-right">
-	        			정렬
-	        			<select name="sortType">
-							<option value="lot asc">번호 오름차순</option>
-			        		<option value="lot desc">번호 내림차순</option>
-			        		<option value="art_artist asc">작가명 오름차순 </option>
-			        		<option value="art_artist desc">작가명 내림차순</option>
-			        		<option value="art_nm asc">작품명 오름차순 </option>
-			        		<option value="art_nm desc">작품명 내림차순</option>
-	        			</select>
-	        			<input type="submit" value="보기">
-	        		</div>
-        		</form>
-        	</div>
-        </div>
+        <div class="row"></div>
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-            	<c:forEach var="view" items="${currentList}">
+            	<c:forEach var="view" items="${detailList}">
                 <div class="col-md-3 gallery">
                     <div>
                         <h4>LOT. ${view.lot}</h4>
                     </div>
                     <div style="border: 1px solid lightgray;">
                         <div class="margin">
-                            <!-- <img src="http://dummyimage.com/200x200"> -->
-                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
+                            <img src="http://dummyimage.com/200x200">
                         </div>
-                        <div class="left">
-	                        <h3>${view.art_artist}</h3>
-	                        <h4>${view.art_nm}</h4>
-	                        <h4>${view.art_dt}</h4>
-	                        <hr>
-	                        <p>재질 : ${view.art_medium}</p>
-	                        <p>규격 : ${view.art_size}</p>
-	                        <p>추정가 : ${view.art_eprice}</p>
-	                        <hr>
-	                        <div class="left">
-		                        <p>
-		                        	마감시간 : 
-		                        	<span id="a_end_parsed">
-					                    <fmt:parseDate var="a_end_parsed" value="${view.a_end}" pattern="yy/MM/dd"/>
-					                    <fmt:formatDate value="${a_end_parsed}" type="both" timeStyle="long"/>
-				                    </span>
-								</p>
-								<p>
-									남은시간 : 
-									<span id="timeleft"></span>
-								</p>
-								<p>총 O회 응찰</p>
-								<p>시작가 : </p>
-								<p>현재가 : </p>
-							</div>
-                        </div>
-                        <div>
-                        	<input type="button" value="응찰하기" onclick="location.href='bidding?lot=${view.lot}'">
-                        </div>
+                        <h3>${view.art_artist}</h3>
+                        <h4>${view.art_nm}</h4>
+                        <hr>
+                        <p>${view.art_medium}</p>
+                        <p>${view.art_size}</p>
+                        <p>${view.art_eprice}</p>
                     </div>
                 </div>
                 </c:forEach>
@@ -254,7 +163,7 @@
         	<div class="col-md-8 col-md-offset-2 text-center">
         		<div class="navLower">
 					<c:if test="${util.hasMorePrevPage()}">
-						<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
+						<a href="${root}/online/detail?page=${util.getSb()-1}${util.param}">[이전]</a>
 					</c:if>
 		        	<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
 		        		<c:choose>
@@ -262,12 +171,12 @@
 		        				${i}
 		        			</c:when>
 		        			<c:otherwise>
-								<a href="${root}/online/current?page=${i}${util.param}">${i}</a>
+								<a href="${root}/online/detail?page=${i}${util.param}">${i}</a>
 		        			</c:otherwise>
 		        		</c:choose>
 		        	</c:forEach>
 					<c:if test="${util.hasMoreNextPage()}">
-						<a href="${root}/online/current?page=${util.getFb()+1}${util.param}">[다음]</a>
+						<a href="${root}/online/detail?page=${util.getFb()+1}${util.param}">[다음]</a>
 					</c:if>
 	        	</div>
         	</div>

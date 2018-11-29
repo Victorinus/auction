@@ -6,14 +6,14 @@ import lombok.Data;
 public class View {
 	private int lot;//rownum
 	private int a_sq;
-	private String a_name;
+	private String a_nm;
 	private String a_dt;//경매 등록일
 	private String a_addr1;
 	private String a_start;//경매 시작일
 	private String a_end;///경매 종료일
 	private String a_image;//대표 이미지
 	
-	private String art_name;
+	private String art_nm;
 	private String art_artist;
 	private String art_size;
 	private String art_dt;//제작년도

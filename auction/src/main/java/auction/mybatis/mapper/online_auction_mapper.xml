@@ -8,55 +8,64 @@
 	<select id="currentList" resultType="view" parameterType="paging">
 		select * from(
 			select rownum as lot, tmp.* from(
-				select a_name, a_dt, a_addr1, a_image, art_name, art_artist, art_size, art_dt, art_origin, art_medium, art_sign
-				from auction_view
-					where sysdate between 
-				to_date(a_start, 'YY/MM/DD HH24:MI')  
+				select * from auction_view
+				where sysdate between 
+						to_date(a_start, 'YY/MM/DD HH24:MI')  
 					and 
-				to_date(a_end, 'YY/MM/DD HH24:MI')
-				order by art_sq desc
+					to_date(a_end, 'YY/MM/DD HH24:MI')
+				<!-- order by art_sq asc -->
 			)tmp
-		) where lot between #{sn} and #{fn}
+		) where lot between #{sn} and #{fn} order by #{sortType}
 	</select>
 	
 	<!-- 진행경매 : 검색 -->	
 	<select id="currentSearch" resultType="view" parameterType="paging">
-		select * from(
-			select rownum as lot, tmp.* from(
-				select 
-					a_name, 
-					a_dt, 
-					a_addr1, 
-					a_image, 
-					art_name, 
-					art_artist, 
-					art_size, 
-					art_dt, 
-					art_origin, 
-					art_medium, 
-					art_sign
-				from 
-					auction_view
-				where sysdate between to_date(a_start, 'YY/MM/DD HH24:MI') and to_date(a_end, 'YY/MM/DD HH24:MI')
-			<if test="no != null and no == 0">
-				<if test="art_artist != null and art_artist != ''">
-					and art_artist like '%'||#{art_artist}||'%'					
-				</if>
-				<if test="art_nm != null and art_nm != ''">
-					and art_name like '%'||#{art_nm}||'%'
-				</if>
-			</if>
-			<if test="no != null and no != 0">
-				<if test="art_artist != null and art_artist != ''">
-					and art_artist like '%'||#{art_artist}||'%'					
-				</if>
-				<if test="art_nm != null and art_nm != ''">
-					and art_name like '%'||#{art_nm}||'%'
-				</if>
-				and art_sq=#{no}
-			</if>
-			)tmp
-		) where lot between #{sn} and #{fn}
+	select * from(
+		select rownum as rn, a.* from(
+			select * from(
+				select rownum as lot, tmp.* from(
+					select * 	from auction_view
+					where sysdate between 
+							to_date(a_start, 'YY/MM/DD HH24:MI') 
+						and 
+							to_date(a_end, 'YY/MM/DD HH24:MI')
+					<!-- order by art_sq asc -->
+				)tmp
+			)
+			<where> 
+				<if test="lot != null and lot == 0">
+						<if test="art_eprice_min != null and art_eprice_min != 0">
+							art_ep between #{art_eprice_min} 
+							<if test="art_eprice_max != null and art_eprice_max != 0">
+								and #{art_eprice_max}
+							</if>
+						</if>
+						<if test="art_artist != null and art_artist != ''">
+							and art_artist like '%'||#{art_artist}||'%'					
+						</if>
+						<if test="art_nm != null and art_nm != ''">
+							and art_nm like '%'||#{art_nm}||'%'
+						</if>
+					</if>
+					<if test="lot != null and lot != 0">
+						<if test="art_eprice_min != null and art_eprice_min != 0">
+							art_ep between #{art_eprice_min} 
+							<if test="art_eprice_max != null and art_eprice_max != 0">
+								and #{art_eprice_max}
+							</if>
+						</if>
+						<if test="art_artist != null and art_artist != ''">
+							and art_artist like '%'||#{art_artist}||'%'					
+						</if>
+						<if test="art_nm != null and art_nm != ''">
+							and art_nm like '%'||#{art_nm}||'%'
+						</if>
+						and lot=#{lot}
+					</if>
+				</where>
+				order by lot asc
+			) a
+	) where rn between #{sn} and #{fn}
 	</select>
 	
 	<!-- 예정경매 -->
@@ -76,23 +85,65 @@
 			select rownum as rn, tmp.* from(
 				select * from auction_main 
 					where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI') 
-				order by auction_sq desc
+				order by auction_sq asc
 			)tmp
 		) where rn between #{sn} and #{fn}
 	</select>
 	
+	<!-- 종료경매 : 목록 -->
+	<select id="detailList" resultType="view" parameterType="paging">
+		select * from(
+			select rownum as lot, tmp.* from(
+				select * from auction_view
+				where a_sq=#{no}
+				<!-- order by art_sq asc -->
+			) tmp
+		) where lot between #{sn} and #{fn}
+	</select>
+	
+	<!-- 종료경매 : 검색 -->
+	<select id="detailSearch" resultType="view" parameterType="paging">
+		select * from(
+			select rownum as lot, tmp.* from(
+				select * from auction_view
+				where a_sq=#{no}
+			) tmp
+		)
+		<where>
+			<if test="lot != null and lot == 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_nm like '%'||#{art_nm}||'%'
+				</if>
+			</if>
+			<if test="lot != null and lot != 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_nm like '%'||#{art_nm}||'%'
+				</if>
+				and lot = #{lot}
+			</if> 
+		</where>
+	</select>
+	
 	<!-- 이하 PagingUtil의 각 계산 메소드에서의 전체 경매 또는 작품수 계산과 관련된 sql문 -->
-	<!-- 경매결과 -->
-	<select id="resultAuctionCount" resultType="integer">
-		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
-	</select>
-	
-	<!-- 예정경매 -->
-	<select id="upcomingAuctionCount" resultType="integer">
-		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
-	</select>
-	
-	<!-- 진행경매 -->
+	<!-- 진행경매 : 목록 -->
 	<select id="artListCount" parameterType="paging" resultType="integer">
 		select count(*) from auction_view 
 			where sysdate between 
@@ -100,31 +151,104 @@
 			and 
 				to_date(a_end, 'YY/MM/DD HH24:MI')
 	</select>
+	
+	<!-- 진행경매 : 검색 -->
 	<select id="artSearchCount" parameterType="paging" resultType="integer">
-		select count(*) from auction_view 
-			where sysdate between 
-				to_date(a_start, 'YY/MM/DD HH24:MI') 
-			and 
-				to_date(a_end, 'YY/MM/DD HH24:MI')
-			<if test="no != null and no == 0">
+		select count(*) from(
+			select rownum as lot, tmp.* from(
+				select * from auction_view
+				where sysdate between
+					to_date(a_start, 'YY/MM/DD HH24:MI')
+				and
+					to_date(a_end, 'YY/MM/DD HH24:MI')
+			)tmp
+		)
+		<where>
+			<if test="lot != null and lot == 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
 				<if test="art_artist != null and art_artist != ''">
 					and art_artist like '%'||#{art_artist}||'%'					
 				</if>
 				<if test="art_nm != null and art_nm != ''">
-					and art_name like '%'||#{art_nm}||'%'
+					and art_nm like '%'||#{art_nm}||'%'
 				</if>
 			</if>
-			<if test="no != null and no != 0">
+			<if test="lot != null and lot != 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
 				<if test="art_artist != null and art_artist != ''">
 					and art_artist like '%'||#{art_artist}||'%'					
 				</if>
 				<if test="art_nm != null and art_nm != ''">
-					and art_name like '%'||#{art_nm}||'%'
+					and art_nm like '%'||#{art_nm}||'%'
 				</if>
-				and art_sq=#{no}
+				and lot = #{lot}
 			</if>
+		</where>
+	</select>
+
+	<!-- 예정경매 -->
+	<select id="upcomingAuctionCount" resultType="integer">
+		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
 	</select>
 	
+	<!-- 경매결과 -->
+	<select id="resultAuctionCount" resultType="integer">
+		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
+	</select>
+
+	<!-- 종료경매 : 목록 -->
+	<select id="resultArtCount"  parameterType="integer" resultType="integer">
+		select count(*) from auction_view where a_sq = #{no}
+	</select>
+	
+	<!-- 종료경매 : 검색 -->
+	<select id="resultSearchCount" parameterType="paging" resultType="integer">
+		select count(*) from(
+			select rownum as lot, tmp.* from(
+				select * from auction_view
+				where a_sq=#{no}
+			)tmp
+		)
+		<where>
+			<if test="lot != null and lot == 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_nm like '%'||#{art_nm}||'%'
+				</if>
+			</if>
+			<if test="lot != null and lot != 0">
+				<if test="art_eprice_min != null and art_eprice_min != 0">
+					art_ep between #{art_eprice_min} 
+					<if test="art_eprice_max != null and art_eprice_max != 0">
+						and #{art_eprice_max}
+					</if>
+				</if>
+				<if test="art_artist != null and art_artist != ''">
+					and art_artist like '%'||#{art_artist}||'%'					
+				</if>
+				<if test="art_nm != null and art_nm != ''">
+					and art_nm like '%'||#{art_nm}||'%'
+				</if>
+				and lot = #{lot}
+			</if> 
+		</where>
+	</select>
 </mapper>
-
-

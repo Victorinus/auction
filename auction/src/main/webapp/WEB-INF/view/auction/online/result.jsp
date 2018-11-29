@@ -35,7 +35,7 @@
             	<c:forEach var="auction" items="${resultList}">
                 <div class="col-md-6 gallery">
 					<div>
-						<img src="http://dummyimage.com/400x200">
+						<img src="${root}/image/auction?auction_image=${auction.auction_image}" width="400" height="400">
 					</div>
 					<div class="col-md-9">
                         <h2>${auction.auction_nm}</h2>
