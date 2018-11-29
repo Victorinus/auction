@@ -47,6 +47,10 @@
 		order by user_id
 	</select>
 
+	<!-- total member count -->
+	<select id="admin_userListCnt">
+		select count(*) from user_tb
+	</select>
 
 
 	

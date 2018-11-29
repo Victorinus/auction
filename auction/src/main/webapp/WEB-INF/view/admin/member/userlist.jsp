@@ -6,7 +6,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <style>
-
 	.empty{
 		height: 50px;
 	}
@@ -38,7 +37,11 @@
 	.addrRow{
 		text-align: left;
 	}
-	
+	.paging{
+		margin-top :10px;
+		text-align: center;
+		font-size: 1.5em;
+	}
 </style>
 
 <h1>회원목록</h1>
@@ -82,8 +85,11 @@
 		</td>
 	</tr>
 	</c:forEach>
-
 </table>
+<div class="paging">
+	1 2 3 4 5 6 7 8 9 10
+</div>
+
 </div>
 
 

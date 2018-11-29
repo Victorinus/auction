@@ -10,4 +10,6 @@ import auction.entity.Member;
 public interface MemberDao {
 	int regist(Member member);//회원가입
 	List<Member> userList();//회원목록 출력(admin)
+	int getListCnt();//총 회원수
+	
 }

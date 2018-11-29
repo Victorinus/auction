@@ -1,7 +1,6 @@
 package auction.repository.member;
 
 import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +40,25 @@ public class MemberDaoImpl implements MemberDao{
 		}
 		return list;
 	}
+	
+	//총 회원수
+	@Override
+	public int getListCnt() {
+		int result = sqlSession.selectOne("admin_userListCnt");
+		log.debug("결과값 = {}", result);
+		return result;
+	}
+	
+/*	//검색했을때 가져오는 회원 수 
+	@Override
+	public int getSearchCnt(String searchType, String searchKey) {
+		Map<String, String> map = new HashMap<>();
+		map.put("searchType", searchType);
+		map.put("searchKey", searchKey);
+		int result = sqlSession.selectOne("admin_art_searchCnt", map);
+		log.debug("결과값 = {}", result);
+		return result;
+	}*/
 	
 	
 
