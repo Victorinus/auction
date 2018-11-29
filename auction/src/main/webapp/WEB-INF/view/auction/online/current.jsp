@@ -34,6 +34,11 @@
     		color: black;
     	}
         
+        .left > p{
+        	text-align: left;
+        	font-size: 15px;
+        }
+        
     </style>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -76,6 +81,32 @@
             	$("input[name=art_nm]").val("");
             	$("input[name=lot]").val("");
             });
+            
+			setInterval(timer, 1000);
+          	
+			var a_end_parsed = document.querySelector("#a_end_parsed");
+			
+			console.log(a_end_parsed);
+			console.log(a_end_parsed.val());
+          	var a_end = "2018-12-01 00:00:00"
+          
+            function timer(){
+                var sysdate = new Date();
+                var end = new Date(a_end);
+                var gap = Math.round((end - sysdate) / 1000);
+                console.log("millis : "+gap)
+                var D = Math.floor(gap / (60 * 60 * 24));
+                var H = Math.floor((gap - D*(60 * 60 * 24)) / (60 * 60) % (60 * 60));
+                var M = Math.floor((gap - H*(60 * 60)) / 60 % 60);
+                var S = Math.floor((gap - M*60) % 60);
+                console.log(D+"일");
+                console.log(H+"시간");
+                console.log(M+"분");
+                console.log(S+"초");
+                
+                document.querySelector("#timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
+                
+            };
             
         };
     </script>
@@ -184,23 +215,31 @@
                             <!-- <img src="http://dummyimage.com/200x200"> -->
                             <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
                         </div>
-                        <div>
+                        <div class="left">
 	                        <h3>${view.art_artist}</h3>
 	                        <h4>${view.art_nm}</h4>
 	                        <h4>${view.art_dt}</h4>
 	                        <hr>
-	                        <p>${view.art_medium}</p>
-	                        <p>${view.art_size}</p>
-	                        <p>${view.art_eprice}</p>
-	                        <p>시작가</p>
+	                        <p>재질 : ${view.art_medium}</p>
+	                        <p>규격 : ${view.art_size}</p>
+	                        <p>추정가 : ${view.art_eprice}</p>
 	                        <hr>
-	                        <p>
-			                    <fmt:parseDate var="a_end_parsed" value="${view.a_end}" pattern="yy/MM/dd"/>
-			                    <fmt:formatDate value="${a_end_parsed}" type="both" timeStyle="long"/>
-								종료
-							</p>
-							<h4>총 O회 응찰</h4>
-							<h4>낙찰가</h4>
+	                        <div class="left">
+		                        <p>
+		                        	마감시간 : 
+		                        	<span id="a_end_parsed">
+					                    <fmt:parseDate var="a_end_parsed" value="${view.a_end}" pattern="yy/MM/dd"/>
+					                    <fmt:formatDate value="${a_end_parsed}" type="both" timeStyle="long"/>
+				                    </span>
+								</p>
+								<p>
+									남은시간 : 
+									<span id="timeleft"></span>
+								</p>
+								<p>총 O회 응찰</p>
+								<p>시작가 : </p>
+								<p>현재가 : </p>
+							</div>
                         </div>
                         <div>
                         	<input type="button" value="응찰하기" onclick="location.href='bidding?lot=${view.lot}'">

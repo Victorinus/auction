@@ -148,7 +148,7 @@
                             <img src="http://dummyimage.com/200x200">
                         </div>
                         <h3>${view.art_artist}</h3>
-                        <h4>${view.art_name}</h4>
+                        <h4>${view.art_nm}</h4>
                         <hr>
                         <p>${view.art_medium}</p>
                         <p>${view.art_size}</p>
