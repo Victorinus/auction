@@ -68,18 +68,59 @@
 <div id="mask" align="center"></div>
 <div class="frame" align="center">
 	<div class="info-bar">
-		<span class="left">경매 응찰하기</span>
-		<input type="button" class="close right" value="닫기"/>
+		<span class="info-bar-name left">경매 응찰하기
+			<span class="right">
+				<input type="button" class="close" value="닫기"/>
+			</span>
+		</span>
 	</div>
 	<div class="wrap-info">
 		<div class="auction-info">
-			경매정보
+			<table class="w100p">
+				<tbody>
+					<tr>
+						<th>
+							<div class="left bold head w100p">작품정보</div>
+						</th>
+					</tr>
+					<tr>
+						<td>
+							<div class="center">
+								<img src="http://placehold.it/280x280">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="left">
+							
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 		<div class="art-info">
-			작품정보
+			<table class="w100p">
+				<tbody>
+					<tr>
+						<th>
+							<div class="left bold head w100p">경매정보</div>
+						</th>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 		<div class="bid-info">
-			응찰현황
+			<table class="w100p">
+				<tbody>
+					<tr>
+						<th>
+							<div class="left bold head w100p">응찰현황</div>
+						</th>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
@@ -116,16 +157,62 @@
 		padding: 10px 10px;
 		font-size: 20px;
 		color: white;
-		display: flex;
+		display: block;
+	}
+	
+	.info-bar-name{
+		display: block;
+		padding-left: 20px;
+	}
+	
+	.wrap-info{
+		height:92%;
+		display: block;
+		overflow: hidden;
+	}
+	
+	.auction-info, .art-info, .bid-info{
+		width:300px;
+		height:100%;
+		display: inline-block;
+		
+	}
+	
+	.div{
+		display: block;
+	}
+	
+	.th{
+		padding:0;
+		display: table-row;
 	}
 	
 	.left{
 		text-align: left;
 	}
+	
+	.center{
+		text-align: center;
+	}
+	
 	.right{
 		text-align: right;
 	}
 	
+	.bold{
+		font-weight: bold;
+	}
+	
+	.head{
+		font-size: 18px;
+		line-height: 25px;
+		border-bottom: 2px solid black;
+		padding: 10px 0;
+	}
+	
+	.w100p{
+		width: 100%;
+	}
 	
 </style>
 <script>

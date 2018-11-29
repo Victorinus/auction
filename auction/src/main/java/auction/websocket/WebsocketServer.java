@@ -57,7 +57,7 @@ public class WebsocketServer extends TextWebSocketHandler{
 //		}
 		int auction_sq = Integer.parseInt(message.getPayload());
 		String auction_start = auctionDao.getStart(auction_sq);
-		System.out.println(auction_start);
+//		log.debug("Start : {}", auction_start);//테스트
 		TextMessage newMessage = new TextMessage(auction_start.toString());
 		session.sendMessage(newMessage);
 	}
