@@ -2,10 +2,9 @@ package auction.controller.admin.auction;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,7 @@ import auction.entity.Auction;
 import auction.entity.Page;
 import auction.repository.auction.AuctionDao;
 import auction.util.AdminPagingUtil;
+import auction.util.UUIDUtil;
 
 
 //관리자_경매 관련 컨트롤러
@@ -34,6 +34,9 @@ public class AdminAuctionController {
 	private ServletContext application;
 	@Autowired
 	private AdminPagingUtil pagingUtil;
+	@Autowired
+	private UUIDUtil uuidUtil;
+	
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -46,36 +49,37 @@ public class AdminAuctionController {
 	public String register(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image) throws IllegalStateException, IOException {
 		
 		//파일의 존재 및 이미지형식 검사
-		if(image != null && image.getContentType().startsWith("image")) {
+		if(!image.isEmpty() && image.getContentType().startsWith("image")) {
 			String path = application.getRealPath("/image/auction");
-			File target = new File(path, image.getOriginalFilename());	
+            //파일명 중복을 피해가 위해 랜덤문자열을 추가하여 저장
+            String saveName = uuidUtil.getSaveName(image.getOriginalFilename());
+            File target = new File(path, saveName);      
 			image.transferTo(target);
 			
 			//객체에 이미지 추가
-			auction.setAuction_image(image.getOriginalFilename());
-			
-			//DB등록
-			auctionDao.insert(auction);
-			
+			auction.setAuction_image(saveName);
 		}
+		//DB등록
+		auctionDao.insert(auction);
+			
 		return "redirect:/auction/list";
 	}
 	
 	@RequestMapping("/auction/list")
 	public String list(
-				@RequestParam(defaultValue="1") int curPage,
 				Model model,
+				HttpServletRequest request,
+				@RequestParam(defaultValue="1") int curPage,
 				@RequestParam(defaultValue="dt") String sortType,
 				@RequestParam(defaultValue="empty") String searchType,
 				@RequestParam(defaultValue="empty") String searchKey
 			) {
-		Page page = pagingUtil.paging(curPage, searchType, searchKey);
+    	String uri = request.getRequestURI();
+    	Page page = pagingUtil.paging(curPage, searchType, searchKey, uri);
 		model.addAttribute("page", page);
 		if(searchType.equals("empty") || searchKey.equals("empty")) {
-			System.out.println("리스트");
 			model.addAttribute("list", auctionDao.list(page, sortType));
 		}else {
-			System.out.println("검색");
 			model.addAttribute("list", auctionDao.search(page, sortType, searchType, searchKey));
 		}
 		return "/admin/auction/list";
@@ -92,9 +96,11 @@ public class AdminAuctionController {
 	public String edit(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image, @RequestParam(required=false) String prevImage) throws IllegalStateException, IOException {
 		
 		//파일의 존재 및 이미지형식 검사
-		if(image != null && image.getContentType().startsWith("image")) {
+		if(!image.isEmpty() && image.getContentType().startsWith("image")) {
 			String path = application.getRealPath("/image/auction");
-			File target = new File(path, image.getOriginalFilename());
+            //파일명 중복을 피해가 위해 랜덤문자열을 추가하여 저장
+            String saveName = uuidUtil.getSaveName(image.getOriginalFilename());
+            File target = new File(path, saveName);      
 			image.transferTo(target);
 			
 			//기존이미지가 있다면 삭제
@@ -104,10 +110,13 @@ public class AdminAuctionController {
 			}
 			
 			//객체에 이미지 추가
-			auction.setAuction_image(image.getOriginalFilename());
-		
-			auctionDao.edit(auction);
+			auction.setAuction_image(saveName);
+		}else if(image.isEmpty()){
+			auction.setAuction_image(prevImage);
 		}
+		//DB 수정
+		auctionDao.edit(auction);
+		
 		return "redirect:/auction/list";
 	}
 	
