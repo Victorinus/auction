@@ -26,11 +26,11 @@
 				<th>번호
 				<c:choose>
 					<c:when test="${empty param.sortType or param.sortType eq 'dt'}">
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=dtR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=dtR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px;"></a>
 					</c:when>
 					<c:otherwise>
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=dt&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=dt&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
@@ -38,11 +38,11 @@
 				<th>작품명
 				<c:choose>
 					<c:when test="${param.sortType eq 'nm'}">
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=nmR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=nmR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img src="${pageContext.request.contextPath}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
 					</c:when>
 					<c:otherwise>
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=nm&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=nm&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
@@ -52,11 +52,11 @@
 				<th>추정가
 				<c:choose>
 					<c:when test="${param.sortType eq 'ep'}">
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=epR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=epR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img src="${pageContext.request.contextPath}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
 					</c:when>
 					<c:otherwise>
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=ep&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=ep&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
@@ -64,11 +64,11 @@
 				<th>낙찰가
 				<c:choose>
 					<c:when test="${param.sortType eq 'bp'}">
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=bpR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=bpR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img src="${pageContext.request.contextPath}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
 					</c:when>
 					<c:otherwise>
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=bp&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=bp&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
@@ -76,11 +76,11 @@
 				<th>작가명
 				<c:choose>
 					<c:when test="${param.sortType eq 'artist'}">
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=artistR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=artistR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img src="${pageContext.request.contextPath}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
 					</c:when>
 					<c:otherwise>
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=artist&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=artist&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
@@ -88,11 +88,11 @@
 				<th>제작지
 				<c:choose>
 					<c:when test="${param.sortType eq 'origin'}">
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=originR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=originR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img src="${pageContext.request.contextPath}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
 					</c:when>
 					<c:otherwise>
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=origin&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=origin&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
@@ -100,11 +100,11 @@
 				<th>작품상태
 				<c:choose>
 					<c:when test="${param.sortType eq 'status'}">
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=statusR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=statusR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"style="width: 13px; height: 13px"></a>
 					</c:when>
 					<c:otherwise>
-						<a	href="${pageContext.request.contextPath}/art/list?curPage=${param.curPage}&sortType=status&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${param.curPage}&sortType=status&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${pageContext.request.contextPath}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
@@ -135,10 +135,10 @@
 				<th colspan="9" style="text-align: center;">
 					<div class="nav-bar" style="min-height: 30px; padding: 10px 0;">
 						<c:if test="${page.curRange ne 1}">
-							<a	href="${pageContext.request.contextPath}/art/list?curPage=1&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[처음]</a>
+							<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=1&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[처음]</a>
 						</c:if>
 						<c:if test="${page.curRange ne 1}">
-							<a	href="${pageContext.request.contextPath}/art/list?curPage=${page.startPage-1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[이전]</a>
+							<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${page.startPage-1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[이전]</a>
 						</c:if>
 						<c:forEach var="pageNum" begin="${page.startPage}" end="${page.endPage}">
 							<c:choose>
@@ -147,15 +147,15 @@
 									</span>
 								</c:when>
 								<c:otherwise>
-									<a	href="${pageContext.request.contextPath}/art/list?curPage=${pageNum}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">${pageNum}</a>
+									<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${pageNum}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">${pageNum}</a>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						<c:if	test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
-							<a href="${pageContext.request.contextPath}/art/list?curPage=${page.endPage+1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[다음]</a>
+							<a href="${pageContext.request.contextPath}/admin/art/list?curPage=${page.endPage+1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[다음]</a>
 						</c:if>
 						<c:if	test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
-							<a	href="${pageContext.request.contextPath}/art/list?curPage=${page.pageCnt}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[끝]</a>
+							<a	href="${pageContext.request.contextPath}/admin/art/list?curPage=${page.pageCnt}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[끝]</a>
 						</c:if>
 					</div>
 					<div class="search-bar" style="min-height: 30px; padding: 10px 0;">

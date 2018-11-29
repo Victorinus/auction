@@ -54,14 +54,14 @@ public class AdminPagingUtilImpl implements AdminPagingUtil{
 	//컨텐츠 전체 개수를 설정하는 메소드
 	public void setListCnt(String uri, String searchType, String searchKey) {
 		//작품/경매 페이징 구분
-		if(uri.substring(9).startsWith("art")) {
+		if(uri.substring(15).startsWith("art")) {
 			//총 게시물 수(검색 or 리스트)
 			if(searchType.equals("empty") || searchKey.equals("empty")) {
 				page.setListCnt(artDao.getListCnt());
 			}else {
 				page.setListCnt(artDao.getSearchCnt(searchType, searchKey));
 			}
-		}else if(uri.substring(9).startsWith("auction")) {
+		}else if(uri.substring(15).startsWith("auction")) {
 			//총 게시물 수(검색 or 리스트)
 			if(searchType.equals("empty") || searchKey.equals("empty")) {
 				page.setListCnt(auctionDao.getListCnt());

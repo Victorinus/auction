@@ -17,9 +17,9 @@ public class DatabaseConfiguration {
 		BasicDataSource source = new BasicDataSource();
 		source.setDriverClassName("oracle.jdbc.OracleDriver");
 		//집에서 접속 : 121.160.70.30:30001;
-//		source.setUrl("jdbc:oracle:thin:@121.160.70.30:30001:xe");
+		source.setUrl("jdbc:oracle:thin:@121.160.70.30:30001:xe");
 //		source.setUrl("jdbc:oracle:thin:@192.168.6.38:1521:xe");
-		source.setUrl("jdbc:oracle:thin:@localhost:1522:xe");
+//		source.setUrl("jdbc:oracle:thin:@localhost:1522:xe");
 		source.setUsername("sw5");
 		source.setPassword("sw5");
 //		source.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
