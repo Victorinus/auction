@@ -24,7 +24,7 @@ public class TestRegist {
         public void regist() {
 //                log.debug("sqlSession = {}", sqlSession);
 //                Auction auction = Auction.builder().name("").build();
-//                int result = sqlSession.insert("regist", auction);
+//                int result = sqlSession.insert("admin_auction_regist", auction);
 //                log.debug("결과값 = {}", result);
         }
         

@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<mapper namespace="auction.repository.auction.AuctionDaoImpl">
-	<insert id="regist" parameterType="auction">
+	<insert id="admin_auction_regist" parameterType="auction">
 		insert into auction_main values(
 			auction_seq.nextval,
 			#{auction_nm},
@@ -19,27 +19,27 @@
 			)
 	</insert>
 	
-	<select id="list" resultType="auction">
+	<select id="admin_auction_list" resultType="auction">
 		select * from auction_main order by auction_sq desc
 	</select>
 	
-	<select id="listPage" resultType="auction" parameterType="map">
+	<select id="admin_auction_listPage" resultType="auction" parameterType="map">
 		select X.* from (
 					select rownum as rn, A.* from (
 		<choose>
 			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
-				select * from auction_main order by auction_nm asc) A 
+				select * from auction_main order by auction_nm asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
-				select * from auction_main order by auction_nm desc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
+				select * from auction_main order by auction_nm desc, auction_sq desc) A 
 			</when>
 			<when test="sortType != null and sortType.equalsIgnoreCase('type')">
-				select * from auction_main order by auction_type desc) A 
+				select * from auction_main order by auction_type desc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('typeReverse')">
-				select * from auction_main order by auction_type asc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('typeR')">
+				select * from auction_main order by auction_type asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
 				select * from auction_main order by auction_sq asc) A 
 			</when>
 			<otherwise>
@@ -50,46 +50,55 @@
 		where X.rn <![CDATA[ >= ]]> #{page.startIndex}
 	</select>
 	
-	<select id="listCnt" resultType="int">
+	<select id="admin_auction_listCnt" resultType="int">
 		select count(*) from auction_main
 	</select>
 	
-	<select id="search" resultType="auction" parameterType="map">
+	<select id="admin_auction_search" resultType="auction" parameterType="map">
 		select X.* from (
-					select rownum as rn, A.* from (
+			select rownum as rn, A.* from (
+				select * from auction_main where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%' 
 		<choose>
 			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_nm asc) A 
+				order by auction_nm asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('nmReverse')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_nm desc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
+				order by auction_nm desc, auction_sq desc) A 
 			</when>
 			<when test="sortType != null and sortType.equalsIgnoreCase('type')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_type desc) A 
+				order by auction_type desc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('typeReverse')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_type asc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('typeR')">
+				order by auction_type asc, auction_sq desc) A 
 			</when>
-			<when test="sortType != null and sortType.equalsIgnoreCase('dtReverse')">
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_sq asc) A 
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
+				order by auction_sq asc) A 
 			</when>
 			<otherwise>
-				select * from auction_main where ${searchType} like '%'||#{searchKey}||'%' order by auction_sq desc) A 
+				order by auction_sq desc) A 
 			</otherwise>
 		</choose>
-					where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
-			where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+			where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+		where X.rn <![CDATA[ >= ]]> #{page.startIndex}
 	</select>
 	
-	<select id="searchCnt" resultType="int" parameterType="map">
-		select count(*) from auction_main where ${searchType} like '%'||#{searchKey}||'%'
+	<select id="admin_auction_searchCnt" resultType="int" parameterType="map">
+		select count(*) from auction_main where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
 	</select>
 	
-	<select id="find" resultType="auction" parameterType="int">
+	<select id="admin_auction_find" resultType="auction" parameterType="int">
 		select * from auction_main where auction_sq=#{auction_sq}
 	</select>
 	
-	<update id="edit" parameterType="auction">
+	<select id="admin_auction_getStart" resultType="String" parameterType="int">
+		select auction_start from auction_main where auction_sq=#{auction_sq}
+	</select>
+	
+	<select id="admin_auction_getEnd" resultType="String" parameterType="int">
+		select auction_end from auction_main where auction_sq=#{auction_sq}
+	</select>
+	
+	<update id="admin_auction_edit" parameterType="auction">
 		update auction_main set 
 			auction_nm=#{auction_nm}, 
 			auction_info=#{auction_info}, 
@@ -103,11 +112,17 @@
 		where auction_sq=#{auction_sq}
 	</update>
 	
-	<delete id="delete" parameterType="int">
+	<update id="admin_auction_testEditImage" parameterType="map">
+		update auction_main set 
+			auction_image=#{saveName}
+		where auction_sq=#{sq}
+	</update>
+	
+	<delete id="admin_auction_delete" parameterType="int">
 		delete from auction_main where auction_sq=#{auction_sq}
 	</delete>
 	
-	<delete id="deleteAll">
+	<delete id="admin_auction_deleteAll">
 		delete from auction_main
 	</delete>
 		

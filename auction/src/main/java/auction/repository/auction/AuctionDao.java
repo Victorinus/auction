@@ -18,5 +18,7 @@ public interface AuctionDao {
         Auction find(int no);
         void edit(Auction auction);
         void delete(int auction_sq);
+		String getStart(int auction_sq);
+		String getEnd(int auction_sq);
 }
 
