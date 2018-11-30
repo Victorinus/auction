@@ -102,7 +102,6 @@
 		document.getElementById("user_email").value=
 			document.getElementById("email_front").value+'@'+document.getElementById("domain").value;
 	}
-	
 </script>
 
 <div class="join-title">

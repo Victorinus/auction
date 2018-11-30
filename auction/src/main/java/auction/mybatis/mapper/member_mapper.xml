@@ -44,14 +44,30 @@
 			deliver_addr1,
 			deliver_addr2
 		from user_tb
-		order by user_id
+		order by reg_dt desc
 	</select>
 
 	<!-- total member count -->
-	<select id="admin_userListCnt">
+	<select id="admin_userListCnt" resultType="member">
 		select count(*) from user_tb
 	</select>
 
+	<!-- admin user list view -->
+	<select id="admin_userList">
+		select
+			user_id,
+			user_nm,
+			user_phone,
+			user_email,
+			user_post,
+			user_addr1,
+			user_addr2,
+			deliver_post,
+			deliver_addr1,
+			deliver_addr2
+		from user_tb
+		order by reg_dt desc
+	</select>
 
 	
 	<!-- 로그인에 대한 DB작업을 정의한다. ID와 PW가 일치하면 사용자 정보를 담고있는 객체를반환한다. -->

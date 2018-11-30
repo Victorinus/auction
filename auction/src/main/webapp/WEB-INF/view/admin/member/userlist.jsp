@@ -87,7 +87,29 @@
 	</c:forEach>
 </table>
 <div class="paging">
-	1 2 3 4 5 6 7 8 9 10
+	<c:if test="${page.curRange ne 1}">
+		<a	href="${pageContext.request.contextPath}/art/list?curPage=1&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[처음]</a>
+	</c:if>
+	<c:if test="${page.curRange ne 1}">
+		<a	href="${pageContext.request.contextPath}/art/list?curPage=${page.startPage-1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[이전]</a>
+	</c:if>
+	<c:forEach var="pageNum" begin="${page.startPage}" end="${page.endPage}">
+		<c:choose>
+			<c:when test="${pageNum eq page.curPage}">
+				<span> <b>${pageNum} </b>
+				</span>
+			</c:when>
+			<c:otherwise>
+				<a	href="${pageContext.request.contextPath}/art/list?curPage=${pageNum}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">${pageNum}</a>
+			</c:otherwise>
+		</c:choose>
+	</c:forEach>
+	<c:if	test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
+		<a href="${pageContext.request.contextPath}/art/list?curPage=${page.endPage+1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[다음]</a>
+	</c:if>
+	<c:if	test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
+		<a	href="${pageContext.request.contextPath}/art/list?curPage=${page.pageCnt}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[끝]</a>
+	</c:if>
 </div>
 
 </div>
