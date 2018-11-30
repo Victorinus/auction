@@ -241,7 +241,8 @@
 							</div>
                         </div>
                         <div>
-                        	<input type="button" value="응찰하기" onclick="location.href='bidding?lot=${view.lot}'">
+                        	<input type="button" value="관심작품" onclick="location.href='${root}/member/myfav?myfav_art_no=${view.art_sq}&myfav_user_no=${member.user_no}'">
+                        	<input type="button" value="응찰하기" onclick="location.href=''">
                         </div>
                     </div>
                 </div>
