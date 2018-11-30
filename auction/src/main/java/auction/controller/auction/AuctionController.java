@@ -12,11 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import auction.entity.Art;
 import auction.entity.Auction;
 import auction.entity.Search;
+import auction.entity.View;
 import auction.repository.online.OnlineDao;
 import auction.util.OnlinePagingUtil;
 
@@ -112,6 +115,18 @@ public class AuctionController {
 		return "auction/online/detail";
 	}
 	
+//	현재경매 작품 상세페이지
+	@RequestMapping("/online/curdetail")
+	public String onlineCurDetail(
+									@RequestParam int art_sq,
+									@RequestParam int auction_sq,
+									Model model
+			) {
+		View view = onlineDao.find(art_sq, auction_sq);
+		model.addAttribute("view", view);
+		return "auction/online/curdetail";
+	}
+	
 //	이미지(art) 출력
 	@RequestMapping("/image/art")
 	@ResponseBody
@@ -126,7 +141,7 @@ public class AuctionController {
 		
 		return ResponseEntity.ok()
 				.contentType(getImageType(art.getArt_image()))
-//				.contentLength(contentLength)
+				.contentLength(arr.length)
 				.body(resource);
 	}
 
@@ -144,7 +159,7 @@ public class AuctionController {
 		
 		return ResponseEntity.ok()
 				.contentType(getImageType(auction.getAuction_image()))
-//				.contentLength(contentLength)
+				.contentLength(arr.length)
 				.body(resource);
 	}
 	
@@ -152,7 +167,11 @@ public class AuctionController {
 		if(art_image.endsWith(".jpg"))		return MediaType.IMAGE_JPEG;
 		if(art_image.endsWith(".png"))		return MediaType.IMAGE_PNG;
 		if(art_image.endsWith(".gif"))		return MediaType.IMAGE_GIF;
+		if(art_image.endsWith(".jpeg"))		return MediaType.IMAGE_JPEG;
 		return null;
 	}
+	
+
+	
 	
 }

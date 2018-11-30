@@ -195,6 +195,11 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 진행경매 : 상세페이지 -->
+	<select id="curDetail" resultType="view" parameterType="map">
+		select * from auction_view where a_sq=#{auction_sq} and art_sq=#{art_sq}
+	</select>
 
 	<!-- 예정경매 -->
 	<select id="upcomingAuctionCount" resultType="integer">

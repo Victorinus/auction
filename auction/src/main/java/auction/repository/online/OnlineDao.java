@@ -51,4 +51,6 @@ public interface OnlineDao {
 	
 	int getResultArtCount(String art_artist, String art_nm, int art_eprice_min, int art_eprice_max, int lot, int no);
 
+	View find(int art_sq, int auction_sq);
+
 }

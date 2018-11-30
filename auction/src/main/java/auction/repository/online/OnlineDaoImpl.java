@@ -1,6 +1,8 @@
 package auction.repository.online;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -169,6 +171,14 @@ public class OnlineDaoImpl implements OnlineDao {
 						.no(no)
 					.build();
 		return sqlSession.selectOne("resultSearchCount", paging);
+	}
+
+	@Override
+	public View find(int art_sq, int auction_sq) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("art_sq", art_sq);
+		map.put("auction_sq", auction_sq);
+		return sqlSession.selectOne("curDetail", map);
 	}
 
 }
