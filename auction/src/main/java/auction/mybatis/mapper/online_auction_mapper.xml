@@ -10,9 +10,9 @@
 			select rownum as lot, tmp.* from(
 				select * from auction_view
 				where sysdate between 
-						to_date(a_start, 'YY/MM/DD HH24:MI')  
+						to_date(a_start, 'YYYY-MM-DD HH24:MI')  
 					and 
-					to_date(a_end, 'YY/MM/DD HH24:MI')
+					to_date(a_end, 'YYYY-MM-DD HH24:MI')
 				<!-- order by art_sq asc -->
 			)tmp
 		) where lot between #{sn} and #{fn} order by #{sortType}
@@ -26,9 +26,9 @@
 				select rownum as lot, tmp.* from(
 					select * 	from auction_view
 					where sysdate between 
-							to_date(a_start, 'YY/MM/DD HH24:MI') 
+							to_date(a_start, 'YYYY-MM-DD HH24:MI') 
 						and 
-							to_date(a_end, 'YY/MM/DD HH24:MI')
+							to_date(a_end, 'YYYY-MM-DD HH24:MI')
 					<!-- order by art_sq asc -->
 				)tmp
 			)
@@ -73,7 +73,7 @@
 		select * from(
 			select rownum as rn, tmp.* from(
 				select * from auction_main 
-					where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+					where to_date(auction_start, 'YYYY-MM-DD HH24:MI')>sysdate
 				order by auction_sq asc
 			)tmp
 		) where rn between #{sn} and #{fn}
@@ -84,7 +84,7 @@
 		select * from(
 			select rownum as rn, tmp.* from(
 				select * from auction_main 
-					where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI') 
+					where sysdate>to_date(auction_end, 'YYYY-MM-DD HH24:MI') 
 				order by auction_sq asc
 			)tmp
 		) where rn between #{sn} and #{fn}
@@ -147,9 +147,9 @@
 	<select id="artListCount" parameterType="paging" resultType="integer">
 		select count(*) from auction_view 
 			where sysdate between 
-				to_date(a_start, 'YY/MM/DD HH24:MI') 
+				to_date(a_start, 'YYYY-MM-DD HH24:MI') 
 			and 
-				to_date(a_end, 'YY/MM/DD HH24:MI')
+				to_date(a_end, 'YYYY-MM-DD HH24:MI')
 	</select>
 	
 	<!-- 진행경매 : 검색 -->
@@ -158,9 +158,9 @@
 			select rownum as lot, tmp.* from(
 				select * from auction_view
 				where sysdate between
-					to_date(a_start, 'YY/MM/DD HH24:MI')
+					to_date(a_start, 'YYYY-MM-DD HH24:MI')
 				and
-					to_date(a_end, 'YY/MM/DD HH24:MI')
+					to_date(a_end, 'YYYY-MM-DD HH24:MI')
 			)tmp
 		)
 		<where>
@@ -198,12 +198,12 @@
 
 	<!-- 예정경매 -->
 	<select id="upcomingAuctionCount" resultType="integer">
-		select count(*) from auction_main where to_date(auction_start, 'YY/MM/DD HH24:MI')>sysdate
+		select count(*) from auction_main where to_date(auction_start, 'YYYY-MM-DD HH24:MI')>sysdate
 	</select>
 	
 	<!-- 경매결과 -->
 	<select id="resultAuctionCount" resultType="integer">
-		select count(*) from auction_main where sysdate>to_date(auction_end, 'YY/MM/DD HH24:MI')
+		select count(*) from auction_main where sysdate>to_date(auction_end, 'YYYY-MM-DD HH24:MI')
 	</select>
 
 	<!-- 종료경매 : 목록 -->

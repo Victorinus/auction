@@ -18,7 +18,6 @@
             margin-bottom: 15px;
         }
 
-
         .margin {
             margin-top: 15px;
         }
@@ -49,6 +48,7 @@
     <link rel="stylesheet" type="text/css" href="${root}/library/css/nouislider.css">
     <script>
         window.onload = function(){
+        	//슬라이더바
             var slider = document.getElementById('slider');
             noUiSlider.create(slider, {
                 start: [100000, 50000000],
@@ -76,39 +76,39 @@
                 epriceMax.value = values[1]
             });          
             
+            //검색 초기화
             $(".reset").click(function(){
             	console.log($(this))
             	$("input[name=art_artist]").val("");
             	$("input[name=art_nm]").val("");
             	$("input[name=lot]").val("");
             });
-            
-			setInterval(timer, 1000);
           	
-			var a_end_parsed = document.querySelector("#a_end_parsed");
-			
-			console.log(a_end_parsed);
-			console.log(a_end_parsed.val());
-          	var a_end = "2018-12-01 00:00:00"
-          
+            //남은 시간
+			var a= new Array();
+			<c:forEach var="view" items="${currentList}">
+				a.push("${view.a_end}");
+			</c:forEach>
+          		
+			setInterval(timer, 1000);
             function timer(){
                 var sysdate = new Date();
-                var end = new Date(a_end);
+                var end = new Date(a[0]);
                 var gap = Math.round((end - sysdate) / 1000);
-                console.log("millis : "+gap)
                 var D = Math.floor(gap / (60 * 60 * 24));
                 var H = Math.floor((gap - D*(60 * 60 * 24)) / (60 * 60) % (60 * 60));
                 var M = Math.floor((gap - H*(60 * 60)) / 60 % 60);
                 var S = Math.floor((gap - M*60) % 60);
-                console.log(D+"일");
-                console.log(H+"시간");
-                console.log(M+"분");
-                console.log(S+"초");
                 
-                document.querySelector("#timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
+                //document.querySelector(".timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
+                var timeleft = document.querySelectorAll(".timeleft");
+                //console.log(timeleft);
+                
+                for(i=0; i<timeleft.length; i++){
+                	timeleft[i].innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";
+                }
                 
             };
-            
         };
     </script>
 </head>
@@ -227,15 +227,13 @@
 	                        <hr>
 	                        <div class="left">
 		                        <p>
-		                        	마감시간 : 
-		                        	<span id="a_end_parsed">
-					                    <fmt:parseDate var="a_end_parsed" value="${view.a_end}" pattern="yy/MM/dd"/>
-					                    <fmt:formatDate value="${a_end_parsed}" type="both" timeStyle="long"/>
-				                    </span>
+		                        	종료시간 :
+									<fmt:parseDate var="parsed" value="${view.a_end}" pattern="yyyy-MM-dd HH:mm"/>
+									<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일 a hh시"/>
 								</p>
 								<p>
 									남은시간 : 
-									<span id="timeleft"></span>
+									<span class="timeleft"></span>
 								</p>
 								<p>총 O회 응찰</p>
 								<p>시작가 : </p>
