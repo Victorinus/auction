@@ -4,66 +4,6 @@
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
-<!-- 테스트 -->
-<div class="timerTest" align="center">
-	<h2>
-		경매 시작까지 남은시간 : 
-		<span id="counter"></span>
-	</h2>
-</div>
-<script>
-	var stime;
-	webInit();
-	function webInit(){
-		var uri = "ws://localhost:8080/auction/echo";
-			if(!window.websocket){
-				websocket = new WebSocket(uri);
-				//console.log("웹소켓 : " + websocket);
-				
-				//연결 수립 이후에 특정 상태에서 실행할 콜백 함수를 지정
-				websocket.onopen = function(e){
-					//console.log("연결되었습니다");
-					websocket.send('23');//테스트를위해  Auction_sq를 임의지정
-				};
-				websocket.onclose = function(e){
-					//console.log("연결이 종료되었습니다");
-				};
-				websocket.onerror = function(e){
-					//console.log("연결 중 오류가 발생하였습니다");
-				}
-				websocket.onmessage = function(e){
-					stime = e.data;
-					console.log(stime);//테스트
-					setInterval(getTime, 1000);
-					window.websocket.close();
-					window.websocket = null;
-				}
-			}
-
-	};
-	$(window).on("beforeunload", function(){
-		if(window.websocket){
-			window.websocket.close();
-			window.websocket = null;
-		}
-	});
-	
-	function getTime() { 
-        var now = new Date();
-		var rTime = new Date(stime); 
-		
-		//계산
-        var gap = Math.round((rTime - now.getTime()) / 1000);
-        var D = Math.floor(gap / (60 * 60 * 24));
-        var H = Math.floor((gap - D * (60 * 60 * 24)) / (60 * 60) % (60 * 60));
-        var M = Math.floor((gap - H * (60 * 60)) / 60 % 60);
-        var S = Math.floor((gap - M * 60) % 60);
-		
-		document.getElementById("counter").innerHTML = D + "일	 " + H + "시간 " + M + "분 " + S + "초"; 
-	};
-    
-</script>
-
 <style>
 	th{
 		text-align: center;

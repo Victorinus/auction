@@ -96,6 +96,9 @@
 			border-bottom: 2px solid black;
 			padding: 10px 0;
 		}
+		.body{
+			margin: auto;
+		}
 		
 		.mar-topbot-35px{
 			margin: 35px 0;
@@ -134,7 +137,6 @@
 		
 		.container{
 			display:block;
-			align:center;
 		}
 		
 		.art-main{
@@ -145,11 +147,12 @@
 			display: inline-block;
 		}
 		.image-prev{
-			padding:1px;
+			padding:50px 50px;
 			vertical-align:inherit;
 			display: block;
 			width:600px;
 			height: 500px;
+			margin: auto;
 		}
 		.auction-image-tb{
 			width: 100%;
@@ -157,16 +160,52 @@
 		.body-tb{
 			width: 100%;
 		}
-		.auction-info-tb{
+		.body-tb tbody tr td{
+			width:50%;
+		}
+		.art-info-tb{
 			width:100%;
 		}
 		.art-detail.name{
 			width:100%;
 		}
+		.state-auction-info{
+			margin: auto;
+		}
+		.state-auction{
+			padding: 15px 15px;
+			min-height: 100px;
+			background-color: lightgray;
+			margin: 15px 50px;
+		}
+		.hr{
+			margin:35px 0;
+		}
+		.hr-bold{
+			margin:50px 0;
+			height: 3px;
+			background-color: black;
+		}
+		.art-detailInfo-menu{
+			margin:30px 20px;
+		}
+		.bidding{
+			width:300px;
+		}
+		.bidding-btn{
+			background-color: #c33234;
+			color:white;
+			border: 0px solid;
+			width: 100%;
+			height: 30px;
+		}
+		
+		
 </style>
     
-   <script>
+<script>
 	$(document).ready(function() {
+		
 		function wrapWindowByMask() {
 			//화면의 높이와 너비를 구한다
 			var maskHeight = $(document).height();
@@ -178,7 +217,7 @@
 				'height' : maskHeight
 			});
 
-			//애니메이션 효과 - 일단 0.5초동안 까맣게 됐다가 80% 불투명도로 간다
+			//애니메이션 효과 - 까맣게 됐다가 살짝 어둡게
 			$('#mask').fadeIn(500);
 			$('#mask').fadeTo("slow", 0.8);
 
@@ -188,21 +227,104 @@
 
 		//검은 막 띄우기
 		$('.openMask').click(function(e) {
+			webInit()
+			timer = setInterval(getTime, 1000);
 			e.preventDefault();
 			wrapWindowByMask();
 		});
 
 		//닫기 버튼을 눌렀을 때
 		$('.frame .info-bar .close').click(function(e) {
-			//링크 기본동작은 작동하지 않도록 한다
 			e.preventDefault();
 			$('#mask, .frame').hide();
+			clearInterval(timer);
+			webFinish();
 		});
 
 		//검은 막을 눌렀을 때
 		$('#mask').click(function() {
 			$(this).hide();
 			$('.frame').hide();
+			clearInterval(timer);
+			webFinish();
+		});
+		
+		//경매의 남은시간을 계산하는 함수
+		 function getTime() { 
+	        var now = new Date();
+            var rTime = new Date("${view.a_end}"); 
+	                
+            //계산
+	        var gap = Math.round((rTime - now.getTime()) / 1000);
+	        var D = Math.floor(gap / (60 * 60 * 24));
+	        var H = Math.floor((gap - D * (60 * 60 * 24)) / (60 * 60) % (60 * 60));
+	        var M = Math.floor((gap - H * (60 * 60)) / 60 % 60);
+	        var S = Math.floor((gap - M * 60) % 60);
+	                
+            document.getElementById("counter").innerHTML = "남은시간<br>" + D + "일 " + H + "시간 " + M + "분 " + S + "초"; 
+        };
+        
+        //웹소켓 시작
+		function webInit(){
+			var uri = "ws://localhost:8080/auction/echo";
+			if(!window.websocket){
+				websocket = new WebSocket(uri);
+				console.log("웹소켓 : " + websocket);
+				
+				//연결 수립 이후에 특정 상태에서 실행할 콜백 함수를 지정
+				websocket.onopen = function(e){
+					//console.log("연결되었습니다");
+					//경매와 작품의 SQ를 보내는 함수 실행
+					sq = {
+						a_sq : "${view.a_sq}",
+						art_sq : "${view.art_sq}"
+					};
+					webSendMsg();
+				};
+				websocket.onclose = function(e){
+					//console.log("연결이 종료되었습니다");
+				};
+				websocket.onerror = function(e){
+					//console.log("연결 중 오류가 발생하였습니다");
+				}
+				websocket.onmessage = function(e){
+					var serverMsg = JSON.parse(event.data)
+					var bidDate = serverMsg.date;
+					var bidPrice = serverMsg.price;
+					var bidId = serverMsg.id;
+					addDiv(bidDate, bidPrice, bidId);
+				}
+			}
+		};
+
+		//경매와 작품의 SQ를 보내는 함수
+		function webSendMsg(){
+			websocket.send(JSON.stringify(sq));
+			setTimeout(webSendMsg, 5000);
+		};
+
+		//응찰 정보를 받아 입력하는 함수
+		function addDiv(bidDate, bidPrice, bidId) {
+			var newDiv = $("<div> " + bidId + "<br>응찰일자 : " + bidDate + "응찰가격" + bidPrice + "</div>"); 
+			$(".bid-info-list").appendChild(newDiv);
+		};
+
+		//웹소켓을 종료하는 함수
+		function webFinish() {
+			window.websocket.close();
+			window.websocket = null;
+		};
+
+		//응찰 버튼 눌렀을때
+		$(".bidding-btn").click(function() {
+			var result = confirm("응찰하시겠습니까?");
+
+			if(result) {
+
+			} else {
+				
+			}
+
 		});
 	});
 </script>
@@ -216,6 +338,17 @@
         <div class="body w100p">
         	<table class="body-tb">
         		<tbody>
+        			<tr>
+						<td colspan="2">
+							<div class="state-auction">
+								<div class="state-auction-info">
+									<div class="state-auction-nm">${view.a_nm}</div>
+									<div class="state-auction-nm">${view.a_start}</div>
+									<div class="state-auction-nm">${view.a_addr1} ${view.a_addr2}</div>
+								</div>
+							</div>
+						</td>
+        			</tr>
         			<tr>
 						<td>
 							<table class="auction-image-tb">
@@ -231,24 +364,61 @@
 							</table>
 						</td>
 						<td>
-			        		<table class="auction-info-tb">
+			        		<table class="art-info-tb">
 			        			<tbody>
 			        				<tr>
 			        					<td>
-						        			<div class="art-detail-name">
-						        				작품명
-						        			</div>
-						        			<div class="auction-detail-time">
-						        				경매 시작시간
-						        			</div>
-						        			<div class="auction-detail-menu">
-							        			<input type="button" class="openMask" value="응찰하기">
-						        			</div>
+			        						<div class="art-detail left w100p">
+							        			<div class="art-detail-lot">
+							        				LOT. ${view.lot}
+							        			</div>
+							        			<div class="art-detail-artist">
+							        				${view.art_artist}
+							        			</div>
+							        			<div class="art-detail-cdt">
+							        				${view.art_cdt}
+							        			</div>
+							        			<div class="hr"><hr></div>
+							        			<div class="art-detail-cdt">
+							        				${view.art_cdt}
+							        			</div>
+							        			<div class="art-detail-nm">
+							        				${view.art_nm}
+							        			</div>
+							        			<div class="art-detail-medium">
+							        				${view.art_medium}
+							        			</div>
+							        			<div class="art-detail-size">
+							        				${view.art_size}
+							        			</div>
+							        			<div class="hr"><hr></div>
+							        			<div class="art-detail-bp">
+							        				추정가 ${view.art_bp}
+							        			</div>
+							        			<div class="hr"><hr></div>
+							        			<div class="art-detail-menu">
+								        			<input type="button" class="openMask" value="응찰하기">
+								        			<input type="button" class="addLike" value="관심작품">
+							        			</div>
+			        						</div>
 			        					</td>
 			        				</tr>
 			        			</tbody>
 			        		</table>
 						</td>
+        			</tr>
+        			<tr>
+        				<td colspan="2">
+        					<div class="hr-bold"><hr></div>
+        					<div class="art-detailInfo">
+        						<div class="art-detailInfo-menu">
+        							<input type="button" value="작품설명">
+        						</div>
+			        			<div class="art-detailInfo-info2">
+			        				${view.art_info2}
+			        			</div>
+        					</div>
+        				</td>
         			</tr>
         		</tbody>
         	</table>
@@ -299,6 +469,47 @@
 							<th>
 								<div class="left bold head w100p">경매정보</div>
 							</th>
+							<tr>
+						</tr>
+						<tr>
+							<td>
+								<div class="art-info-count" id="counter">
+									남은시간
+									${view.a_end}
+								</div>
+							</td>
+							<td>
+								<div class="art-info-start">
+									시작시간
+									${view.a_start}
+								</div>
+							</td>
+							<td>
+								<div class="art-info-end">
+									종료시간
+									${view.a_end}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<div class="hr"><hr></div>
+								<div class="art-bidding-info">
+									<div class="art-bidding-info-bid">
+										응찰 단위 : KRW 100,000
+									</div>
+									<div class="art-bidding-info-now">
+										현재 응찰가 : KRW 1,100,000
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<div class="bidding center w100p">
+									<input type="button" class="bidding-btn" value="응찰하기">
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -308,8 +519,17 @@
 					<tbody>
 						<tr>
 							<th>
-								<div class="left bold head w100p">응찰현황</div>
+								<div class="left bold head w100p">
+									응찰현황
+								</div>
 							</th>
+						</tr>
+						<tr>
+							<td>
+								<div class="bid-info-list">
+									
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>

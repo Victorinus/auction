@@ -3,6 +3,8 @@ package auction.websocket;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +57,27 @@ public class WebsocketServer extends TextWebSocketHandler{
 //			log.debug("Text = " + result);
 //			session.sendMessage(newMessage);
 //		}
-		int auction_sq = Integer.parseInt(message.getPayload());
-		String auction_start = auctionDao.getStart(auction_sq);
+//		int auction_sq = Integer.parseInt(message.getPayload());
+//		String auction_start = auctionDao.getStart(auction_sq);
 //		log.debug("Start : {}", auction_start);//테스트
-		TextMessage newMessage = new TextMessage(auction_start.toString());
+//		TextMessage newMessage = new TextMessage(auction_start.toString());
+//		session.sendMessage(newMessage);
+		JSONParser jsonParser = new JSONParser();
+		JSONObject jsonObject = (JSONObject) jsonParser.parse(message.getPayload());
+		log.debug("A_SQ : {}", jsonObject.get("a_sq"));
+		log.debug("ART_SQ : {}", jsonObject.get("art_sq"));
+		
+		String bidDate = "2018.12.02";
+		int bidPrice = 100000;
+		String bidId = "beomseok";
+		JSONObject info =  new JSONObject();
+		info.put("bidDate", bidDate);
+		info.put("bidPrice", bidPrice);
+		info.put("bidId", bidId);
+		String sendMsg = info.toJSONString();
+		TextMessage newMessage = new TextMessage(sendMsg.toString());
 		session.sendMessage(newMessage);
+		
 	}
 	
 	
