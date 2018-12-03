@@ -7,10 +7,14 @@
     <head>
     <title>미술품 경매 | 진행경매</title>
     <style>
+		.content {
+            width: 500px;
+            margin: auto;
+        }
+    
         .row {
-            padding: 15px;
-            margin-top: 15px;
-            margin-bottom: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
         .gallery {
@@ -37,6 +41,34 @@
         .left > p{
         	text-align: left;
         	font-size: 15px;
+        }
+        
+        .form-submit {
+        	display: inline-block;
+        }
+        
+		.form-button {
+            width: 125px;
+            background-color: cornflowerblue;
+            padding: 0px;
+            border: 1px solid cornflowerblue;
+            color: white;
+            font-family: 견고딕;
+            font-size: 15px;    
+        }
+        
+        .text {
+            display: inline-block;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            vertical-align: middle;
+        }
+        
+        .img {
+            display: inline-block;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            vertical-align: middle;
         }
         
     </style>
@@ -69,7 +101,7 @@
             ];
             var epriceMin = document.getElementById('eprice_min')
             var epriceMax = document.getElementById('eprice_max')
-            console.log(value)
+            //console.log(value)
             slider.noUiSlider.on('update', function (values, handle, positions) {
                 value[handle].innerHTML = values[handle]
                 epriceMin.value = values[0]
@@ -109,6 +141,62 @@
                 }
                 
             };
+            
+            //관심작품
+            var status = true;
+            
+            $(".form-button").click(function(){
+				var target = this;
+				
+				var a_sq = $(target).attr("data-a_sq");
+				var art_sq = $(target).attr("data-art_sq");
+				var lot = $(target).attr("data-lot");
+				
+                if(status){
+                	$.ajax({
+                		type: "post",
+                		url: "/auction/myfav/register",
+                		data : {
+                			a_sq: a_sq,
+                			art_sq: art_sq,
+                			lot: lot
+                		},
+                		success : function(){
+                			
+                		}
+                	});
+                	
+                    var tag = $("<img/>")
+                    					.attr("src", "${root}/image/icon/fav.png")
+                    					.attr("width", "50%");
+                    
+                    $(this).children(".img").empty();
+                    $(this).children(".img").prepend(tag);
+                }
+                else{
+                	$.ajax({
+                		type: "post",
+                		url: "/auction/myfav/register",
+                		data : {
+                			a_sq: a_sq,
+                			art_sq: art_sq,
+                			lot: lot
+                		},
+                		success : function(){
+                			
+                		}
+                	});
+                	
+                    var tag = $("<img/>")
+                    					.attr("src", "${root}/image/icon/unfav.png")
+                    					.attr("width", "50%");
+                    
+                    $(this).children(".img").empty();
+                    $(this).children(".img").prepend(tag);
+                }
+                status = ! status;
+            })
+            
         };
     </script>
 </head>
@@ -209,7 +297,7 @@
             	<c:forEach var="view" items="${currentList}">
                 <div class="col-md-3 gallery">
                     <div>
-                        <h4>LOT. ${view.lot}</h4>
+                        <h4>LOT. <span class="lot">${view.lot}</span></h4>
                     </div>
                     <div style="border: 1px solid lightgray;">
                         <div class="margin">
@@ -217,8 +305,8 @@
                             <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
                         </div>
                         <div class="left">
-	                        <h3>${view.art_artist}</h3>
-	                        <h4>${view.art_nm}</h4>
+	                        <h3 class="art_artist">${view.art_artist}</h3>
+	                        <h4 class="art_nm">${view.art_nm}</h4>
 	                        <h4>${view.art_dt}</h4>
 	                        <hr>
 	                        <p>재질 : ${view.art_medium}</p>
@@ -240,10 +328,24 @@
 								<p>현재가 : </p>
 							</div>
                         </div>
-                        <div>
-                        	<input type="button" value="관심작품" onclick="location.href='${root}/member/myfav?myfav_art_no=${view.art_sq}&myfav_user_no=${member.user_no}'">
-                        	<input type="button" value="응찰하기" onclick="location.href=''">
-                        </div>
+						<div>
+        					<div class="row">
+        						<div class="form-submit">
+				            		<button class="form-button" 
+				            								data-a_sq="${view.a_sq}"
+				            								data-art_sq="${view.art_sq}"
+				            								data-lot="${view.lot}">
+				                		<div class="img">
+				                    		<img src="${root}/image/icon/unfav.png" width="50%">
+				                		</div>
+				                		<div class="text">관심작품</div>
+				            		</button>
+			            		</div>
+								<button class="form-button">
+									<div class="text">응찰하기</div>
+	            				</button>
+							</div>
+        				</div>
                     </div>
                 </div>
                 </c:forEach>

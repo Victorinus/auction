@@ -2,7 +2,28 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="auction.repository.member.myfav.MyfavDaoImpl">
+<mapper namespace="auction.repository.myfav.MyfavDaoImpl">
+
+	<select id="myfav_find" parameterType="myfav" resultType="integer">
+		select count(*) from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
+	</select>
+
+	<insert id="myfav_regist" parameterType="myfav">
+		insert into myfav values(
+			myfav_seq.nextval,
+			1,
+			#{a_sq},
+			#{art_sq},
+			sysdate
+		)
+	</insert>
 	
-		
+	<delete id="myfav_delete" parameterType="myfav">
+		delete from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
+	</delete>
+	
+	<select id="myfav_list" parameterType="map" resultType="myfav">
+		select * from myfav where user_no=#{user}
+	</select>
+	
 </mapper>
