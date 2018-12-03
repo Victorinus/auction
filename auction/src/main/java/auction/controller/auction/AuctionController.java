@@ -3,6 +3,7 @@ package auction.controller.auction;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,19 +13,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import auction.entity.Art;
 import auction.entity.Auction;
+import auction.entity.Bid;
 import auction.entity.Search;
 import auction.entity.View;
 import auction.repository.online.OnlineDao;
@@ -123,7 +123,9 @@ public class AuctionController {
 									Model model
 			) {
 		View view = onlineDao.find(art_sq, auction_sq);
+		List<Bid> bid = onlineDao.getBid(art_sq, auction_sq);
 		model.addAttribute("view", view);
+		model.addAttribute("bid", bid);
 		return "auction/online/curdetail";
 	}
 	

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 <html>
     <head>
@@ -199,13 +200,32 @@
 			width: 100%;
 			height: 30px;
 		}
-		
+		.bid-info-list{
+			height:500px;
+			overflow: auto;
+		}
+		.art-info-warning{
+			color: #c33234;
+			font-size:15px;
+			font-weight: bold;
+			padding:20 0 0px;
+		}
+		.bidbtn{
+			background-color: #555;
+			color: #fff;
+			font-size: 13px;
+			height: 24px;
+			width: 80px;
+			border: 0px;
+			margin: 5px 0;
+		}
 		
 </style>
     
 <script>
 	$(document).ready(function() {
-		
+		//웹소켓 접속
+		webInit();
 		function wrapWindowByMask() {
 			//화면의 높이와 너비를 구한다
 			var maskHeight = $(document).height();
@@ -227,7 +247,6 @@
 
 		//검은 막 띄우기
 		$('.openMask').click(function(e) {
-			webInit()
 			timer = setInterval(getTime, 1000);
 			e.preventDefault();
 			wrapWindowByMask();
@@ -238,7 +257,6 @@
 			e.preventDefault();
 			$('#mask, .frame').hide();
 			clearInterval(timer);
-			webFinish();
 		});
 
 		//검은 막을 눌렀을 때
@@ -260,8 +278,8 @@
 	        var H = Math.floor((gap - D * (60 * 60 * 24)) / (60 * 60) % (60 * 60));
 	        var M = Math.floor((gap - H * (60 * 60)) / 60 % 60);
 	        var S = Math.floor((gap - M * 60) % 60);
-	                
-            document.getElementById("counter").innerHTML = "남은시간<br>" + D + "일 " + H + "시간 " + M + "분 " + S + "초"; 
+	        
+            document.getElementById("counter").innerHTML = D + "일 " + H + "시간 " + M + "분 " + S + "초"; 
         };
         
         //웹소켓 시작
@@ -269,17 +287,11 @@
 			var uri = "ws://localhost:8080/auction/echo";
 			if(!window.websocket){
 				websocket = new WebSocket(uri);
-				console.log("웹소켓 : " + websocket);
+				//console.log("웹소켓 : " + websocket);
 				
 				//연결 수립 이후에 특정 상태에서 실행할 콜백 함수를 지정
 				websocket.onopen = function(e){
 					//console.log("연결되었습니다");
-					//경매와 작품의 SQ를 보내는 함수 실행
-					sq = {
-						a_sq : "${view.a_sq}",
-						art_sq : "${view.art_sq}"
-					};
-					webSendMsg();
 				};
 				websocket.onclose = function(e){
 					//console.log("연결이 종료되었습니다");
@@ -288,45 +300,72 @@
 					//console.log("연결 중 오류가 발생하였습니다");
 				}
 				websocket.onmessage = function(e){
-					var serverMsg = JSON.parse(event.data)
-					var bidDate = serverMsg.date;
-					var bidPrice = serverMsg.price;
-					var bidId = serverMsg.id;
-					addDiv(bidDate, bidPrice, bidId);
+					var serverMsg = JSON.parse(e.data)
+					var bid_date = serverMsg.bid_date;
+					var bid_price = serverMsg.bid_price;
+					var bid_user = serverMsg.bid_user;
+					//console.log("serverMsg : " + serverMsg);//테스트
+					//console.log("bid_date : " + bid_date);//테스트
+					//console.log("bid_price : " + bid_price);//테스트
+				//	console.log("bid_user : " + bid_user);//테스트
+					addDiv(bid_date, bid_price, bid_user);
 				}
 			}
 		};
 
 		//경매와 작품의 SQ를 보내는 함수
 		function webSendMsg(){
-			websocket.send(JSON.stringify(sq));
-			setTimeout(webSendMsg, 5000);
+			websocket.send(JSON.stringify(bidInfo));
 		};
 
 		//응찰 정보를 받아 입력하는 함수
-		function addDiv(bidDate, bidPrice, bidId) {
-			var newDiv = $("<div> " + bidId + "<br>응찰일자 : " + bidDate + "응찰가격" + bidPrice + "</div>"); 
-			$(".bid-info-list").appendChild(newDiv);
+		function addDiv(bid_date, bid_price, bid_user) {
+			var div = document.createElement('div');
+			div.innerHTML= bid_user + "<br>응찰가격 : " + moneyForm.to(bid_price) + "<br>응찰일자 : " + bid_date + "<hr>";
+			$(".bid-info-list").prepend(div);
 		};
 
-		//웹소켓을 종료하는 함수
-		function webFinish() {
-			window.websocket.close();
-			window.websocket = null;
-		};
+
 
 		//응찰 버튼 눌렀을때
 		$(".bidding-btn").click(function() {
-			var result = confirm("응찰하시겠습니까?");
+			var bid_result = confirm("응찰하시겠습니까?");
 
-			if(result) {
-
+			if(bid_result) {
+				//응찰정보를 보내는 함수 실행
+				bidInfo = {
+					a_sq : "${view.a_sq}",
+					art_sq : "${view.art_sq}",
+					bid_user : "test",
+					bid_price : 2300000
+				};
+				webSendMsg();
 			} else {
 				
 			}
 
 		});
+		
+		//페이지를 나가게되면
+		$(window).on("beforeunload", function(){
+			if(window.websocket){
+				webFinish();
+			}
+		});
+		//웹소켓을 종료하는 함수
+		function webFinish() {
+			window.websocket.close();
+			window.websocket = null;
+		};
+		
+		var moneyForm =  wNumb({
+            decimals: 0,
+            thousand: ',',
+            prefix: 'KRW ',
+        })
+		
 	});
+
 </script>
 </head>
 <body>
@@ -441,9 +480,9 @@
 				<table class="auction-info-tb w100p">
 					<tbody>
 						<tr>
-							<th>
+							<td>
 								<div class="left bold head w100p">작품정보</div>
-							</th>
+							</td>
 						</tr>
 						<tr>
 							<td>
@@ -466,33 +505,49 @@
 				<table class="w100p">
 					<tbody>
 						<tr>
-							<th>
+							<td>
 								<div class="left bold head w100p">경매정보</div>
-							</th>
+								
+							</td>
 							<tr>
 						</tr>
 						<tr>
 							<td>
-								<div class="art-info-count" id="counter">
-									남은시간
-									${view.a_end}
+								<div class="art-info-warning">
+									응찰 및 낙찰 이후에는 취소 할 수 없습니다.<br>
+									신중한 응찰 부탁드립니다.<br><br>
+									응찰 후 반드시 새로고침 버튼을 클릭하여<br>
+									응찰현황을 확인하시기 바랍니다.								
 								</div>
+								<div class="hr"><hr></div>
 							</td>
+						</tr>
+						<tr>
 							<td>
-								<div class="art-info-start">
-									시작시간
-									${view.a_start}
-								</div>
-							</td>
-							<td>
-								<div class="art-info-end">
-									종료시간
-									${view.a_end}
+								<div class="art-info-count">
+									<input type="button" class="bidbtn" value="남은시간">
+									<span id="counter"></span>
 								</div>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3">
+							<td>
+								<div class="art-info-start">
+									<input type="button" class="bidbtn" value="시작시간">
+									<span>${view.a_start}</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="art-info-end">
+									<input type="button" class="bidbtn" value="종료시간">
+									<span>${view.a_end}</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
 								<div class="hr"><hr></div>
 								<div class="art-bidding-info">
 									<div class="art-bidding-info-bid">
@@ -505,9 +560,9 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="3">
+							<td>
 								<div class="bidding center w100p">
-									<input type="button" class="bidding-btn" value="응찰하기">
+									<input type="button" class="bidding-btn" value="즉시응찰">
 								</div>
 							</td>
 						</tr>
@@ -518,16 +573,23 @@
 				<table class="w100p">
 					<tbody>
 						<tr>
-							<th>
+							<td>
 								<div class="left bold head w100p">
 									응찰현황
 								</div>
-							</th>
+							</td>
 						</tr>
 						<tr>
 							<td>
 								<div class="bid-info-list">
-									
+									<c:forEach var="bid" items="${bid}">
+										<div>
+											${bid.user_id}<br>
+											응찰가격 : ${bid.bid_bp}<br>
+											응찰일자 : ${bid.bid_dt.substring(0, 19)}
+										</div>
+										<hr>
+									</c:forEach>
 								</div>
 							</td>
 						</tr>

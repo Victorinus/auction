@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import auction.entity.Auction;
+import auction.entity.Bid;
 import auction.entity.Paging;
 import auction.entity.View;
 
@@ -179,6 +180,25 @@ public class OnlineDaoImpl implements OnlineDao {
 		map.put("art_sq", art_sq);
 		map.put("auction_sq", auction_sq);
 		return sqlSession.selectOne("curDetail", map);
+	}
+
+	@Override
+	public List<Bid> getBid(int art_sq, int auction_sq) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("art_sq", art_sq);
+		map.put("auction_sq", auction_sq);
+		return sqlSession.selectList("getBidList", map);
+	}
+
+	@Override
+	public int insertBid(Bid bid) {
+		sqlSession.insert("insertBid", bid);
+		return bid.getBid_sq();
+	}
+
+	@Override
+	public String getBidDate(int bid_sq) {
+		return sqlSession.selectOne("getBidDate", bid_sq);
 	}
 
 }
