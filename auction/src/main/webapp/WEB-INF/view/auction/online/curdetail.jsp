@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
 <html>
     <head>
@@ -13,7 +14,18 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     
     <style>
-    
+    	@font-face{
+			font-family:"Nanum Gothic";
+			src:url('/fonts/NanumGothic.eot');
+			src:url('/fonts/NanumGothic.eot?#iefix') format('embedded-opentype'),
+			url('/fonts/NanumGothic.woff') format('woff'),
+			url('/fonts/NanumGothic.ttf') format('truetype');
+			url('/fonts/NanumGothic.svg#NanumGothic') format('svg')
+			src:local(※), url('/fonts/NanumGothic.woff') format('woff');
+		}
+		*{
+			font-family: 'Nanum Gothic';
+		}
    		th, td {
    			vertical-align: inherit;
 		}
@@ -219,7 +231,12 @@
 			border: 0px;
 			margin: 5px 0;
 		}
-		
+		.bid-info-list-val{
+			padding:20px 15px;
+		}
+		.lh15{
+			line-height: 25px;
+		}
 </style>
     
 <script>
@@ -321,6 +338,7 @@
 		//응찰 정보를 받아 입력하는 함수
 		function addDiv(bid_date, bid_price, bid_user) {
 			var div = document.createElement('div');
+			div.classList.add('bid-info-list-val');
 			div.innerHTML= bid_user + "<br>응찰가격 : " + moneyForm.to(bid_price) + "<br>응찰일자 : " + bid_date + "<hr>";
 			$(".bid-info-list").prepend(div);
 		};
@@ -358,12 +376,14 @@
 			window.websocket = null;
 		};
 		
+		//금액 형식 변환
 		var moneyForm =  wNumb({
             decimals: 0,
             thousand: ',',
             prefix: 'KRW ',
-        })
+        });
 		
+        
 	});
 
 </script>
@@ -551,10 +571,42 @@
 								<div class="hr"><hr></div>
 								<div class="art-bidding-info">
 									<div class="art-bidding-info-bid">
-										응찰 단위 : KRW 100,000
+										응찰 단위 : KRW 
+										<c:choose>
+											<c:when test="${art.ep>100000000}">
+												<c:set var="bidUnit" value="500000"/>
+											</c:when>
+											<c:when test="${art.ep>30000000}">
+												<c:set var="bidUnit" value="400000"/>
+											</c:when>
+											<c:when test="${art.ep>5000000}">
+												<c:set var="bidUnit" value="200000"/>
+											</c:when>
+											<c:when test="${art.ep>3000000}">
+												<c:set var="bidUnit" value="100000"/>
+											</c:when>
+											<c:when test="${art.ep>1000000}">
+												<c:set var="bidUnit" value="50000"/>
+											</c:when>
+											<c:when test="${art.ep>500000}">
+												<c:set var="bidUnit" value="30000"/>
+											</c:when>
+											<c:when test="${art.ep>200000}">
+												<c:set var="bidUnit" value="20000"/>
+											</c:when>
+											<c:otherwise>
+												<c:set var="bidUnit" value="10000"/>
+											</c:otherwise>
+										</c:choose>
+										${bidUnit}
 									</div>
 									<div class="art-bidding-info-now">
-										현재 응찰가 : KRW 1,100,000
+										현재 응찰가 : KRW 
+										<c:forEach var="bid" items="${bid}" varStatus="status">
+											<c:if test="${status.first}">
+												<fmt:formatNumber value="${bid.bid_bp + bidUnit}" pattern="#,###" />
+											</c:if>
+										</c:forEach>
 									</div>
 								</div>
 							</td>
@@ -583,12 +635,17 @@
 							<td>
 								<div class="bid-info-list">
 									<c:forEach var="bid" items="${bid}">
-										<div>
-											${bid.user_id}<br>
-											응찰가격 : ${bid.bid_bp}<br>
-											응찰일자 : ${bid.bid_dt.substring(0, 19)}
+										<div class="bid-info-list-val">
+											<div class="lh15">
+												<c:set var="length" value="${fn:length(bid.user_id)}"/>
+												<c:set var="harfLength" value="${fn:length(bid.user_id)/2}"/>
+												<c:set var="CeilHarfLength" value="${harfLength+(1-(harfLength%1))%1}"/>
+												<c:forEach begin="1" end="${CeilHarfLength}" step="1">*</c:forEach>${fn:substring((bid.user_id),CeilHarfLength,length)}
+											</div>
+											<div class="lh15">응찰가격 : KRW <fmt:formatNumber value="${bid.bid_bp}" pattern="#,###" /></div>
+											<div class="lh15">응찰일자 : <span class="bid-info-list-val-dt">${bid.bid_dt.substring(0, 19)}</span></div>
 										</div>
-										<hr>
+										<hr style="margin: 0px;">
 									</c:forEach>
 								</div>
 							</td>
