@@ -17,4 +17,6 @@ public interface MyfavDao {
 
 	List<Myfav> list(int user_no);
 
+	List<Myfav> myfavList(Myfav myfav);
+
 }

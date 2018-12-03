@@ -22,8 +22,8 @@
 		delete from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
 	</delete>
 	
-	<select id="myfav_list" parameterType="map" resultType="myfav">
-		select * from myfav where user_no=#{user}
+	<select id="myfav_list" parameterType="myfav" resultType="myfav">
+		select auction_no, art_no from myfav where auction_no=#{a_sq} and art_no=#{art_sq}	
 	</select>
 	
 </mapper>

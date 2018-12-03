@@ -55,13 +55,16 @@ public class MyfavDaoImpl implements MyfavDao {
 	public List<Myfav> list(int user_no) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", user_no);
-		List<Myfav> list = sqlSession.selectList("myfav_list", map);
+		List<Myfav> list = sqlSession.selectList("myfav_List", map);
 		for(Myfav myfav : list) {
 			log.debug("결과 = {}", myfav);
 		}
 		return list; 
 	}
 
-	
+	@Override
+	public List<Myfav> myfavList(Myfav myfav) {
+		return sqlSession.selectList("myfav_list");
+	}	
 	
 }

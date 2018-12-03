@@ -47,11 +47,21 @@
         	display: inline-block;
         }
         
-		.form-button {
+		.form-fav-button {
             width: 125px;
             background-color: cornflowerblue;
             padding: 0px;
             border: 1px solid cornflowerblue;
+            color: white;
+            font-family: 견고딕;
+            font-size: 15px;    
+        }
+        
+        .form-bid-button {
+            width: 125px;
+            background-color: lightblue;
+            padding: 0px;
+            border: 1px solid lightblue;
             color: white;
             font-family: 견고딕;
             font-size: 15px;    
@@ -143,58 +153,51 @@
             };
             
             //관심작품
-            var status = true;
+			var status = [true, true, true, true, true, true, true, true, true, true];
             
-            $(".form-button").click(function(){
+            $(".form-fav-button").click(function(){
 				var target = this;
+				console.log($(".form-fav-button"))
+				console.log($(this))
 				
+				var index = $(target).attr("data-index");
 				var a_sq = $(target).attr("data-a_sq");
 				var art_sq = $(target).attr("data-art_sq");
 				var lot = $(target).attr("data-lot");
 				
-                if(status){
-                	$.ajax({
-                		type: "post",
-                		url: "/auction/myfav/register",
-                		data : {
-                			a_sq: a_sq,
-                			art_sq: art_sq,
-                			lot: lot
-                		},
-                		success : function(){
-                			
-                		}
-                	});
-                	
-                    var tag = $("<img/>")
-                    					.attr("src", "${root}/image/icon/fav.png")
-                    					.attr("width", "50%");
-                    
-                    $(this).children(".img").empty();
-                    $(this).children(".img").prepend(tag);
-                }
-                else{
-                	$.ajax({
-                		type: "post",
-                		url: "/auction/myfav/register",
-                		data : {
-                			a_sq: a_sq,
-                			art_sq: art_sq,
-                			lot: lot
-                		},
-                		success : function(){
-                			
-                		}
-                	});
-                	
-                    var tag = $("<img/>")
-                    					.attr("src", "${root}/image/icon/unfav.png")
-                    					.attr("width", "50%");
-                    
-                    $(this).children(".img").empty();
-                    $(this).children(".img").prepend(tag);
-                }
-                status = ! status;
+				console.log(status[index])
+				
+				$.ajax({
+            		type: "post",
+            		url: "/auction/myfav/register",
+            		data : {
+            			a_sq: a_sq,
+            			art_sq: art_sq,
+            			lot: lot
+            		},
+            		success : function(xml){
+            			console.log("데이터 전송 완료")
+            		}
+            	});
+				
+				if(status[index]){
+					var tag = $("<img/>")
+					.attr("src", "${root}/image/icon/fav.png")
+					.attr("width", "50%");
+
+					$(this).children(".img").empty();
+					$(this).children(".img").prepend(tag);
+				}
+				else{
+					var tag = $("<img/>")
+					.attr("src", "${root}/image/icon/unfav.png")
+					.attr("width", "50%");
+
+					$(this).children(".img").empty();
+					$(this).children(".img").prepend(tag);
+				}
+                status[index] = !status[index];
+                console.log(status[index]);
             })
             
         };
@@ -294,7 +297,7 @@
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-            	<c:forEach var="view" items="${currentList}">
+            	<c:forEach var="view" items="${currentList}" varStatus="status">
                 <div class="col-md-3 gallery">
                     <div>
                         <h4>LOT. <span class="lot">${view.lot}</span></h4>
@@ -331,7 +334,8 @@
 						<div>
         					<div class="row">
         						<div class="form-submit">
-				            		<button class="form-button" 
+				            		<button class="form-fav-button" 
+				            								data-index="${status.index}"
 				            								data-a_sq="${view.a_sq}"
 				            								data-art_sq="${view.art_sq}"
 				            								data-lot="${view.lot}">
@@ -341,7 +345,7 @@
 				                		<div class="text">관심작품</div>
 				            		</button>
 			            		</div>
-								<button class="form-button">
+								<button class="form-bid-button">
 									<div class="text">응찰하기</div>
 	            				</button>
 							</div>
