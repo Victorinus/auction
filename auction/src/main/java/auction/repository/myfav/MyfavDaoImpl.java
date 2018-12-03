@@ -1,8 +1,6 @@
 package auction.repository.myfav;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -52,19 +50,13 @@ public class MyfavDaoImpl implements MyfavDao {
 	}
 
 	@Override
-	public List<Myfav> list(int user_no) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("user", user_no);
-		List<Myfav> list = sqlSession.selectList("myfav_List", map);
+	public List<Myfav> list() {
+		List<Myfav> list = sqlSession.selectList("myfav_list");
 		for(Myfav myfav : list) {
 			log.debug("결과 = {}", myfav);
 		}
-		return list; 
+		return list;
 	}
 
-	@Override
-	public List<Myfav> myfavList(Myfav myfav) {
-		return sqlSession.selectList("myfav_list");
-	}	
 	
 }

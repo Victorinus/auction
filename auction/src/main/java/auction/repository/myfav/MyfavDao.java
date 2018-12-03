@@ -15,8 +15,6 @@ public interface MyfavDao {
 
 	void delete(int a_sq, int art_sq);
 
-	List<Myfav> list(int user_no);
-
-	List<Myfav> myfavList(Myfav myfav);
+	List<Myfav> list();
 
 }

@@ -96,9 +96,9 @@
                 start: [100000, 50000000],
                 connect: true,
                 range: {
-                    'min': [100000],
-                    'max': [50000000]
-                },
+                	'min': [100000], 
+                	'max': [50000000]
+            	},
                 format: wNumb({
                     decimals: 0,
                     thousand: ',',
@@ -120,7 +120,6 @@
             
             //검색 초기화
             $(".reset").click(function(){
-            	console.log($(this))
             	$("input[name=art_artist]").val("");
             	$("input[name=art_nm]").val("");
             	$("input[name=lot]").val("");
@@ -145,27 +144,21 @@
                 //document.querySelector(".timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
                 var timeleft = document.querySelectorAll(".timeleft");
                 //console.log(timeleft);
-                
                 for(i=0; i<timeleft.length; i++){
                 	timeleft[i].innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";
                 }
-                
             };
             
             //관심작품
-			var status = [true, true, true, true, true, true, true, true, true, true];
+			var status = 
+				[true, true, true, true, true, true, true, true, true, true];
             
             $(".form-fav-button").click(function(){
 				var target = this;
-				console.log($(".form-fav-button"))
-				console.log($(this))
-				
 				var index = $(target).attr("data-index");
 				var a_sq = $(target).attr("data-a_sq");
 				var art_sq = $(target).attr("data-art_sq");
 				var lot = $(target).attr("data-lot");
-				
-				console.log(status[index])
 				
 				$.ajax({
             		type: "post",
@@ -184,7 +177,6 @@
 					var tag = $("<img/>")
 					.attr("src", "${root}/image/icon/fav.png")
 					.attr("width", "50%");
-
 					$(this).children(".img").empty();
 					$(this).children(".img").prepend(tag);
 				}
@@ -192,14 +184,12 @@
 					var tag = $("<img/>")
 					.attr("src", "${root}/image/icon/unfav.png")
 					.attr("width", "50%");
-
 					$(this).children(".img").empty();
 					$(this).children(".img").prepend(tag);
 				}
+				
                 status[index] = !status[index];
-                console.log(status[index]);
             })
-            
         };
     </script>
 </head>
@@ -273,85 +263,66 @@
             </div>
         </form>
         <!-- 네비게이터/정렬 -->
-        <div class="row">
-        	<div class="col-md-10 col-md-offset-1">
-        		<div class="col-md-6 text-left">
-             		네비게이터
-        		</div>
-        		<form action="current" method="post">
-	        		<div class="col-md-6 text-right">
-	        			정렬
-	        			<select name="sortType">
-							<option value="lot asc">번호 오름차순</option>
-			        		<option value="lot desc">번호 내림차순</option>
-			        		<option value="art_artist asc">작가명 오름차순 </option>
-			        		<option value="art_artist desc">작가명 내림차순</option>
-			        		<option value="art_nm asc">작품명 오름차순 </option>
-			        		<option value="art_nm desc">작품명 내림차순</option>
-	        			</select>
-	        			<input type="submit" value="보기">
-	        		</div>
-        		</form>
-        	</div>
-        </div>
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
             	<c:forEach var="view" items="${currentList}" varStatus="status">
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. <span class="lot">${view.lot}</span></h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <!-- <img src="http://dummyimage.com/200x200"> -->
-                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
-                        </div>
-                        <div class="left">
-	                        <h3 class="art_artist">${view.art_artist}</h3>
-	                        <h4 class="art_nm">${view.art_nm}</h4>
-	                        <h4>${view.art_dt}</h4>
-	                        <hr>
-	                        <p>재질 : ${view.art_medium}</p>
-	                        <p>규격 : ${view.art_size}</p>
-	                        <p>추정가 : ${view.art_eprice}</p>
-	                        <hr>
+	                <div class="col-md-3 gallery">	                	
+	                	<h4>auction_no = ${myfavList[status.index].auction_no}</h4>
+	                	<h4>art_no = ${myfavList[status.index].art_no}</h4>
+	                	<div>
+	                        <h4>LOT. <span class="lot">${view.lot}</span></h4>
+	                    </div>
+	                    <div style="border: 1px solid lightgray;">
+	                        <div class="margin">
+	                            <!-- <img src="http://dummyimage.com/200x200"> -->
+	                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
+	                        </div>
 	                        <div class="left">
-		                        <p>
-		                        	종료시간 :
-									<fmt:parseDate var="parsed" value="${view.a_end}" pattern="yyyy-MM-dd HH:mm"/>
-									<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일 a hh시"/>
-								</p>
-								<p>
-									남은시간 : 
-									<span class="timeleft"></span>
-								</p>
-								<p>총 O회 응찰</p>
-								<p>시작가 : </p>
-								<p>현재가 : </p>
-							</div>
-                        </div>
-						<div>
-        					<div class="row">
-        						<div class="form-submit">
-				            		<button class="form-fav-button" 
-				            								data-index="${status.index}"
-				            								data-a_sq="${view.a_sq}"
-				            								data-art_sq="${view.art_sq}"
-				            								data-lot="${view.lot}">
-				                		<div class="img">
-				                    		<img src="${root}/image/icon/unfav.png" width="50%">
-				                		</div>
-				                		<div class="text">관심작품</div>
-				            		</button>
-			            		</div>
-								<button class="form-bid-button">
-									<div class="text">응찰하기</div>
-	            				</button>
-							</div>
-        				</div>
-                    </div>
-                </div>
+		                        <h3 class="art_artist">${view.art_artist}</h3>
+		                        <h4 class="art_nm">${view.art_nm}</h4>
+		                        <h4>${view.art_dt}</h4>
+		                        <hr>
+		                        <p>재질 : ${view.art_medium}</p>
+		                        <p>규격 : ${view.art_size}</p>
+		                        <p>추정가 : ${view.art_eprice}</p>
+		                        <hr>
+		                        <div class="left">
+			                        <p>
+			                        	종료시간 :
+										<fmt:parseDate var="parsed" value="${view.a_end}" pattern="yyyy-MM-dd HH:mm"/>
+										<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일 a hh시"/>
+									</p>
+									<p>
+										남은시간 : 
+										<span class="timeleft"></span>
+									</p>
+									<p>총 O회 응찰</p>
+									<p>시작가 : </p>
+									<p>현재가 : </p>
+								</div>
+	                        </div>
+							<div>
+	        					<div class="row">
+	        						<div class="form-submit">
+					            		<button class="form-fav-button" 
+					            								data-index="${status.index}"
+					            								data-a_sq="${view.a_sq}"
+					            								data-art_sq="${view.art_sq}"
+					            								data-lot="${view.lot}">
+					                		<div class="img">
+					                    		<img src="${root}/image/icon/unfav.png" width="50%">
+					                		</div>
+					                		<div class="text">관심작품</div>
+					            		</button>
+				            		</div>
+									<button class="form-bid-button">
+										<div class="text">응찰하기</div>
+		            				</button>
+								</div>
+	        				</div>
+	                    </div>
+	                </div>
                 </c:forEach>
             </div>
         </div>

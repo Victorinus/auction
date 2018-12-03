@@ -43,16 +43,16 @@ public class MyfavController {
 		}
 	}
 	
-	@RequestMapping(value="/myfav/list", method=RequestMethod.POST)
-	public String list(
-						@RequestParam(defaultValue="1") int user_no,
-						Model model) {
-		List<Myfav> list = myfavDao.list(user_no);
-		for(int i=0; i<list.size(); i++) {
-			log.debug("결과 = {}", list.get(i));
-		}
-		model.addAttribute("myfavList", list);
-		return "/myfav/list";
-	}
+//	@RequestMapping("/myfav/list")
+//	public String list(
+//						@RequestParam(defaultValue="1") int user_no,
+//						Model model) {
+//		List<Myfav> list = myfavDao.list(user_no);
+//		for(int i=0; i<list.size(); i++) {
+//			log.debug("결과 = {}", list.get(i));
+//		}
+//		model.addAttribute("myfavList", list);
+//		return "/myfav/list";
+//	}
 	
 }
