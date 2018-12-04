@@ -40,12 +40,12 @@ public class AdminAuctionController {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-	@RequestMapping("/auction/register")
+	@RequestMapping("/admin/auction/register")
 	public String register() {
 		return "/admin/auction/register";
 	}
 	
-	@RequestMapping(value="/auction/register", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/auction/register", method=RequestMethod.POST)
 	public String register(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image) throws IllegalStateException, IOException {
 		
 		//파일의 존재 및 이미지형식 검사
@@ -65,7 +65,7 @@ public class AdminAuctionController {
 		return "redirect:/auction/list";
 	}
 	
-	@RequestMapping("/auction/list")
+	@RequestMapping("/admin/auction/list")
 	public String list(
 				Model model,
 				HttpServletRequest request,
@@ -85,14 +85,14 @@ public class AdminAuctionController {
 		return "/admin/auction/list";
 	}
 
-	@RequestMapping("/auction/edit")
+	@RequestMapping("/admin/auction/edit")
 	public String edit(Model model, @RequestParam int auction_sq) {
 		Auction auction = auctionDao.find(auction_sq);
 		model.addAttribute("auction", auction);
 		return "/admin/auction/edit";
 	}
 	
-	@RequestMapping(value="/auction/edit", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/auction/edit", method=RequestMethod.POST)
 	public String edit(@ModelAttribute Auction auction, @RequestParam(required=false) MultipartFile image, @RequestParam(required=false) String prevImage) throws IllegalStateException, IOException {
 		
 		//파일의 존재 및 이미지형식 검사
@@ -120,7 +120,7 @@ public class AdminAuctionController {
 		return "redirect:/auction/list";
 	}
 	
-	@RequestMapping("/auction/delete")
+	@RequestMapping("/admin/auction/delete")
 	public String delete(@RequestParam int auction_sq) {
 		auctionDao.delete(auction_sq);
 		return "redirect:/auction/list";

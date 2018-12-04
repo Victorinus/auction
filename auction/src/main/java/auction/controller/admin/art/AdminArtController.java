@@ -39,12 +39,12 @@ public class AdminArtController {
         
         private Logger log = LoggerFactory.getLogger(getClass());
         
-        @RequestMapping("/art/register")
+        @RequestMapping("/admin/art/register")
         public String register() {
                 return "/admin/art/register";
         }
         
-        @RequestMapping(value="/art/register", method=RequestMethod.POST)
+        @RequestMapping(value="/admin/art/register", method=RequestMethod.POST)
         public String register(@ModelAttribute Art art, @RequestParam(required=false) MultipartFile image) throws IllegalStateException, IOException {
 
         	//파일의 존재 및 이미지형식 검사
@@ -61,10 +61,10 @@ public class AdminArtController {
             //DB등록
             artDao.insert(art);
                     
-            return "redirect:/art/list";
+            return "redirect:/admin/art/list";
         }
         
-        @RequestMapping("/art/list")
+        @RequestMapping("/admin/art/list")
     	public String list(
 				Model model,
 				HttpServletRequest request,
@@ -84,21 +84,21 @@ public class AdminArtController {
 			return "/admin/art/list";
         }
 
-        @RequestMapping("/art/detail")
+        @RequestMapping("/admin/art/detail")
         public String detail(Model model, @RequestParam int art_sq) {
             Art art = artDao.find(art_sq);
             model.addAttribute("art", art);
             return "/admin/art/detail";
         }
         
-        @RequestMapping("/art/edit")
+        @RequestMapping("/admin/art/edit")
         public String edit(Model model, @RequestParam int art_sq) {
             Art art = artDao.find(art_sq);
             model.addAttribute("art", art);
             return "/admin/art/edit";
         }
         
-        @RequestMapping(value="/art/edit", method=RequestMethod.POST)
+        @RequestMapping(value="/admin/art/edit", method=RequestMethod.POST)
         public String edit(@ModelAttribute Art art, @RequestParam(required=false) MultipartFile image, @RequestParam(required=false) String prevImage) throws IllegalStateException, IOException {
 
 			// 파일의 존재 및 이미지형식 검사
@@ -122,13 +122,13 @@ public class AdminArtController {
 			}
 			artDao.edit(art);
 	
-			return "redirect:/art/detail?art_sq=" + art.getArt_sq();
+			return "redirect:/admin/art/detail?art_sq=" + art.getArt_sq();
         }
         
-        @RequestMapping("/art/delete")
+        @RequestMapping("/admin/art/delete")
         public String delete(@RequestParam int art_sq) {
             artDao.delete(art_sq);
-            return "redirect:/art/list";
+            return "redirect:/admin/art/list";
         }
         
 }

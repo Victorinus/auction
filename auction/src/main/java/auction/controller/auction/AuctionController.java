@@ -24,8 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import auction.entity.Art;
 import auction.entity.Auction;
+import auction.entity.Bid;
 import auction.entity.Search;
-import auction.entity.myfav.Myfav;
+import auction.entity.View;
 import auction.repository.myfav.MyfavDao;
 import auction.repository.online.OnlineDao;
 import auction.util.OnlinePagingUtil;
@@ -119,6 +120,20 @@ public class AuctionController {
 		return "auction/online/detail";
 	}
 	
+//	현재경매 작품 상세페이지
+	@RequestMapping("/online/curdetail")
+	public String onlineCurDetail(
+									@RequestParam int art_sq,
+									@RequestParam int auction_sq,
+									Model model
+			) {
+		View view = onlineDao.find(art_sq, auction_sq);
+		List<Bid> bid = onlineDao.getBid(art_sq, auction_sq);
+		model.addAttribute("view", view);
+		model.addAttribute("bid", bid);
+		return "auction/online/curdetail";
+	}
+	
 //	이미지(art) 출력
 	@RequestMapping("/image/art")
 	@ResponseBody
@@ -133,7 +148,7 @@ public class AuctionController {
 		
 		return ResponseEntity.ok()
 				.contentType(getImageType(art.getArt_image()))
-//				.contentLength(contentLength)
+				.contentLength(arr.length)
 				.body(resource);
 	}
 
@@ -151,7 +166,7 @@ public class AuctionController {
 		
 		return ResponseEntity.ok()
 				.contentType(getImageType(auction.getAuction_image()))
-//				.contentLength(contentLength)
+				.contentLength(arr.length)
 				.body(resource);
 	}
 	
@@ -159,7 +174,11 @@ public class AuctionController {
 		if(image.endsWith(".jpg"))		return MediaType.IMAGE_JPEG;
 		if(image.endsWith(".png"))		return MediaType.IMAGE_PNG;
 		if(image.endsWith(".gif"))		return MediaType.IMAGE_GIF;
+		if(image.endsWith(".jpeg"))		return MediaType.IMAGE_JPEG;
 		return null;
 	}
+	
+
+	
 	
 }

@@ -294,12 +294,19 @@
 	                    <div style="border: 1px solid lightgray;">
 	                        <div class="margin">
 	                            <!-- <img src="http://dummyimage.com/200x200"> -->
-	                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
+	                            <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
+	                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200"></a>
 	                        </div>
 	                        <div class="left">
-		                        <h3 class="art_artist">${view.art_artist}</h3>
-		                        <h4 class="art_nm">${view.art_nm}</h4>
-		                        <h4>${view.art_dt}</h4>
+		                        <h3 class="art_artist">
+		                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
+		                        ${view.art_artist}</a></h3>
+		                        <h4 class="art_nm">
+		                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
+		                        ${view.art_nm}</a></h4>
+		                        <h4>
+		                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
+		                        ${view.art_cdt}</a></h4>
 		                        <hr>
 		                        <p>재질 : ${view.art_medium}</p>
 		                        <p>규격 : ${view.art_size}</p>

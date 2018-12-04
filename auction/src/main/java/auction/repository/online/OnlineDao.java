@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import auction.entity.Auction;
+import auction.entity.Bid;
 import auction.entity.View;
 
 @Repository
@@ -49,5 +50,13 @@ public interface OnlineDao {
 						int lot);
 	
 	int getResultArtCount(String art_artist, String art_nm, int art_eprice_min, int art_eprice_max, int lot, int no);
+
+	View find(int art_sq, int auction_sq);
+
+	List<Bid> getBid(int art_sq, int auction_sq);
+
+	int insertBid(Bid bid);
+
+	String getBidDate(int bid_sq);
 
 }
