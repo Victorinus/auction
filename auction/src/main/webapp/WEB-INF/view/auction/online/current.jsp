@@ -7,10 +7,14 @@
     <head>
     <title>미술품 경매 | 진행경매</title>
     <style>
+		.content {
+            width: 500px;
+            margin: auto;
+        }
+    
         .row {
-            padding: 15px;
-            margin-top: 15px;
-            margin-bottom: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
         .gallery {
@@ -39,6 +43,44 @@
         	font-size: 15px;
         }
         
+        .form-submit {
+        	display: inline-block;
+        }
+        
+		.form-fav-button {
+            width: 125px;
+            background-color: cornflowerblue;
+            padding: 0px;
+            border: 1px solid cornflowerblue;
+            color: white;
+            font-family: 견고딕;
+            font-size: 15px;    
+        }
+        
+        .form-bid-button {
+            width: 125px;
+            background-color: lightblue;
+            padding: 0px;
+            border: 1px solid lightblue;
+            color: white;
+            font-family: 견고딕;
+            font-size: 15px;    
+        }
+        
+        .text {
+            display: inline-block;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            vertical-align: middle;
+        }
+        
+        .img {
+            display: inline-block;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            vertical-align: middle;
+        }
+        
     </style>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -48,14 +90,15 @@
     <link rel="stylesheet" type="text/css" href="${root}/library/css/nouislider.css">
     <script>
         window.onload = function(){
+        	//슬라이더바
             var slider = document.getElementById('slider');
             noUiSlider.create(slider, {
                 start: [100000, 50000000],
                 connect: true,
                 range: {
-                    'min': [100000],
-                    'max': [50000000]
-                },
+                	'min': [100000], 
+                	'max': [50000000]
+            	},
                 format: wNumb({
                     decimals: 0,
                     thousand: ',',
@@ -68,46 +111,105 @@
             ];
             var epriceMin = document.getElementById('eprice_min')
             var epriceMax = document.getElementById('eprice_max')
-            console.log(value)
+            //console.log(value)
             slider.noUiSlider.on('update', function (values, handle, positions) {
                 value[handle].innerHTML = values[handle]
                 epriceMin.value = values[0]
                 epriceMax.value = values[1]
             });          
             
+            //검색 초기화
             $(".reset").click(function(){
-            	console.log($(this))
             	$("input[name=art_artist]").val("");
             	$("input[name=art_nm]").val("");
             	$("input[name=lot]").val("");
             });
-            
-			setInterval(timer, 1000);
           	
-			var a_end_parsed = document.querySelector("#a_end_parsed");
-			
-			console.log(a_end_parsed);
-			console.log(a_end_parsed.val());
-          	var a_end = "2018-12-01 00:00:00"
-          
+            //남은 시간
+			var a= new Array();
+			<c:forEach var="view" items="${currentList}">
+				a.push("${view.a_end}");
+			</c:forEach>
+          		
+			setInterval(timer, 1000);
             function timer(){
                 var sysdate = new Date();
-                var end = new Date(a_end);
+                var end = new Date(a[0]);
                 var gap = Math.round((end - sysdate) / 1000);
-                console.log("millis : "+gap)
                 var D = Math.floor(gap / (60 * 60 * 24));
                 var H = Math.floor((gap - D*(60 * 60 * 24)) / (60 * 60) % (60 * 60));
                 var M = Math.floor((gap - H*(60 * 60)) / 60 % 60);
                 var S = Math.floor((gap - M*60) % 60);
-                console.log(D+"일");
-                console.log(H+"시간");
-                console.log(M+"분");
-                console.log(S+"초");
                 
-                document.querySelector("#timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
-                
+                //document.querySelector(".timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
+                var timeleft = document.querySelectorAll(".timeleft");
+                //console.log(timeleft);
+                for(i=0; i<timeleft.length; i++){
+                	timeleft[i].innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";
+                }
             };
             
+            //관심작품
+			var status = 
+				[true, true, true, true, true, true, true, true, true, true];
+            
+            $(".form-fav-button").click(function(){
+				var target = this;
+				var index = $(target).attr("data-index");
+				var a_sq = $(target).attr("data-a_sq");
+				var art_sq = $(target).attr("data-art_sq");
+				var lot = $(target).attr("data-lot");
+				var img = $(target).children(".img").children("img").attr("src")
+				console.log(img)
+				
+				$.ajax({
+            		type: "post",
+            		url: "/auction/myfav/register",
+            		data : {
+            			a_sq: a_sq,
+            			art_sq: art_sq,
+            			lot: lot
+            		},
+            		success : function(xml){
+            			console.log("데이터 전송 완료")
+            		}
+            	});
+				
+				if(status[index]){
+					if(img.endsWith("/fav.png")){
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/unfav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
+					else{
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/fav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
+				}
+				else{
+					if(img.endsWith("/unfav.png")){
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/fav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
+					else{
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/unfav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
+				}
+				
+                status[index] = !status[index];
+            })
         };
     </script>
 </head>
@@ -181,71 +283,71 @@
             </div>
         </form>
         <!-- 네비게이터/정렬 -->
-        <div class="row">
-        	<div class="col-md-10 col-md-offset-1">
-        		<div class="col-md-6 text-left">
-             		네비게이터
-        		</div>
-        		<form action="current" method="post">
-	        		<div class="col-md-6 text-right">
-	        			정렬
-	        			<select name="sortType">
-							<option value="lot asc">번호 오름차순</option>
-			        		<option value="lot desc">번호 내림차순</option>
-			        		<option value="art_artist asc">작가명 오름차순 </option>
-			        		<option value="art_artist desc">작가명 내림차순</option>
-			        		<option value="art_nm asc">작품명 오름차순 </option>
-			        		<option value="art_nm desc">작품명 내림차순</option>
-	        			</select>
-	        			<input type="submit" value="보기">
-	        		</div>
-        		</form>
-        	</div>
-        </div>
         <!-- 갤러리 -->
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-            	<c:forEach var="view" items="${currentList}">
-                <div class="col-md-3 gallery">
-                    <div>
-                        <h4>LOT. ${view.lot}</h4>
-                    </div>
-                    <div style="border: 1px solid lightgray;">
-                        <div class="margin">
-                            <!-- <img src="http://dummyimage.com/200x200"> -->
-                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
-                        </div>
-                        <div class="left">
-	                        <h3>${view.art_artist}</h3>
-	                        <h4>${view.art_nm}</h4>
-	                        <h4>${view.art_dt}</h4>
-	                        <hr>
-	                        <p>재질 : ${view.art_medium}</p>
-	                        <p>규격 : ${view.art_size}</p>
-	                        <p>추정가 : ${view.art_eprice}</p>
-	                        <hr>
+            	<c:forEach var="view" items="${currentList}" varStatus="status">
+	                <div class="col-md-3 gallery">	                	
+	                	<div>
+	                        <h4>LOT. <span class="lot">${view.lot}</span></h4>
+	                    </div>
+	                    <div style="border: 1px solid lightgray;">
+	                        <div class="margin">
+	                            <!-- <img src="http://dummyimage.com/200x200"> -->
+	                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200">
+	                        </div>
 	                        <div class="left">
-		                        <p>
-		                        	마감시간 : 
-		                        	<span id="a_end_parsed">
-					                    <fmt:parseDate var="a_end_parsed" value="${view.a_end}" pattern="yy/MM/dd"/>
-					                    <fmt:formatDate value="${a_end_parsed}" type="both" timeStyle="long"/>
-				                    </span>
-								</p>
-								<p>
-									남은시간 : 
-									<span id="timeleft"></span>
-								</p>
-								<p>총 O회 응찰</p>
-								<p>시작가 : </p>
-								<p>현재가 : </p>
-							</div>
-                        </div>
-                        <div>
-                        	<input type="button" value="응찰하기" onclick="location.href='bidding?lot=${view.lot}'">
-                        </div>
-                    </div>
-                </div>
+		                        <h3 class="art_artist">${view.art_artist}</h3>
+		                        <h4 class="art_nm">${view.art_nm}</h4>
+		                        <h4>${view.art_dt}</h4>
+		                        <hr>
+		                        <p>재질 : ${view.art_medium}</p>
+		                        <p>규격 : ${view.art_size}</p>
+		                        <p>추정가 : ${view.art_eprice}</p>
+		                        <hr>
+		                        <div class="left">
+			                        <p>
+			                        	종료시간 :
+										<fmt:parseDate var="parsed" value="${view.a_end}" pattern="yyyy-MM-dd HH:mm"/>
+										<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일 a hh시"/>
+									</p>
+									<p>
+										남은시간 : 
+										<span class="timeleft"></span>
+									</p>
+									<p>총 O회 응찰</p>
+									<p>시작가 : </p>
+									<p>현재가 : </p>
+								</div>
+	                        </div>
+							<div>
+	        					<div class="row">
+	        						<div class="form-submit">
+					            		<button class="form-fav-button" 
+					            								data-index="${status.index}"
+					            								data-a_sq="${view.a_sq}"
+					            								data-art_sq="${view.art_sq}"
+					            								data-lot="${view.lot}">
+					                		<div class="img">
+					                		<c:choose>
+					                			<c:when test="${myfavList.contains(view.art_sq)}">
+					                				<img src="${root}/image/icon/fav.png" width="50%">
+					                			</c:when>
+					                			<c:otherwise>
+					                				<img src="${root}/image/icon/unfav.png" width="50%">
+					                			</c:otherwise>
+					                		</c:choose>
+					                		</div>
+					                		<div class="text">관심작품</div>
+					            		</button>
+				            		</div>
+									<button class="form-bid-button">
+										<div class="text">응찰하기</div>
+		            				</button>
+								</div>
+	        				</div>
+	                    </div>
+	                </div>
                 </c:forEach>
             </div>
         </div>

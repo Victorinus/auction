@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
 public class Paging {
 	private String art_artist;
 	private String art_nm;
+	private int art_eprice_min;
+	private int art_eprice_max;
 	private int lot;
 	private int sn;
 	private int fn;
-	private int art_eprice_min;
-	private int art_eprice_max;
 	private int no;
-	private String sortType;
 }

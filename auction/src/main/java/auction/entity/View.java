@@ -12,7 +12,7 @@ public class View {
 	private String a_start;//경매 시작일
 	private String a_end;///경매 종료일
 	private String a_image;//대표 이미지
-	
+	private int art_sq;
 	private String art_nm;
 	private String art_artist;
 	private String art_size;

@@ -3,6 +3,7 @@ package auction.controller.auction;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import auction.entity.Art;
 import auction.entity.Auction;
 import auction.entity.Search;
+import auction.entity.myfav.Myfav;
+import auction.repository.myfav.MyfavDao;
 import auction.repository.online.OnlineDao;
 import auction.util.OnlinePagingUtil;
 
@@ -37,6 +40,9 @@ public class AuctionController {
 	private OnlineDao onlineDao;
 	
 	@Autowired
+	private MyfavDao myfavDao;
+	
+	@Autowired
 	private OnlinePagingUtil pagingUtil;
 	
 	@Autowired
@@ -46,10 +52,11 @@ public class AuctionController {
 	@RequestMapping("/online/current")
 	public String onlineCurrent(
 								@ModelAttribute Search search, 
+								@RequestParam(defaultValue="1") int user_no,
 								HttpServletRequest request, 
 								Model model) {		
 		pagingUtil.setHttpServletRequest(search, request);
-		model.addAttribute("util", pagingUtil);
+		model.addAttribute("util", pagingUtil);		
 		model.addAttribute(
 				"currentList", onlineDao.currentSearch(
 						pagingUtil.getArt_artist(), 
@@ -57,9 +64,9 @@ public class AuctionController {
 						pagingUtil.getArt_eprice_min(), 
 						pagingUtil.getArt_eprice_max(),
 						pagingUtil.getLot(), 
-						pagingUtil.getSortType(),
 						pagingUtil.getSn(), 
 						pagingUtil.getFn()));
+		model.addAttribute("myfavList", myfavDao.list(user_no));		
 		return "auction/online/current";
 	}
 	
@@ -148,10 +155,10 @@ public class AuctionController {
 				.body(resource);
 	}
 	
-	private MediaType getImageType(String art_image) {
-		if(art_image.endsWith(".jpg"))		return MediaType.IMAGE_JPEG;
-		if(art_image.endsWith(".png"))		return MediaType.IMAGE_PNG;
-		if(art_image.endsWith(".gif"))		return MediaType.IMAGE_GIF;
+	private MediaType getImageType(String image) {
+		if(image.endsWith(".jpg"))		return MediaType.IMAGE_JPEG;
+		if(image.endsWith(".png"))		return MediaType.IMAGE_PNG;
+		if(image.endsWith(".gif"))		return MediaType.IMAGE_GIF;
 		return null;
 	}
 	
