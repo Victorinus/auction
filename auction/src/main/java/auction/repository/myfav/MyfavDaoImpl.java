@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import auction.entity.myfav.Myfav;
+import auction.entity.myfav.View;
 
 @Repository
 public class MyfavDaoImpl implements MyfavDao {
@@ -50,10 +51,19 @@ public class MyfavDaoImpl implements MyfavDao {
 	}
 
 	@Override
-	public List<Myfav> list() {
-		List<Myfav> list = sqlSession.selectList("myfav_list");
-		for(Myfav myfav : list) {
-			log.debug("결과 = {}", myfav);
+	public List<Integer> list(int user_no) {
+		List<Integer> list = sqlSession.selectList("myfav_listByUser", user_no);
+		for(Integer integer : list) {
+			log.debug("결과 = {}", integer);
+		}
+		return list;
+	}
+
+	@Override
+	public List<View> getMyfavList(int user_no) {
+		List<View> list = sqlSession.selectList("myfav_listForUser", user_no);
+		for(View view : list) {
+			log.debug("결과 = {}", view);
 		}
 		return list;
 	}

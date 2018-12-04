@@ -52,6 +52,7 @@ public class AuctionController {
 	@RequestMapping("/online/current")
 	public String onlineCurrent(
 								@ModelAttribute Search search, 
+								@RequestParam(defaultValue="1") int user_no,
 								HttpServletRequest request, 
 								Model model) {		
 		pagingUtil.setHttpServletRequest(search, request);
@@ -65,14 +66,7 @@ public class AuctionController {
 						pagingUtil.getLot(), 
 						pagingUtil.getSn(), 
 						pagingUtil.getFn()));
-//		model.addAttribute("myfavList", myfavDao.list());
-		List<Myfav> list = myfavDao.list();
-		for(Myfav myfav : list) {
-			log.debug("결과 = {}", myfav);
-			myfav.getAuction_no(); 
-			myfav.getArt_no();
-		}
-		
+		model.addAttribute("myfavList", myfavDao.list(user_no));		
 		return "auction/online/current";
 	}
 	

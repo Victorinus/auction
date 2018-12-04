@@ -22,8 +22,12 @@
 		delete from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
 	</delete>
 	
-	<select id="myfav_list" resultType="myfav">
-		select * from myfav where user_no=1 order by myfav_sq
+	<select id="myfav_listByUser" parameterType="integer" resultType="integer">
+		select art_no from myfav where user_no=#{user_no} order by myfav_sq
+	</select>
+	
+	<select id="myfav_listForUser" parameterType="integer" resultType="myfavView">
+		select * from myfav_view where fav_user_no=#{user_no} order by fav_sq
 	</select>
 	
 </mapper>

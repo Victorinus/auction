@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import auction.entity.myfav.Myfav;
+import auction.entity.myfav.View;
 
 @Repository
 public interface MyfavDao {
@@ -14,7 +14,9 @@ public interface MyfavDao {
 	int find(int a_sq, int art_sq);
 
 	void delete(int a_sq, int art_sq);
+	
+	List<Integer> list(int user_no);
 
-	List<Myfav> list();
+	List<View> getMyfavList(int user_no);
 
 }

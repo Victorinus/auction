@@ -159,6 +159,8 @@
 				var a_sq = $(target).attr("data-a_sq");
 				var art_sq = $(target).attr("data-art_sq");
 				var lot = $(target).attr("data-lot");
+				var img = $(target).children(".img").children("img").attr("src")
+				console.log(img)
 				
 				$.ajax({
             		type: "post",
@@ -174,18 +176,36 @@
             	});
 				
 				if(status[index]){
-					var tag = $("<img/>")
-					.attr("src", "${root}/image/icon/fav.png")
-					.attr("width", "50%");
-					$(this).children(".img").empty();
-					$(this).children(".img").prepend(tag);
+					if(img.endsWith("/fav.png")){
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/unfav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
+					else{
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/fav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
 				}
 				else{
-					var tag = $("<img/>")
-					.attr("src", "${root}/image/icon/unfav.png")
-					.attr("width", "50%");
-					$(this).children(".img").empty();
-					$(this).children(".img").prepend(tag);
+					if(img.endsWith("/unfav.png")){
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/fav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
+					else{
+						var tag = $("<img/>")
+						.attr("src", "${root}/image/icon/unfav.png")
+						.attr("width", "50%");
+						$(this).children(".img").empty();
+						$(this).children(".img").prepend(tag);
+					}
 				}
 				
                 status[index] = !status[index];
@@ -268,8 +288,6 @@
             <div class="col-md-10 col-md-offset-1 text-center">
             	<c:forEach var="view" items="${currentList}" varStatus="status">
 	                <div class="col-md-3 gallery">	                	
-	                	<h4>auction_no = ${myfavList[status.index].auction_no}</h4>
-	                	<h4>art_no = ${myfavList[status.index].art_no}</h4>
 	                	<div>
 	                        <h4>LOT. <span class="lot">${view.lot}</span></h4>
 	                    </div>
@@ -311,7 +329,14 @@
 					            								data-art_sq="${view.art_sq}"
 					            								data-lot="${view.lot}">
 					                		<div class="img">
-					                    		<img src="${root}/image/icon/unfav.png" width="50%">
+					                		<c:choose>
+					                			<c:when test="${myfavList.contains(view.art_sq)}">
+					                				<img src="${root}/image/icon/fav.png" width="50%">
+					                			</c:when>
+					                			<c:otherwise>
+					                				<img src="${root}/image/icon/unfav.png" width="50%">
+					                			</c:otherwise>
+					                		</c:choose>
 					                		</div>
 					                		<div class="text">관심작품</div>
 					            		</button>
