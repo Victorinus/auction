@@ -26,12 +26,12 @@ public class OnlineDaoImpl implements OnlineDao {
 //	이하 경매 상태(진행/예정/종료)에 따른 List 호출하는 메소드
 //	진행경매 : 목록
 	@Override
-	public List<View> currentList(String sortType, int sn, int fn) {
+	public List<View> currentList(int sn, int fn) {
 		Paging paging = Paging.builder()
-											.sortType(sortType)
 											.sn(sn)
 											.fn(fn)
 										.build();
+		log.debug("paging = {}", paging);
 		return sqlSession.selectList("currentList", paging);
 	}
 	
@@ -39,30 +39,28 @@ public class OnlineDaoImpl implements OnlineDao {
 	@Override
 	public List<View> currentSearch(
 									String art_artist, 
-									String art_nm, 
-									int lot, 
+									String art_nm,
 									int art_eprice_min, 
 									int art_eprice_max,
-									String sortType,
+									int lot, 
 									int sn, 
 									int fn){
 		if(art_artist==null && art_nm==null 
 				&& art_eprice_min==0 && art_eprice_max==0 && lot==0) {
 			log.debug("currentList");
-			log.debug("sortType = {}", sortType);
-			return currentList(sortType, sn, fn);
+			return currentList(sn, fn);
 		}
 		log.debug("currentSearch");
-		log.debug("sortType = {}", sortType);
 		Paging paging = Paging.builder()
 												.art_artist(art_artist)
 												.art_nm(art_nm)
+												.art_eprice_min(art_eprice_min)
+												.art_eprice_max(art_eprice_max)
 												.lot(lot)
 												.sn(sn)
 												.fn(fn)
-												.art_eprice_min(art_eprice_min)
-												.art_eprice_max(art_eprice_max)
 											.build();		
+		log.debug("paging = {}", paging);
 		return sqlSession.selectList("currentSearch", paging);
 
 	}
