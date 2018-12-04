@@ -18,5 +18,5 @@ public class Bid {
 	private int art_sq;
 	private String user_id;
 	private String bid_dt;
-	private long bid_bp;
+	private int bid_bp;
 }

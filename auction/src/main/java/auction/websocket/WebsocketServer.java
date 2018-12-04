@@ -47,22 +47,6 @@ public class WebsocketServer extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 //		log.debug("메시지 수신됨 = {}, {}", session, message);
-//		session.sendMessage(message);
-		
-		//테스트
-//		Integer result = 0;
-//		for(int i = 0; i < 10; i++) {
-//			Thread.sleep(1000L);
-//			result++;
-//			TextMessage newMessage = new TextMessage(result.toString());
-//			log.debug("Text = " + result);
-//			session.sendMessage(newMessage);
-//		}
-//		int auction_sq = Integer.parseInt(message.getPayload());
-//		String auction_start = auctionDao.getStart(auction_sq);
-//		log.debug("Start : {}", auction_start);//테스트
-//		TextMessage newMessage = new TextMessage(auction_start.toString());
-//		session.sendMessage(newMessage);
 		
 		//클라이언트에게서 메시지를 받는다
 		JSONParser jsonParser = new JSONParser();
@@ -70,7 +54,7 @@ public class WebsocketServer extends TextWebSocketHandler{
 		int a_sq = Integer.parseInt((String)jsonObject.get("a_sq"));
 		int art_sq = Integer.parseInt((String)jsonObject.get("art_sq"));
 		String bid_user = (String) jsonObject.get("bid_user");
-		long bid_price = (long) jsonObject.get("bid_price");
+		int bid_price = Integer.parseInt((String) jsonObject.get("bid_price"));
 //		log.debug("A_SQ : {}", a_sq);//테스트
 //		log.debug("ART_SQ : {}", art_sq);//테스트
 //		log.debug("bid_user : {}", bid_user);//테스트
@@ -97,7 +81,7 @@ public class WebsocketServer extends TextWebSocketHandler{
 			
 			for(WebSocketSession ws : set) {
 				ws.sendMessage(newMessage);
-				log.debug("newMessage = {}", newMessage);//테스트
+				//log.debug("newMessage = {}", newMessage);//테스트
 			}
 		}
 	}

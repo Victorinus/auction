@@ -14,18 +14,7 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     
     <style>
-    	@font-face{
-			font-family:"Nanum Gothic";
-			src:url('/fonts/NanumGothic.eot');
-			src:url('/fonts/NanumGothic.eot?#iefix') format('embedded-opentype'),
-			url('/fonts/NanumGothic.woff') format('woff'),
-			url('/fonts/NanumGothic.ttf') format('truetype');
-			url('/fonts/NanumGothic.svg#NanumGothic') format('svg')
-			src:local(※), url('/fonts/NanumGothic.woff') format('woff');
-		}
-		*{
-			font-family: 'Nanum Gothic';
-		}
+
    		th, td {
    			vertical-align: inherit;
 		}
@@ -76,9 +65,9 @@
 		}
 		
 		.wrap-info {
-			height: 92%;
+			height: 91%;
 			display: block;
-			overflow: hidden;
+			overflow: auto;
 		}
 		
 		.auction-info, .art-info, .bid-info {
@@ -108,6 +97,7 @@
 			line-height: 25px;
 			border-bottom: 2px solid black;
 			padding: 10px 0;
+			margin: 10px 0;
 		}
 		.body{
 			margin: auto;
@@ -188,7 +178,7 @@
 		.state-auction{
 			padding: 15px 15px;
 			min-height: 100px;
-			background-color: lightgray;
+			background-color: #dcdcdc;
 			margin: 15px 50px;
 		}
 		.hr{
@@ -200,21 +190,38 @@
 			background-color: black;
 		}
 		.art-detailInfo-menu{
-			margin:30px 20px;
+			margin:20px 20px 0px;
+			border-bottom: 2px solid gray;
 		}
 		.bidding{
 			width:300px;
 		}
 		.bidding-btn{
+			margin: 30px 0 0;
 			background-color: #c33234;
 			color:white;
 			border: 0px solid;
 			width: 100%;
-			height: 30px;
+			height: 50px;
+		}
+		.btn1{
+			background-color: #c33234;
+			color:white;
+			border: 0px solid;
+			width: 100px;
+			height: 50px;
+		}
+		.btn2{
+			background-color: #c33234;
+			color:white;
+			border: 0px solid;
+			width: 150px;
+			height: 40px;
 		}
 		.bid-info-list{
-			height:500px;
+			height:430px;
 			overflow: auto;
+			border: 1px solid gray;
 		}
 		.art-info-warning{
 			color: #c33234;
@@ -234,13 +241,58 @@
 		.bid-info-list-val{
 			padding:20px 15px;
 		}
-		.lh15{
+		.bidhr, dthr{
+			background-color: #dcdcdc;
+			height: 1px;
+		}
+		.lh25{
 			line-height: 25px;
+		}
+		.mg0{
+			margin:0px;
+		}
+		.mg5{
+		
+		}
+		.bgc{
+			background-color: #e6e6fa;
+		}
+		.bid-art-detail{
+			padding: 10px;
+			font-size: 14px;
+		}
+		.bid-art-detail-lot, .bid-art-detail-nm, .bid-art-detail-artist{
+			font-size : 18px;
+		}
+		.red{
+			color: red;
+		}
+		.gray{
+			color:gray;
+		}
+		.ft15{
+			font-size: 15px;
+		}
+		.ft20{
+			font-size: 20px;
+		}
+		.ft25{
+			font-size: 25px;
+		}
+		.ft30{
+			font-size: 30px;
+		}
+		.art-detailInfo-info2{
+			margin:0 20px;
+			padding:40px;
+			background-color: #dcdcdc;
+			line-height: 1.5em;
 		}
 </style>
     
 <script>
 	$(document).ready(function() {
+		
 		//웹소켓 접속
 		webInit();
 		function wrapWindowByMask() {
@@ -264,7 +316,6 @@
 
 		//검은 막 띄우기
 		$('.openMask').click(function(e) {
-			timer = setInterval(getTime, 1000);
 			e.preventDefault();
 			wrapWindowByMask();
 		});
@@ -273,14 +324,12 @@
 		$('.frame .info-bar .close').click(function(e) {
 			e.preventDefault();
 			$('#mask, .frame').hide();
-			clearInterval(timer);
 		});
 
 		//검은 막을 눌렀을 때
 		$('#mask').click(function() {
 			$(this).hide();
 			$('.frame').hide();
-			clearInterval(timer);
 			webFinish();
 		});
 		
@@ -296,7 +345,7 @@
 	        var M = Math.floor((gap - H * (60 * 60)) / 60 % 60);
 	        var S = Math.floor((gap - M * 60) % 60);
 	        
-            document.getElementById("counter").innerHTML = D + "일 " + H + "시간 " + M + "분 " + S + "초"; 
+            $(".counter").html(D + "일 " + H + "시간 " + M + "분 " + S + "초"); 
         };
         
         //웹소켓 시작
@@ -324,8 +373,11 @@
 					//console.log("serverMsg : " + serverMsg);//테스트
 					//console.log("bid_date : " + bid_date);//테스트
 					//console.log("bid_price : " + bid_price);//테스트
-				//	console.log("bid_user : " + bid_user);//테스트
+					//	console.log("bid_user : " + bid_user);//테스트
 					addDiv(bid_date, bid_price, bid_user);
+					editBidNow(bid_price);
+					
+					$(".bidTotalVal").text(Number($(".bidTotalVal").text())+1);
 				}
 			}
 		};
@@ -335,16 +387,67 @@
 			websocket.send(JSON.stringify(bidInfo));
 		};
 
+		//금액 형식 변환
+		var moneyForm = wNumb({
+            decimals: 0,
+            thousand: ','
+            //prefix: 'KRW '
+        });
+		
+		//아이디 절반 비공개 처리
+		function halfId(id){
+			var halfVal = "";
+			var halfLength = Math.ceil(id.length/2);
+			for(var i = 0; i < halfLength; i++){
+				halfVal += "*";
+			}
+			halfVal += id.substring(halfLength, id.length);
+			return halfVal;
+		}
+		
 		//응찰 정보를 받아 입력하는 함수
 		function addDiv(bid_date, bid_price, bid_user) {
+			var hr = document.createElement('hr');
+			hr.classList.add('mg0');
+			hr.classList.add('bidhr');
 			var div = document.createElement('div');
 			div.classList.add('bid-info-list-val');
-			div.innerHTML= bid_user + "<br>응찰가격 : " + moneyForm.to(bid_price) + "<br>응찰일자 : " + bid_date + "<hr>";
+			div.innerHTML= 
+				"<div class='lh25'>" + halfId(bid_user) + 
+				"<span style='float:right;'><img src='${root}/image/icon/new.png'></span>" + 
+				"<div class='lh25'>Price KRW " + moneyForm.to(Number(bid_price)) + "</div>" + 
+				"<div class='lh25'>Date <span class='bid-info-list-val-dt'>" + bid_date + "</span></div>";
+			$(".bid-info-list").prepend(hr);
 			$(".bid-info-list").prepend(div);
 		};
-
-
-
+		
+		//초기 현재가를 설정하는 함수
+		function setBidPrice(){
+			var bidPrice;
+			<c:forEach  var="bid" items="${bid}" varStatus="status">
+				<c:if test="${status.first}">
+					bidPrice = ${bid.bid_bp};
+				</c:if>
+			</c:forEach>
+			$(".bidPriceVal").html(moneyForm.to(Number(bidPrice)));
+		}
+		
+		
+		//응찰 가격을 받아 현재가를 수정하는 함수
+		function editBidNow(bid_price){
+			var bidUnit = $(".bidUnitVal").val();
+			//console.log("bidUnit : "+bidUnit);//테스트
+			var bidNow = Number(bid_price) + Number(bidUnit);
+			//console.log("bidNow : "+bidNow);//테스트
+			var result = moneyForm.to(bidNow);
+			//console.log("result : "+result);//테스트
+			$(".bidNowVal").val(bidNow);
+			$(".bidNow").text(result);
+			$(".bidPriceVal").html(result);
+		}
+		
+		
+		
 		//응찰 버튼 눌렀을때
 		$(".bidding-btn").click(function() {
 			var bid_result = confirm("응찰하시겠습니까?");
@@ -355,7 +458,7 @@
 					a_sq : "${view.a_sq}",
 					art_sq : "${view.art_sq}",
 					bid_user : "test",
-					bid_price : 2300000
+					bid_price : $(".bidNowVal").val()
 				};
 				webSendMsg();
 			} else {
@@ -366,6 +469,7 @@
 		
 		//페이지를 나가게되면
 		$(window).on("beforeunload", function(){
+			clearInterval(timer);
 			if(window.websocket){
 				webFinish();
 			}
@@ -376,18 +480,17 @@
 			window.websocket = null;
 		};
 		
-		//금액 형식 변환
-		var moneyForm =  wNumb({
-            decimals: 0,
-            thousand: ',',
-            prefix: 'KRW ',
-        });
+		//타이머 출력
+		timer = setInterval(getTime, 1000);
 		
-        
+		//현재가 출력
+		setBidPrice();
+		
 	});
 
 </script>
 </head>
+
 <body>
 	
 	<div class="container w80p">
@@ -401,9 +504,13 @@
 						<td colspan="2">
 							<div class="state-auction">
 								<div class="state-auction-info">
-									<div class="state-auction-nm">${view.a_nm}</div>
-									<div class="state-auction-nm">${view.a_start}</div>
-									<div class="state-auction-nm">${view.a_addr1} ${view.a_addr2}</div>
+									<div class="state-auction-nm lh25">${view.a_nm}</div>
+									<div class="state-auction-addr lh25">${view.a_addr1} ${view.a_addr2}</div>
+									<div class="state-auction-count lh25">
+										<span class="counter"></span> / 
+										<span class="bidTotal">총 <span class="bidTotalVal">${fn:length(bid)}</span>회 응찰</span> / 
+										<span class="bidPrice red">현재가 KRW <span class="bidPriceVal"></span></span>
+									</div>
 								</div>
 							</div>
 						</td>
@@ -428,36 +535,33 @@
 			        				<tr>
 			        					<td>
 			        						<div class="art-detail left w100p">
-							        			<div class="art-detail-lot">
-							        				LOT. ${view.lot}
+							        			<div class="art-detail-lot lh25 ft20 gray">
+							        				LOT. ${param.lot}
 							        			</div>
-							        			<div class="art-detail-artist">
+							        			<div class="art-detail-artist lh25 ft25">
 							        				${view.art_artist}
 							        			</div>
-							        			<div class="art-detail-cdt">
+							        			<div class="art-detail-cdt lh25 ft20">
 							        				${view.art_cdt}
 							        			</div>
-							        			<div class="hr"><hr></div>
-							        			<div class="art-detail-cdt">
-							        				${view.art_cdt}
-							        			</div>
-							        			<div class="art-detail-nm">
+							        			<div class="hr"><hr class="dthr"></div>
+							        			<div class="art-detail-nm lh25 ft20">
 							        				${view.art_nm}
 							        			</div>
-							        			<div class="art-detail-medium">
+							        			<div class="art-detail-medium lh25 ft15">
 							        				${view.art_medium}
 							        			</div>
-							        			<div class="art-detail-size">
+							        			<div class="art-detail-size lh25 ft15">
 							        				${view.art_size}
 							        			</div>
-							        			<div class="hr"><hr></div>
-							        			<div class="art-detail-bp">
-							        				추정가 ${view.art_bp}
+							        			<div class="hr"><hr class="dthr"></div>
+							        			<div class="art-detail-bp lh25 ft15">
+							        				추정가 KRW ${view.art_bp}
 							        			</div>
-							        			<div class="hr"><hr></div>
+							        			<div class="hr"><hr class="dthr"></div>
 							        			<div class="art-detail-menu">
-								        			<input type="button" class="openMask" value="응찰하기">
-								        			<input type="button" class="addLike" value="관심작품">
+								        			<input type="button" class="openMask btn1" value="응찰하기">
+								        			<input type="button" class="addLike btn1" value="관심작품">
 							        			</div>
 			        						</div>
 			        					</td>
@@ -471,7 +575,7 @@
         					<div class="hr-bold"><hr></div>
         					<div class="art-detailInfo">
         						<div class="art-detailInfo-menu">
-        							<input type="button" value="작품설명">
+        							<input type="button" class="btn2" value="작품설명">
         						</div>
 			        			<div class="art-detailInfo-info2">
 			        				${view.art_info2}
@@ -489,7 +593,9 @@
     <div id="mask" align="center"></div>
 	<div class="frame" align="center">
 		<div class="info-bar">
-			<span class="info-bar-name left">경매 응찰하기
+			<span class="info-bar-name left bold">
+				경매 응찰하기
+				<span style="font-weight: normal;font-size:15px;">[${view.a_nm}]</span>
 				<span class="right">
 					<input type="button" class="close" value="닫기"/>
 				</span>
@@ -506,15 +612,32 @@
 						</tr>
 						<tr>
 							<td>
-								<div class="center">
-									<img src="http://placehold.it/280x280">
+								<div class="art-img center">
+									<img src="${root}/image/art?art_image=${view.art_image}" style="width:280; height:280;">
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<div class="left">
-								
+								<div class="bid-art-detail left">
+									<div class="bid-art-detail-lot lh25">
+				        				LOT. ${param.lot}
+				        			</div>
+				        			<div class="bid-art-detail-artist lh25 bold">
+				        				${view.art_artist}
+				        			</div>
+				        			<div class="bid-art-detail-nm lh25 bold">
+				        				${view.art_nm}
+				        			</div>
+				        			<div class="bid-art-detail-cdt lh25">
+				        				${view.art_cdt}
+				        			</div>
+				        			<div class="bid-art-detail-medium lh25">
+				        				${view.art_medium}
+				        			</div>
+				        			<div class="bid-art-detail-size lh25">
+				        				${view.art_size}
+				        			</div>
 								</div>
 							</td>
 						</tr>
@@ -539,14 +662,14 @@
 									응찰 후 반드시 새로고침 버튼을 클릭하여<br>
 									응찰현황을 확인하시기 바랍니다.								
 								</div>
-								<div class="hr"><hr></div>
+								<div class="hr"><hr class="bidhr"></div>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<div class="art-info-count">
 									<input type="button" class="bidbtn" value="남은시간">
-									<span id="counter"></span>
+									<span class="counter"></span>
 								</div>
 							</td>
 						</tr>
@@ -561,17 +684,18 @@
 						<tr>
 							<td>
 								<div class="art-info-end">
-									<input type="button" class="bidbtn" value="종료시간">
+									<input type="button" class="bidbtn" value="종료시간"> 
 									<span>${view.a_end}</span>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<div class="hr"><hr></div>
+								<div class="hr"><hr class="bidhr"></div>
 								<div class="art-bidding-info">
 									<div class="art-bidding-info-bid">
-										응찰 단위 : KRW 
+										<input type="button" class="bidbtn" value="응찰단위"> 
+										KRW 
 										<c:choose>
 											<c:when test="${art.ep>100000000}">
 												<c:set var="bidUnit" value="500000"/>
@@ -598,13 +722,20 @@
 												<c:set var="bidUnit" value="10000"/>
 											</c:otherwise>
 										</c:choose>
-										${bidUnit}
+										<span class="bidUnit">
+											<fmt:formatNumber value="${bidUnit}" pattern="#,###" />
+										</span>
+										<input type="hidden" class="bidUnitVal" value="${bidUnit}">
 									</div>
 									<div class="art-bidding-info-now">
-										현재 응찰가 : KRW 
+										<input type="button" class="bidbtn" value="현재가"> 
+										<span class="red bold">KRW </span>
 										<c:forEach var="bid" items="${bid}" varStatus="status">
 											<c:if test="${status.first}">
-												<fmt:formatNumber value="${bid.bid_bp + bidUnit}" pattern="#,###" />
+												<span class="bidNow red bold">
+													<fmt:formatNumber value="${bid.bid_bp + bidUnit}" pattern="#,###" />
+												</span>
+												<input type="hidden" class="bidNowVal" value="${bid.bid_bp+bidUnit}">
 											</c:if>
 										</c:forEach>
 									</div>
@@ -636,16 +767,16 @@
 								<div class="bid-info-list">
 									<c:forEach var="bid" items="${bid}">
 										<div class="bid-info-list-val">
-											<div class="lh15">
+											<div class="lh25">
 												<c:set var="length" value="${fn:length(bid.user_id)}"/>
-												<c:set var="harfLength" value="${fn:length(bid.user_id)/2}"/>
-												<c:set var="CeilHarfLength" value="${harfLength+(1-(harfLength%1))%1}"/>
-												<c:forEach begin="1" end="${CeilHarfLength}" step="1">*</c:forEach>${fn:substring((bid.user_id),CeilHarfLength,length)}
+												<c:set var="halfLength" value="${fn:length(bid.user_id)/2}"/>
+												<c:set var="CeilHalfLength" value="${halfLength+(1-(halfLength%1))%1}"/>
+												<c:forEach begin="1" end="${CeilHalfLength}" step="1">*</c:forEach>${fn:substring((bid.user_id),CeilHalfLength,length)}
 											</div>
-											<div class="lh15">응찰가격 : KRW <fmt:formatNumber value="${bid.bid_bp}" pattern="#,###" /></div>
-											<div class="lh15">응찰일자 : <span class="bid-info-list-val-dt">${bid.bid_dt.substring(0, 19)}</span></div>
+											<div class="lh25">Price KRW <fmt:formatNumber value="${bid.bid_bp}" pattern="#,###" /></div>
+											<div class="lh25">Date <span class="bid-info-list-val-dt">${bid.bid_dt.substring(0, 19)}</span></div>
 										</div>
-										<hr style="margin: 0px;">
+										<hr class="mg0 bidhr">
 									</c:forEach>
 								</div>
 							</td>
