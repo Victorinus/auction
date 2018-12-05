@@ -91,32 +91,57 @@
     <script>
         window.onload = function(){
         	//슬라이더바
-            var slider = document.getElementById('slider');
-            noUiSlider.create(slider, {
-                start: [100000, 50000000],
-                connect: true,
-                range: {
-                	'min': [100000], 
-                	'max': [50000000]
-            	},
-                format: wNumb({
-                    decimals: 0,
-                    thousand: ',',
-                    prefix: '￦',
-                })
-            });
-            var value = [
+			var slider = document.getElementById('slider');
+        	
+			var value = [
                 document.getElementById('lower'),
                 document.getElementById('upper'),
-            ];
+            ]
+			
             var epriceMin = document.getElementById('eprice_min')
             var epriceMax = document.getElementById('eprice_max')
-            //console.log(value)
-            slider.noUiSlider.on('update', function (values, handle, positions) {
+            
+            var paramMin = ${util.art_eprice_min}
+            var paramMax = ${util.art_eprice_max}
+            
+            //사용자가 추정가 이용하여 검색했는지 여부에 따라 조건문 처리
+            if(paramMin != 100000 && paramMax != 50000000){
+            	noUiSlider.create(slider, {
+                   	start: [paramMin, paramMax],
+                    connect: true,
+                    step: 100000,
+                    range: {
+                    	'min': [100000], 
+                    	'max': [50000000]
+                	},
+                    format: wNumb({
+                        decimals: 0,
+                        thousand: ',',
+                        prefix: '￦',
+                    })
+                })
+            }else{
+            	noUiSlider.create(slider, {
+                   	start: [100000, 50000000],
+                    connect: true,
+                    step: 100000,
+                    range: {
+                    	'min': [100000], 
+                    	'max': [50000000]
+                	},
+                    format: wNumb({
+                        decimals: 0,
+                        thousand: ',',
+                        prefix: '￦',
+                    })
+                })	
+            }
+            
+            slider.noUiSlider.on('update', function (values, handle) {
                 value[handle].innerHTML = values[handle]
                 epriceMin.value = values[0]
                 epriceMax.value = values[1]
-            });          
+            })          
             
             //검색 초기화
             $(".reset").click(function(){
@@ -160,7 +185,7 @@
 				var art_sq = $(target).attr("data-art_sq");
 				var lot = $(target).attr("data-lot");
 				var img = $(target).children(".img").children("img").attr("src")
-				console.log(img)
+				//console.log(img)
 				
 				$.ajax({
             		type: "post",
@@ -182,24 +207,21 @@
 						.attr("width", "50%");
 						$(this).children(".img").empty();
 						$(this).children(".img").prepend(tag);
-					}
-					else{
+					}else{
 						var tag = $("<img/>")
 						.attr("src", "${root}/image/icon/fav.png")
 						.attr("width", "50%");
 						$(this).children(".img").empty();
 						$(this).children(".img").prepend(tag);
 					}
-				}
-				else{
+				}else{
 					if(img.endsWith("/unfav.png")){
 						var tag = $("<img/>")
 						.attr("src", "${root}/image/icon/fav.png")
 						.attr("width", "50%");
 						$(this).children(".img").empty();
 						$(this).children(".img").prepend(tag);
-					}
-					else{
+					}else{
 						var tag = $("<img/>")
 						.attr("src", "${root}/image/icon/unfav.png")
 						.attr("width", "50%");
@@ -207,7 +229,6 @@
 						$(this).children(".img").prepend(tag);
 					}
 				}
-				
                 status[index] = !status[index];
             })
         };

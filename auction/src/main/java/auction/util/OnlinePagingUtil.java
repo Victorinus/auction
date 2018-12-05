@@ -66,8 +66,8 @@ public class OnlinePagingUtil {
 			this.art_eprice_max = Integer.parseInt(sb_max.toString());
 		}
 		catch(Exception e) {
-			this.art_eprice_min = 0;
-			this.art_eprice_max = 0;
+			this.art_eprice_min = 100000;
+			this.art_eprice_max = 50000000;
 		}
 		
 //		[3] page 파라미터의 변환 처리 
