@@ -21,13 +21,13 @@
 					<th>경매명</th>
 					<td><input name="auction_nm" type="text"
 						placeholder="경매명을 입력하세요" size="100" maxlength="300"
-						value="${auction.auction_nm}" required></td>
+						value='${auction.auction_nm}' required></td>
 				</tr>
 				<tr>
 					<th>경매요약정보</th>
 					<td><input name="auction_info" type="text"
 						placeholder="요약 정보를 입력하세요" size="100" maxlength="4000"
-						value="${auction.auction_info}"></td>
+						value='${auction.auction_info}'></td>
 				</tr>
 				<tr>
 					<th>경매장소</th>
@@ -72,11 +72,11 @@
 				<c:if test="${not empty auction.auction_image}">
 					<tr>
 						<th>기존이미지</th>
-						<td><img
-							src="${pageContext.request.contextPath}/image/auction/${auction.auction_image}"
-							style="width: 100; height: 100;"> <span>${auction.auction_image.substring(37)}</span>
-							<input type="hidden" name="prevImage"
-							value="${auction.auction_image}"></td>
+						<td>
+							<img src="${pageContext.request.contextPath}/image/auction/${auction.auction_image}" style="width: 100; height: 100;">
+							<span>${auction.auction_image.substring(37)}</span>
+							<input type="hidden" name="prevImage" value="${auction.auction_image}">
+						</td>
 					</tr>
 				</c:if>
 			</tbody>

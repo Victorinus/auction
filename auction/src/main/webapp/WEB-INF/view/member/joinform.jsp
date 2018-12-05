@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <style>
 	table{
@@ -9,7 +11,6 @@
 		border-top: solid 2px;
 		border-bottom: solid 2px;
 	}
-	
 	th{
 		border-bottom: solid 1px;
 		border-color:silver;
@@ -46,12 +47,13 @@
 	}
 	
 	input[type=button]{
-		margin-left: 10px;
-		margin-bottom: 1px;
-		font-size: 12px;
+		margin: 0 10px;
+		font-size: 14px;
+		height:30px;
+		width:100px;
 		color: white;
 		border: none;
-		background-color: black;
+		background-color: #c33234;
 	}
 	
 	select{
@@ -70,17 +72,22 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+	.gdRadio{
+		padding: 0 10px;
+	}
 	
 	.joinConfirm{
+		margin:10px 0;
 		text-align: center;
 	}
 	
-	.joinConfirm > input[type=submit]{
-		width: 200px;
+	.joinConfirm > input[type=submit], .joinConfirm > a > input[type=button]{
+		font-size:20px;
+		width: 150px;
 		height: 50px;
 		border : none;
 		color : white;
-		background-color: rgb(102, 102, 110);
+		background-color: #c33234;
 	}
 	
 </style>
@@ -114,7 +121,7 @@
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="user_id" placeholder="아이디 입력"><input type="button" value="ID중복확인">
+					<input type="text" name="user_id" placeholder="아이디 입력"><input type="button" value="중복확인">
 				</td>
 			</tr>
 			<tr>
@@ -135,10 +142,12 @@
 			<tr>
 				<th>성별</th>
 				<td>
-					<input type="radio" name="user_gender" id="male" value="남자">
-					<label for="male">남자</label>
-					<input type="radio" name="user_gender" id="female" value="여자">
-					<label for="female">여자</label>
+					<div class="gdRadio">
+						<input type="radio" name="user_gender" id="male" value="남자">
+						<label for="male">남자</label>
+						<input type="radio" name="user_gender" id="female" value="여자">
+						<label for="female">여자</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -188,7 +197,9 @@
 			</tr>
 		</table>
 		<div class="joinConfirm">
-			<input type="submit" value="회원가입하기" onclick="submitEmail();">
+			<input type="submit" value="회원가입" onclick="submitEmail();">
+			<a href="${root}">
+				<input type="button" value="취소"></a>
 			<input type="hidden" name="session_id" value="">
 			<input type="hidden" name="session_limit" value="">
 			<!-- <input type="hidden" id ="user_email" name="user_email" value=""> -->

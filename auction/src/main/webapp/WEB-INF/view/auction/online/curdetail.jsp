@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 <html>
     <head>
     <title>미술품 경매 | 진행경매 작품정보</title>
@@ -167,6 +167,7 @@
 			width:50%;
 		}
 		.art-info-tb{
+			margin: 20px 0;
 			width:100%;
 		}
 		.art-detail.name{
@@ -293,11 +294,9 @@
 <script>
 	$(document).ready(function() {
 		
-		//웹소켓 접속
-		webInit();
 		function wrapWindowByMask() {
 			//화면의 높이와 너비를 구한다
-			var maskHeight = $(document).height();
+			var maskHeight = $(window).height();
 			var maskWidth = $(window).width();
 
 			//마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다
@@ -423,7 +422,7 @@
 		
 		//초기 현재가를 설정하는 함수
 		function setBidPrice(){
-			var bidPrice;
+			var bidPrice = "${view.art_ep}";
 			<c:forEach  var="bid" items="${bid}" varStatus="status">
 				<c:if test="${status.first}">
 					bidPrice = ${bid.bid_bp};
@@ -467,6 +466,55 @@
 
 		});
 		
+		//마우스이벤트 버튼색상 변경
+		$(".openMask").mouseover(function(){
+			$(".openMask").css("background-color","white");
+			$(".openMask").css("color","#c33234");
+			$(".openMask").css("border","1px solid #c33234");
+		});
+		$(".openMask").mouseout(function(){
+			$(".openMask").css("background-color","#c33234");
+			$(".openMask").css("color","white");
+			$(".openMask").css("border","0px");
+		});
+		$(".addLike").mouseover(function(){
+			$(".addLike").css("background-color","white");
+			$(".addLike").css("color","#c33234");
+			$(".addLike").css("border","1px solid #c33234");
+		});
+		$(".addLike").mouseout(function(){
+			$(".addLike").css("background-color","#c33234");
+			$(".addLike").css("color","white");
+			$(".addLike").css("border","0px");
+		});
+		$(".goList").mouseover(function(){
+			$(".goList").css("background-color","white");
+			$(".goList").css("color","#c33234");
+			$(".goList").css("border","1px solid #c33234");
+		});
+		$(".goList").mouseout(function(){
+			$(".goList").css("background-color","#c33234");
+			$(".goList").css("color","white");
+			$(".goList").css("border","0px");
+		});
+		$(".bidding-btn").mouseover(function(){
+			$(".bidding-btn").css("background-color","white");
+			$(".bidding-btn").css("color","#c33234");
+			$(".bidding-btn").css("border","1px solid #c33234");
+		});
+		$(".bidding-btn").mouseout(function(){
+			$(".bidding-btn").css("background-color","#c33234");
+			$(".bidding-btn").css("color","white");
+			$(".bidding-btn").css("border","0px");
+		});
+		
+		//창 크기 변경되면 이벤트
+		$(window).resize(function(){
+			var maskHeight = $(window).height();
+			var maskWidth = $(window).width();
+			$('#mask').css({'width' : maskWidth,'height' : maskHeight});
+		});
+		
 		//페이지를 나가게되면
 		$(window).on("beforeunload", function(){
 			clearInterval(timer);
@@ -479,6 +527,10 @@
 			window.websocket.close();
 			window.websocket = null;
 		};
+		
+		
+		//웹소켓 접속
+		webInit();
 		
 		//타이머 출력
 		timer = setInterval(getTime, 1000);
@@ -494,7 +546,7 @@
 <body>
 	
 	<div class="container w80p">
-        <div class="left head w100p bold mar-topbot-35px">
+        <div class="left head w100p bold mar-topbot-35px ft25">
             진행경매 작품정보
         </div>
         <div class="body w100p">
@@ -555,13 +607,25 @@
 							        				${view.art_size}
 							        			</div>
 							        			<div class="hr"><hr class="dthr"></div>
-							        			<div class="art-detail-bp lh25 ft15">
-							        				추정가 KRW ${view.art_bp}
+							        			<div class="art-detail-ep lh25 ft15">
+							        				<input type="button" class="bidbtn" value="추정가"> 
+							        				KRW <fmt:formatNumber value="${view.art_ep}" pattern="#,###" /> 이상
+							        			</div>
+							        			<div class="art-detail-sp lh25 ft15">
+							        				<input type="button" class="bidbtn" value="시작가"> 
+							        				KRW <fmt:formatNumber value="${view.art_ep}" pattern="#,###" />
+							        			</div>
+							        			<div class="art-detail-np lh25 ft15">
+							        				<input type="button" class="bidbtn" value="현재가"> 
+							        				<span class="bidPrice red">KRW <span class="bidPriceVal"></span></span>
 							        			</div>
 							        			<div class="hr"><hr class="dthr"></div>
 							        			<div class="art-detail-menu">
 								        			<input type="button" class="openMask btn1" value="응찰하기">
 								        			<input type="button" class="addLike btn1" value="관심작품">
+								        			<a href="current">
+									        			<input type="button" class="goList btn1" value="목록">
+								        			</a>
 							        			</div>
 			        						</div>
 			        					</td>
@@ -697,25 +761,25 @@
 										<input type="button" class="bidbtn" value="응찰단위"> 
 										KRW 
 										<c:choose>
-											<c:when test="${art.ep>100000000}">
+											<c:when test="${view.art_ep>=100000000}">
 												<c:set var="bidUnit" value="500000"/>
 											</c:when>
-											<c:when test="${art.ep>30000000}">
+											<c:when test="${view.art_ep>=30000000}">
 												<c:set var="bidUnit" value="400000"/>
 											</c:when>
-											<c:when test="${art.ep>5000000}">
+											<c:when test="${view.art_ep>=5000000}">
 												<c:set var="bidUnit" value="200000"/>
 											</c:when>
-											<c:when test="${art.ep>3000000}">
+											<c:when test="${view.art_ep>=3000000}">
 												<c:set var="bidUnit" value="100000"/>
 											</c:when>
-											<c:when test="${art.ep>1000000}">
+											<c:when test="${view.art_ep>=1000000}">
 												<c:set var="bidUnit" value="50000"/>
 											</c:when>
-											<c:when test="${art.ep>500000}">
+											<c:when test="${view.art_ep>=500000}">
 												<c:set var="bidUnit" value="30000"/>
 											</c:when>
-											<c:when test="${art.ep>200000}">
+											<c:when test="${view.art_ep>=200000}">
 												<c:set var="bidUnit" value="20000"/>
 											</c:when>
 											<c:otherwise>
@@ -730,14 +794,24 @@
 									<div class="art-bidding-info-now">
 										<input type="button" class="bidbtn" value="현재가"> 
 										<span class="red bold">KRW </span>
-										<c:forEach var="bid" items="${bid}" varStatus="status">
-											<c:if test="${status.first}">
+										<c:choose>
+											<c:when test="${empty bid}">
 												<span class="bidNow red bold">
-													<fmt:formatNumber value="${bid.bid_bp + bidUnit}" pattern="#,###" />
+													<fmt:formatNumber value="${view.art_ep}" pattern="#,###" />
 												</span>
-												<input type="hidden" class="bidNowVal" value="${bid.bid_bp+bidUnit}">
-											</c:if>
-										</c:forEach>
+												<input type="hidden" class="bidNowVal" value="${view.art_ep}">
+											</c:when>
+											<c:otherwise>
+												<c:forEach var="bid" items="${bid}" varStatus="status">
+													<c:if test="${status.first}">
+														<span class="bidNow red bold">
+															<fmt:formatNumber value="${bid.bid_bp + bidUnit}" pattern="#,###" />
+														</span>
+														<input type="hidden" class="bidNowVal" value="${bid.bid_bp+bidUnit}">
+													</c:if>
+												</c:forEach>
+											</c:otherwise>
+										</c:choose>
 									</div>
 								</div>
 							</td>

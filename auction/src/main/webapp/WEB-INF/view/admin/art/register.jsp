@@ -5,19 +5,66 @@
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
+<style>
+	table{
+		width: 60%;
+		margin: auto;
+		border-top: solid 2px;
+		border-bottom: solid 2px;
+	}
+	th{
+		border-bottom: solid 1px;
+		border-color:silver;
+		text-align: center;
+		background-color: rgb(230, 230, 235);
+	}
+	td{
+		line-height: 40px;
+		padding : 10px;
+		border-bottom: solid 1px;
+		border-color:silver;
+	}
+	input{
+		line-height: 25px;
+		width:100%;
+	}
+	
+	input[type=button], input[type=submit]{
+		margin: 0 10px;
+		font-size: 16px;
+		height:35px;
+		width:80px;
+		color: white;
+		border: none;
+		background-color: #c33234;
+	}
+	input[type=file]{
+		
+	}
+	select{
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	
+	textarea{
+		line-height: 21px;
+		width:100%;
+		height: 200px;
+	}
+	.foot-btn{
+		text-align:center;
+		line-height:50px;
+		margin: 10px 0;
+	}
+</style>
+
 
 <h1>작품 등록</h1>
 
 
 <div class="registerForm" align="center">
 	<form action="register" method="post" enctype="multipart/form-data">
-		<table border="1" width="1000px">
-			<thead>
-				<tr>
-					<th>구분</th>
-					<th>내용</th>
-				</tr>
-			</thead>
+		<table>
 			<tbody>
 				<tr>
 					<th>작품명</th>
@@ -79,17 +126,12 @@
 					</select></td>
 				</tr>
 			</tbody>
-			<tfoot>
-				<tr>
-					<th colspan="2">
-						<input type="submit" value="등록">
-						<a	href="list">
-							<input type="button" value="취소">
-						</a>
-					</th>
-				</tr>
-			</tfoot>
 		</table>
+		<div class="foot-btn">
+			<input type="submit" value="등록">
+			<a	href="list">
+				<input type="button" value="취소"></a>
+		</div>
 	</form>
 </div>
 
