@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="auction.entity.Bid" alias="bid"/>
 		<typeAlias type="auction.entity.myfav.Myfav" alias="myfav"/>
 		<typeAlias type="auction.entity.myfav.View" alias="myfavView"/>
+		<typeAlias type="auction.entity.search.Search" alias="searchSearch"/>
 	</typeAliases>
 
 </configuration>
