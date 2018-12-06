@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
+
 <html>
     <head>
     <title>미술품 경매</title>
@@ -244,8 +245,8 @@
                     <a href="#">FAQ</a>
                 </div>
             </li>
-            <li style="float:right"><a class="active" href="#about">Login</a></li>
-            <li style="float:right"><a class="active" href="#about">Join</a></li>
+            <li style="float:right"><a class="active" href="#">Login</a></li>
+            <li style="float:right"><a class="active" href="${root}/joinform">Join</a></li>
             <li style="float:right"><a class="active" href="#about">Mypage</a></li>
             <li class="dropdown" style="float:right">
             	<a href="javascript:void(0)" class="active dropbtn">관리자</a>
