@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="myfav_listForUser" parameterType="integer" resultType="myfavView">
-		select * from myfav_view where fav_user_no=#{user_no} order by fav_sq
+		select * from myfav_view where fav_user_no=#{user_no} order by fav_sq			
 	</select>
 	
 </mapper>
