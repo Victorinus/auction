@@ -10,8 +10,8 @@
     <style>
     
     	div{
-    		margin-top: 15px;
-    		margin-bottom: 15px;
+    		margin-top: 5px;
+    		margin-bottom: 5px;
     	}
     	
     	#count {
@@ -25,7 +25,7 @@
         }
     	
     	.form-unfav-button {
-            width: 100px;
+            width: 75px;
             background-color: cornflowerblue;
             padding: 2px;
             border: 1px solid cornflowerblue;
@@ -35,7 +35,7 @@
         }
     	
     	.form-link-button {
-            width: 100px;
+            width: 75px;
             background-color: cornflowerblue;
             padding: 2px;
             border: 1px solid cornflowerblue;
@@ -100,8 +100,9 @@
         					</td>
         				</tr>
         				<tr>
-        					<th>번호</th>
+        					<th width="5%">번호</th>
         					<th>경매명</th>
+        					<th width="5%">LOT</th>
         					<th>작품명</th>
         					<th>작가명</th>
         					<th>등록일자</th>
@@ -111,8 +112,9 @@
         			<tbody>
         				<c:forEach var="view" items="${myfavList}" varStatus="status">
 	        				<tr>
-	        					<td width="10%">${status.count}</td>
+	        					<td>${status.count}</td>
         						<td>${view.fav_auction_nm}</td>
+        						<td></td>
 	        					<td>${view.fav_art_nm}</td>
 	        					<td>${view.fav_art_artist}</td>
 	        					<td>

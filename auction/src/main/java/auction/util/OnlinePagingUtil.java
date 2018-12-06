@@ -35,7 +35,9 @@ public class OnlinePagingUtil {
 	@Autowired
 	private OnlineDao onlineDao;
 
-	public void setHttpServletRequest(@ModelAttribute Search search, HttpServletRequest request) {
+	public void setHttpServletRequest(
+								@ModelAttribute Search search, 
+								HttpServletRequest request) {
 		log.debug("PagingUtil : search, request");
 		
 		this.art_artist = search.getArt_artist();
@@ -66,8 +68,8 @@ public class OnlinePagingUtil {
 			this.art_eprice_max = Integer.parseInt(sb_max.toString());
 		}
 		catch(Exception e) {
-			this.art_eprice_min = 0;
-			this.art_eprice_max = 0;
+			this.art_eprice_min = 100000;
+			this.art_eprice_max = 50000000;
 		}
 		
 //		[3] page 파라미터의 변환 처리 
@@ -86,7 +88,10 @@ public class OnlinePagingUtil {
 		catch(Exception e) {}
 	}
 
-	public void setHttpServletRequest(@ModelAttribute Search search, @RequestParam String no, HttpServletRequest request) {
+	public void setHttpServletRequest(
+								@ModelAttribute Search search, 
+								@RequestParam String no, 
+								HttpServletRequest request) {
 		log.debug("PagingUtil : search, no, request");
 		
 		this.art_artist = search.getArt_artist();

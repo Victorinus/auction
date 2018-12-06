@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="auction.repository.myfav.SearchDaoImpl">
+
+	<select id="search_listCount" resultType="integer">
+		SELECT count(*) 
+		FROM auction_view
+		<![CDATA[
+			WHERE 
+				sysdate >= to_date(a_end, 'YYYY-MM-DD HH24:MI') 
+			OR 
+				sysdate >= to_date(a_start, 'YYYY-MM-DD HH24:MI') 
+			AND 
+				sysdate <= to_date(a_end, 'YYYY-MM-DD HH24:MI')
+		]]>	
+	</select>
+	
+	<select id="search_searchCount" parameterType="search" resultType="integer">
+		SELECT count(*)
+		FROM auction_view
+		<where>
+				sysdate <![CDATA[>=]]> to_date(a_end, 'YYYY-MM-DD HH24:MI')
+			OR
+				sysdate <![CDATA[>=]]> to_date(a_start, 'YYYY-MM-DD HH24:MI')
+			AND
+				sysdate <![CDATA[<=]]> to_date(a_end, 'YYYY-MM-DD HH24:MI')
+			<if test="">
+				
+			</if>
+		</where>
+		
+	</select>
+	
+	<select id="search_list" resultType="view">
+		SELECT
+			a_sq,
+			a_nm,
+			a_dt,
+			a_start,
+			a_end,
+			a_type,
+			art_sq,
+			art_nm,
+			art_size,
+			art_cdt,
+			art_bp,
+			art_artist,
+			art_image,
+			art_medium,
+			art_ep
+		FROM auction_view
+		<![CDATA[
+			WHERE 
+				sysdate >= to_date(a_end, 'YYYY-MM-DD HH24:MI') 
+			OR 
+				sysdate >= to_date(a_start, 'YYYY-MM-DD HH24:MI') 
+			AND 
+				sysdate <= to_date(a_end, 'YYYY-MM-DD HH24:MI')
+		]]>	
+	</select>
+	
+</mapper>
