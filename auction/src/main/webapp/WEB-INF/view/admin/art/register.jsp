@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/art/menu.jsp"/>
 
 <style>
+	.admin-art-register{
+		margin: 100px 0;
+	}
 	.admin-art-register *{
 		vertical-align: middle;
 		text-align: center;
@@ -15,6 +17,7 @@
 		margin: auto;
 		border-top: solid 2px;
 		border-bottom: solid 2px;
+		border-spacing: 0;
 	}
 	.admin-art-register th{
 		border-bottom: solid 1px;
@@ -27,13 +30,18 @@
 		padding : 10px;
 		border-bottom: solid 1px;
 		border-color:silver;
+		text-align:left;
+		vertical-align: middle;
 	}
 	.admin-art-register input{
 		line-height: 25px;
 		width:100%;
+		padding : 3px 10px;
 	}
-	
-	.admin-art-register input[type=button], input[type=submit]{
+	.admin-art-register input[type=text]{
+		text-align:left;
+	}
+	.admin-art-register input[type=button], .admin-art-register input[type=submit]{
 		margin: 0 10px;
 		font-size: 16px;
 		height:35px;
@@ -42,16 +50,23 @@
 		border: none;
 		background-color: #c33234;
 	}
+	.admin-art-register input[type=file]{
+		padding: 3px 0;
+	}
 	
 	.admin-art-register select{
 		padding-top: 5px;
 		padding-bottom: 5px;
+		height: 35px;
 	}
 	
 	.admin-art-register textarea{
 		line-height: 21px;
 		width:100%;
 		height: 200px;
+		text-align:left;
+		padding : 5px 10px;
+		resize: none;
 	}
 	.admin-art-register .foot-btn{
 		text-align:center;
@@ -59,10 +74,12 @@
 		margin: 10px 0;
 	}
 </style>
-
-
-<h1>작품 등록</h1>
-
+<script>
+	function editMenuColor(){
+		$(".admin-menu-art-register").css("color","#e41e21");
+	}
+	editMenuColor();
+</script>
 
 <div class="admin-art-register" align="center">
 	<form action="register" method="post" enctype="multipart/form-data">

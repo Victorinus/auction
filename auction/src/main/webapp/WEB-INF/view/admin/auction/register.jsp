@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/auction/menu.jsp"/>
+
 
 <style>
+	.admin-auction-register{
+		margin: 100px 0;
+	}
 	.admin-auction-register table{
 		width: 60%;
 		margin: auto;
 		border-top: solid 2px;
 		border-bottom: solid 2px;
+		border-spacing: 0;	
 	}
 	.admin-auction-register th{
 		width:150px;
@@ -21,6 +28,7 @@
 		padding : 10px;
 		border-bottom: solid 1px;
 		border-color:silver;
+		text-align:left;
 	}
 	.admin-auction-register input{
 		padding:3px 10px;
@@ -30,6 +38,9 @@
 	}
 	.admin-auction-register #sample6_postcode{
 		width:100px;
+	}
+	.admin-auction-register input[type=text]{
+		text-align:left;
 	}
 	.admin-auction-register input[type=button], .admin-auction-register input[type=submit]{
 		vertical-align:top;
@@ -64,6 +75,8 @@
 		line-height: 21px;
 		width:100%;
 		height: 200px;
+		text-align:left;
+		resize: none;
 	}
 	.admin-auction-register .foot-btn{
 		text-align:center;
@@ -71,8 +84,12 @@
 		margin: 10px 0;
 	}
 </style>
-
-<h1>경매 등록</h1>
+<script>
+	function editMenuColor(){
+		$(".admin-menu-auction-register").css("color","#e41e21");
+	}
+	editMenuColor();
+</script>
 
 <div class="admin-auction-register" align="center">
 	<form action="register" method="post" enctype="multipart/form-data">

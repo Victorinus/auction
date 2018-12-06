@@ -3,15 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/art/menu.jsp"/>
 
 <style>
+	.admin-art-detail{
+		margin: 100px 0;
+	}
+	.admin-art-detail *{
+		vertical-align: middle;
+	}
 	.admin-art-detail table{
 		width: 60%;
 		margin: auto;
 		border-top: solid 2px;
 		border-bottom: solid 2px;
+		border-spacing: 0;
 	}
 	.admin-art-detail th{
 		border-bottom: solid 1px;
@@ -45,6 +54,7 @@
 		line-height: 21px;
 		width:100%;
 		height: 200px;
+		resize: none;
 	}
 	.admin-art-detail .foot-btn{
 		text-align:center;
@@ -52,9 +62,6 @@
 		margin: 10px 0;
 	}
 </style>
-
-<h1>작품 상세정보</h1>
-
 
 <div class="admin-art-detail" align="center">
 	<table>

@@ -1,15 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/auction/menu.jsp"/>
 
 <style>
+	.admin-auction-edit{
+		margin: 100px 0;
+	}
+	.admin-auction-edit *{
+		vertical-align: middle;
+	}
 	.admin-auction-edit table{
 		width: 60%;
 		margin: auto;
 		border-top: solid 2px;
 		border-bottom: solid 2px;
+		border-spacing: 0;
 	}
 	.admin-auction-edit th{
 		width:150px;
@@ -66,6 +77,7 @@
 		line-height: 21px;
 		width:100%;
 		height: 200px;
+		resize: none;
 	}
 	.admin-auction-edit .foot-btn{
 		text-align:center;
@@ -73,8 +85,6 @@
 		margin: 10px 0;
 	}
 </style>
-
-<h1>경매 정보수정</h1>
 
 <div class="admin-auction-edit" align="center">
 	<form action="edit" method="post" enctype="multipart/form-data">

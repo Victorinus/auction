@@ -3,8 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/art/menu.jsp"/>
 
 <style>
 	.admin-art-edit table{
@@ -55,6 +57,7 @@
 		line-height: 21px;
 		width:100%;
 		height: 200px;
+		resize: none;
 	}
 	.admin-art-edit .foot-btn{
 		text-align:center;
@@ -62,8 +65,6 @@
 		margin: 10px 0;
 	}
 </style>
-
-<h1>작품 정보수정</h1>
 
 <div class="admin-art-edit" align="center">
 	<form action="edit" method="post" enctype="multipart/form-data">

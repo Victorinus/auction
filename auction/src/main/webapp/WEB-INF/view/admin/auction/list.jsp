@@ -1,34 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="root" value="${pageContext.request.contextPath}"/>
 
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/auction/menu.jsp"/>
 
 <style>
+	.admin-auction-list{
+		margin: 100px 0;
+	}
 	.admin-auction-list *{
 		vertical-align: middle;
 		text-align: center;
 	}
+	.admin-auction-list a{
+		color:black;
+	}
 	.admin-auction-list table{
 		width: 70%;
 		margin: auto;
-		border: 2px solid black;
-		border:none;
+		border: 1px solid silver;
 		table-layout:fixed;
+		border-spacing: 0;	
 	}
 	.admin-auction-list th{
 		padding : 10px;
-		border: 1px solid silver;
+		border: 0.5px solid silver;
 		text-align: center;
 		line-height:30px;
 		background-color: rgb(230, 230, 235);
 	}
 	.admin-auction-list td{
 		padding : 10px;
-		border: 1px solid silver;
+		border: 0.5px solid silver;
 		line-height:30px;
 	}
 	.admin-auction-list input, select{
@@ -37,7 +44,7 @@
 		height:35px;
 		line-height: 35px;
 	}
-	.admin-auction-list input[type=button], input[type=submit]{
+	.admin-auction-list input[type=button], .admin-auction-list input[type=submit]{
 		margin:0;
 		padding:0;
 		color: white;
@@ -95,15 +102,19 @@
 		width:10%;
 	}
 </style>
-
-<h1>경매 목록</h1>
+<script>
+	function editMenuColor(){
+		$(".admin-menu-auction-list").css("color","#e41e21");
+	}
+	editMenuColor();
+</script>
 
 <div class="admin-auction-list" align="center">
 
 	<table>
 		<thead>
 			<tr>
-				<th style="width:6%">번호
+				<th style="width:7%">번호
 				<c:choose>
 					<c:when test="${empty param.sortType or param.sortType eq 'dt'}">
 						<a	href="${root}/admin/auction/list?curPage=${param.curPage}&sortType=dtR&searchType=${param.searchType}&searchKey=${param.searchKey}">
@@ -128,7 +139,7 @@
 				</c:choose>
 				</th>
 				<th style="width:15%">요약정보</th>
-				<th style="width:24%">주소</th>
+				<th style="width:23%">주소</th>
 				<th style="width:15%">경매시작시간</th>
 				<th style="width:15%">경매종료시간</th>
 				<th style="width:10%">경매종류
