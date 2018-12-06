@@ -11,6 +11,9 @@
 	.auction-online-curdetail{
 		margin: auto;
 	}
+	.auction-online-curdetail input{
+		vertical-align: middle;
+	}
 	.auction-online-curdetail th, .auction-online-curdetail td {
 		vertical-align: inherit;
 	}
@@ -32,17 +35,17 @@
 	.auction-online-curdetail .frame {
 		display: none;
 		position: fixed;
-		top: 15%;
+		top: 10%;
 		left: 25%;
 		width: 50%;
-		height: 70%;
+		height: 80%;
 		padding: 0px;
 		z-index: 10000;
 		background-color: white;
 		overflow: auto;
 	}
 	.auction-online-curdetail .info-bar {
-		min-height: 40px;
+		line-height:40px;
 		background-color: #c33234;
 		padding: 10px 10px;
 		font-size: 20px;
@@ -146,6 +149,7 @@
 		border: 0px solid;
 		width: 100%;
 		height: 50px;
+		font-size:16px;
 	}
 	.auction-online-curdetail .btn1{
 		background-color: #c33234;
@@ -153,6 +157,7 @@
 		border: 0px solid;
 		width: 100px;
 		height: 50px;
+		font-size:16px;
 	}
 	.auction-online-curdetail .btn2{
 		background-color: #c33234;
@@ -160,9 +165,10 @@
 		border: 0px solid;
 		width: 150px;
 		height: 40px;
+		font-size:16px;
 	}
 	.auction-online-curdetail .bid-info-list{
-		height:430px;
+		height:450px;
 		overflow: auto;
 		border: 1px solid gray;
 	}
@@ -843,7 +849,6 @@
 			window.websocket.close();
 			window.websocket = null;
 		};
-		
 		
 		//웹소켓 접속
 		webInit();

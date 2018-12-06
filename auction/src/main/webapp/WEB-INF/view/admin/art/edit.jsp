@@ -9,6 +9,9 @@
 <jsp:include page="/WEB-INF/view/admin/art/menu.jsp"/>
 
 <style>
+	.admin-art-edit *{
+		vertical-align: middle;
+	}
 	.admin-art-edit table{
 		width: 60%;
 		margin: auto;

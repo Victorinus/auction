@@ -190,6 +190,33 @@
         	color:silver;
         }
         
+        /* 통계 메뉴 바*/
+        .admin-side{
+        	line-height:25px;
+        	float:left;
+        	padding: 0px;
+        	margin:0;
+        	vertical-align:middle;
+        	border: 2px solid #d8dcdf;
+        	background-color:#f6f6f6;
+        	width:250px;
+        	height: 600px;
+        }
+        .admin-side a{
+        	text-decoration: none;
+        	color: black;
+        	font-weight: bold;
+        }
+       .admin-side .main{
+       		padding:20px 15px;
+       		font-size: 18px;
+       		background-color:#dddddd;
+        }
+        .admin-side .sub{
+       		padding:15px 10px;
+       		font-size: 17px;
+        }
+        
     </style>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -288,7 +315,7 @@
             			<a href="${root}/admin/art/list">작품관리</a>
             			<a href="${root}/admin/auction/list">경매관리</a>
             			<a href="#">회원관리</a>
-            			<a href="#">통계</a>
+            			<a href="${root}/admin/statis/aucsts">통계</a>
             		</div>
             </li>
         </ul>
