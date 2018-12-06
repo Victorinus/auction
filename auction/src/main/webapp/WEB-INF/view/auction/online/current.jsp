@@ -3,239 +3,241 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
-<html>
-    <head>
-    <title>미술품 경매 | 진행경매</title>
-    <style>
-		.content {
-            width: 500px;
-            margin: auto;
-        }
+
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+
+<style>
+	.auction-online-current .content {
+		width: 500px;
+		margin: auto;
+	}
+	
+	.auction-online-current .row {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+	
+	.auction-online-current .gallery {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+	
+	.auction-online-current .margin {
+		margin-top: 15px;
+	}
+	
+	.auction-online-current .navLower, .auction-online-current .navLower>a {
+		text-decoration: none;
+		font-size: 25px;
+		color: black;
+	}
+	
+	.auction-online-current .navUpper, .auction-online-current .navUpper>a {
+		text-decoration: none;
+		font-size: 20px;
+		color: black;
+	}
+	
+	.auction-online-current .left>p {
+		text-align: left;
+		font-size: 15px;
+	}
+	
+	.auction-online-current .form-submit {
+		display: inline-block;
+	}
+	
+	.auction-online-current .form-fav-button {
+		width: 125px;
+		background-color: cornflowerblue;
+		padding: 0px;
+		border: 1px solid cornflowerblue;
+		color: white;
+		font-family: 견고딕;
+		font-size: 15px;
+	}
+	
+	.auction-online-current .form-bid-button {
+		width: 125px;
+		background-color: lightblue;
+		padding: 0px;
+		border: 1px solid lightblue;
+		color: white;
+		font-family: 견고딕;
+		font-size: 15px;
+	}
+	
+	.auction-online-current .text {
+		display: inline-block;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		vertical-align: middle;
+	}
+	
+	.auction-online-current .img {
+		display: inline-block;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		vertical-align: middle;
+	}
+</style>
     
-        .row {
-            margin-top: 5px;
-            margin-bottom: 5px;
-        }
-
-        .gallery {
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-
-        .margin {
-            margin-top: 15px;
-        }
-        
-		.navLower, .navLower > a{
-    		text-decoration: none;    		
-    		font-size: 25px;
-    		color: black;
-    	}
-    	
-    	.navUpper, .navUpper > a{
-    		text-decoration: none;    		
-    		font-size: 20px;
-    		color: black;
-    	}
-        
-        .left > p{
-        	text-align: left;
-        	font-size: 15px;
-        }
-        
-        .form-submit {
-        	display: inline-block;
-        }
-        
-		.form-fav-button {
-            width: 125px;
-            background-color: cornflowerblue;
-            padding: 0px;
-            border: 1px solid cornflowerblue;
-            color: white;
-            font-family: 견고딕;
-            font-size: 15px;    
-        }
-        
-        .form-bid-button {
-            width: 125px;
-            background-color: lightblue;
-            padding: 0px;
-            border: 1px solid lightblue;
-            color: white;
-            font-family: 견고딕;
-            font-size: 15px;    
-        }
-        
-        .text {
-            display: inline-block;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            vertical-align: middle;
-        }
-        
-        .img {
-            display: inline-block;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            vertical-align: middle;
-        }
-        
-    </style>
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="${root}/library/js/nouislider.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="${root}/library/css/nouislider.css">
-    <script>
-        window.onload = function(){
-        	//슬라이더바
-			var slider = document.getElementById('slider');
-        	
-			var value = [
-                document.getElementById('lower'),
-                document.getElementById('upper'),
-            ]
-			
-            var epriceMin = document.getElementById('eprice_min')
-            var epriceMax = document.getElementById('eprice_max')
-            
-            var paramMin = ${util.art_eprice_min}
-            var paramMax = ${util.art_eprice_max}
-            
-            //사용자가 추정가 이용하여 검색했는지 여부에 따라 조건문 처리
-            if(paramMin != 100000 && paramMax != 50000000){
-            	noUiSlider.create(slider, {
-                   	start: [paramMin, paramMax],
-                    connect: true,
-                    step: 100000,
-                    range: {
-                    	'min': [100000], 
-                    	'max': [50000000]
-                	},
-                    format: wNumb({
-                        decimals: 0,
-                        thousand: ',',
-                        prefix: '￦',
-                    })
-                })
-            }else{
-            	noUiSlider.create(slider, {
-                   	start: [100000, 50000000],
-                    connect: true,
-                    step: 100000,
-                    range: {
-                    	'min': [100000], 
-                    	'max': [50000000]
-                	},
-                    format: wNumb({
-                        decimals: 0,
-                        thousand: ',',
-                        prefix: '￦',
-                    })
-                })	
-            }
-            
-            slider.noUiSlider.on('update', function (values, handle) {
-                value[handle].innerHTML = values[handle]
-                epriceMin.value = values[0]
-                epriceMax.value = values[1]
-            })          
-            
-            //검색 초기화
-            $(".reset").click(function(){
-            	$("input[name=art_artist]").val("");
-            	$("input[name=art_nm]").val("");
-            	$("input[name=lot]").val("");
-            });
-          	
-            //남은 시간
-			var a= new Array();
-			<c:forEach var="view" items="${currentList}">
-				a.push("${view.a_end}");
-			</c:forEach>
-          		
-			setInterval(timer, 1000);
-            function timer(){
-                var sysdate = new Date();
-                var end = new Date(a[0]);
-                var gap = Math.round((end - sysdate) / 1000);
-                var D = Math.floor(gap / (60 * 60 * 24));
-                var H = Math.floor((gap - D*(60 * 60 * 24)) / (60 * 60) % (60 * 60));
-                var M = Math.floor((gap - H*(60 * 60)) / 60 % 60);
-                var S = Math.floor((gap - M*60) % 60);
-                
-                //document.querySelector(".timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
-                var timeleft = document.querySelectorAll(".timeleft");
-                //console.log(timeleft);
-                for(i=0; i<timeleft.length; i++){
-                	timeleft[i].innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";
-                }
-            };
-            
-            //관심작품
-			var status = 
-				[true, true, true, true, true, true, true, true, true, true];
-            
-            $(".form-fav-button").click(function(){
-				var target = this;
-				var index = $(target).attr("data-index");
-				var a_sq = $(target).attr("data-a_sq");
-				var art_sq = $(target).attr("data-art_sq");
-				var lot = $(target).attr("data-lot");
-				var img = $(target).children(".img").children("img").attr("src")
-				//console.log(img)
-				
-				$.ajax({
-            		type: "post",
-            		url: "/auction/myfav/register",
-            		data : {
-            			a_sq: a_sq,
-            			art_sq: art_sq,
-            			lot: lot
-            		},
-            		success : function(xml){
-            			console.log("데이터 전송 완료")
-            		}
-            	});
-				
-				if(status[index]){
-					if(img.endsWith("/fav.png")){
-						var tag = $("<img/>")
-						.attr("src", "${root}/image/icon/unfav.png")
-						.attr("width", "50%");
-						$(this).children(".img").empty();
-						$(this).children(".img").prepend(tag);
-					}else{
-						var tag = $("<img/>")
-						.attr("src", "${root}/image/icon/fav.png")
-						.attr("width", "50%");
-						$(this).children(".img").empty();
-						$(this).children(".img").prepend(tag);
+ <script>
+	window.onload = function() {
+		//슬라이더바
+		var slider = document.getElementById('slider');
+	
+		var value = [ document.getElementById('lower'),
+				document.getElementById('upper'), ]
+	
+		var epriceMin = document.getElementById('eprice_min')
+		var epriceMax = document.getElementById('eprice_max')
+	
+		var paramMin = $
+		{
+			util.art_eprice_min
+		}
+		var paramMax = $
+		{
+			util.art_eprice_max
+		}
+	
+		//사용자가 추정가 이용하여 검색했는지 여부에 따라 조건문 처리
+		if (paramMin != 100000 && paramMax != 50000000) {
+			noUiSlider.create(slider, {
+				start : [ paramMin, paramMax ],
+				connect : true,
+				step : 100000,
+				range : {
+					'min' : [ 100000 ],
+					'max' : [ 50000000 ]
+				},
+				format : wNumb({
+					decimals : 0,
+					thousand : ',',
+					prefix : '￦',
+				})
+			})
+		} else {
+			noUiSlider.create(slider, {
+				start : [ 100000, 50000000 ],
+				connect : true,
+				step : 100000,
+				range : {
+					'min' : [ 100000 ],
+					'max' : [ 50000000 ]
+				},
+				format : wNumb({
+					decimals : 0,
+					thousand : ',',
+					prefix : '￦',
+				})
+			})
+		}
+	
+		slider.noUiSlider.on('update', function(values, handle) {
+			value[handle].innerHTML = values[handle]
+			epriceMin.value = values[0]
+			epriceMax.value = values[1]
+		})
+	
+		//검색 초기화
+		$(".reset").click(function() {
+			$("input[name=art_artist]").val("");
+			$("input[name=art_nm]").val("");
+			$("input[name=lot]").val("");
+		});
+	
+		//남은 시간
+		var a = new Array();
+		<c:forEach var="view" items="${currentList}">
+		a.push("${view.a_end}");
+		</c:forEach>
+	
+		setInterval(timer, 1000);
+		function timer() {
+			var sysdate = new Date();
+			var end = new Date(a[0]);
+			var gap = Math.round((end - sysdate) / 1000);
+			var D = Math.floor(gap / (60 * 60 * 24));
+			var H = Math.floor((gap - D * (60 * 60 * 24)) / (60 * 60)
+					% (60 * 60));
+			var M = Math.floor((gap - H * (60 * 60)) / 60 % 60);
+			var S = Math.floor((gap - M * 60) % 60);
+	
+			//document.querySelector(".timeleft").innerHTML = D+"일 "+H+"시간 "+M+"분 "+S+"초";    
+			var timeleft = document.querySelectorAll(".timeleft");
+			//console.log(timeleft);
+			for (i = 0; i < timeleft.length; i++) {
+				timeleft[i].innerHTML = D + "일 " + H + "시간 " + M + "분 " + S
+						+ "초";
+			}
+		}
+		;
+	
+		//관심작품
+		var status = [ true, true, true, true, true, true, true, true,
+				true, true ];
+	
+		$(".form-fav-button").click(
+				function() {
+					var target = this;
+					var index = $(target).attr("data-index");
+					var a_sq = $(target).attr("data-a_sq");
+					var art_sq = $(target).attr("data-art_sq");
+					var lot = $(target).attr("data-lot");
+					var img = $(target).children(".img").children("img")
+							.attr("src")
+					//console.log(img)
+	
+					$.ajax({
+						type : "post",
+						url : "/auction/myfav/register",
+						data : {
+							a_sq : a_sq,
+							art_sq : art_sq,
+							lot : lot
+						},
+						success : function(xml) {
+							console.log("데이터 전송 완료")
+						}
+					});
+	
+					if (status[index]) {
+						if (img.endsWith("/fav.png")) {
+							var tag = $("<img/>").attr("src",
+									"${root}/image/icon/unfav.png").attr(
+									"width", "50%");
+							$(this).children(".img").empty();
+							$(this).children(".img").prepend(tag);
+						} else {
+							var tag = $("<img/>").attr("src",
+									"${root}/image/icon/fav.png").attr(
+									"width", "50%");
+							$(this).children(".img").empty();
+							$(this).children(".img").prepend(tag);
+						}
+					} else {
+						if (img.endsWith("/unfav.png")) {
+							var tag = $("<img/>").attr("src",
+									"${root}/image/icon/fav.png").attr(
+									"width", "50%");
+							$(this).children(".img").empty();
+							$(this).children(".img").prepend(tag);
+						} else {
+							var tag = $("<img/>").attr("src",
+									"${root}/image/icon/unfav.png").attr(
+									"width", "50%");
+							$(this).children(".img").empty();
+							$(this).children(".img").prepend(tag);
+						}
 					}
-				}else{
-					if(img.endsWith("/unfav.png")){
-						var tag = $("<img/>")
-						.attr("src", "${root}/image/icon/fav.png")
-						.attr("width", "50%");
-						$(this).children(".img").empty();
-						$(this).children(".img").prepend(tag);
-					}else{
-						var tag = $("<img/>")
-						.attr("src", "${root}/image/icon/unfav.png")
-						.attr("width", "50%");
-						$(this).children(".img").empty();
-						$(this).children(".img").prepend(tag);
-					}
-				}
-                status[index] = !status[index];
-            })
-        };
-    </script>
-</head>
+					status[index] = !status[index];
+				})
+		};
+</script>
 
-<body>
+<div class="auction-online-current">
     <div class="container-fluid">
         <div class="row text-center header">
             <h1>진행경매</h1>
@@ -403,5 +405,5 @@
         	</div>
         </div>
     </div>
-</body>
-</html>
+</div>
+<jsp:include page="/WEB-INF/view/template/footer.jsp"/>

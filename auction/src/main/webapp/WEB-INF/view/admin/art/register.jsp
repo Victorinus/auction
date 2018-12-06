@@ -1,23 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/art/menu.jsp"/>
 
+<style>
+	.admin-art-register{
+		margin: 100px 0;
+	}
+	.admin-art-register *{
+		vertical-align: middle;
+		text-align: center;
+	}
+	.admin-art-register table{
+		width: 60%;
+		margin: auto;
+		border-top: solid 2px;
+		border-bottom: solid 2px;
+		border-spacing: 0;
+	}
+	.admin-art-register th{
+		border-bottom: solid 1px;
+		border-color:silver;
+		text-align: center;
+		background-color: rgb(230, 230, 235);
+	}
+	.admin-art-register td{
+		line-height: 40px;
+		padding : 10px;
+		border-bottom: solid 1px;
+		border-color:silver;
+		text-align:left;
+		vertical-align: middle;
+	}
+	.admin-art-register input{
+		line-height: 25px;
+		width:100%;
+		padding : 3px 10px;
+	}
+	.admin-art-register input[type=text]{
+		text-align:left;
+	}
+	.admin-art-register input[type=button], .admin-art-register input[type=submit]{
+		margin: 0 10px;
+		font-size: 16px;
+		height:35px;
+		width:80px;
+		color: white;
+		border: none;
+		background-color: #c33234;
+	}
+	.admin-art-register input[type=file]{
+		padding: 3px 0;
+	}
+	
+	.admin-art-register select{
+		padding-top: 5px;
+		padding-bottom: 5px;
+		height: 35px;
+	}
+	
+	.admin-art-register textarea{
+		line-height: 21px;
+		width:100%;
+		height: 200px;
+		text-align:left;
+		padding : 5px 10px;
+		resize: none;
+	}
+	.admin-art-register .foot-btn{
+		text-align:center;
+		line-height:50px;
+		margin: 10px 0;
+	}
+</style>
+<script>
+	function editMenuColor(){
+		$(".admin-menu-art-register").css("color","#e41e21");
+	}
+	editMenuColor();
+</script>
 
-<h1>작품 등록</h1>
-
-
-<div class="registerForm" align="center">
+<div class="admin-art-register" align="center">
 	<form action="register" method="post" enctype="multipart/form-data">
-		<table border="1" width="1000px">
-			<thead>
-				<tr>
-					<th>구분</th>
-					<th>내용</th>
-				</tr>
-			</thead>
+		<table>
 			<tbody>
 				<tr>
 					<th>작품명</th>
@@ -79,17 +145,12 @@
 					</select></td>
 				</tr>
 			</tbody>
-			<tfoot>
-				<tr>
-					<th colspan="2">
-						<input type="submit" value="등록">
-						<a	href="list">
-							<input type="button" value="취소">
-						</a>
-					</th>
-				</tr>
-			</tfoot>
 		</table>
+		<div class="foot-btn">
+			<input type="submit" value="등록">
+			<a	href="list">
+				<input type="button" value="취소"></a>
+		</div>
 	</form>
 </div>
 

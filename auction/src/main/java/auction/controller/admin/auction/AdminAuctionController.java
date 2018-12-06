@@ -62,7 +62,7 @@ public class AdminAuctionController {
 		//DB등록
 		auctionDao.insert(auction);
 			
-		return "redirect:/auction/list";
+		return "redirect:/admin/auction/list";
 	}
 	
 	@RequestMapping("/admin/auction/list")
@@ -117,13 +117,13 @@ public class AdminAuctionController {
 		//DB 수정
 		auctionDao.edit(auction);
 		
-		return "redirect:/auction/list";
+		return "redirect:/admin/auction/list";
 	}
 	
 	@RequestMapping("/admin/auction/delete")
 	public String delete(@RequestParam int auction_sq) {
 		auctionDao.delete(auction_sq);
-		return "redirect:/auction/list";
+		return "redirect:/admin/auction/list";
 	}
 	
 }
