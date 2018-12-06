@@ -8,41 +8,44 @@
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
 <style>
-	*{
+	.admin-auction-list *{
 		vertical-align: middle;
 		text-align: center;
 	}
-	table{
+	.admin-auction-list table{
 		width: 70%;
 		margin: auto;
 		border: 2px solid black;
 		border:none;
 		table-layout:fixed;
 	}
-	th{
+	.admin-auction-list th{
 		padding : 10px;
 		border: 1px solid silver;
 		text-align: center;
 		line-height:30px;
 		background-color: rgb(230, 230, 235);
 	}
-	td{
+	.admin-auction-list td{
 		padding : 10px;
 		border: 1px solid silver;
 		line-height:30px;
 	}
-	input, select{
+	.admin-auction-list input, select{
+		vertical-align:top;
 		font-size: 15px;
 		height:35px;
 		line-height: 35px;
 	}
-	input[type=button], input[type=submit]{
+	.admin-auction-list input[type=button], input[type=submit]{
+		margin:0;
+		padding:0;
 		color: white;
 		border: none;
 		width:60px;
 		background-color: #c33234;
 	}
-	.nav-bar{
+	.admin-auction-list .nav-bar{
 		line-height: 50px;
 		font-size:16px;
 	}
@@ -94,7 +97,8 @@
 </style>
 
 <h1>경매 목록</h1>
-<div class="auctionList" align="center">
+
+<div class="admin-auction-list" align="center">
 
 	<table>
 		<thead>

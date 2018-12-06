@@ -6,30 +6,34 @@
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
 <style>
-	table{
+	.admin-art-register *{
+		vertical-align: middle;
+		text-align: center;
+	}
+	.admin-art-register table{
 		width: 60%;
 		margin: auto;
 		border-top: solid 2px;
 		border-bottom: solid 2px;
 	}
-	th{
+	.admin-art-register th{
 		border-bottom: solid 1px;
 		border-color:silver;
 		text-align: center;
 		background-color: rgb(230, 230, 235);
 	}
-	td{
+	.admin-art-register td{
 		line-height: 40px;
 		padding : 10px;
 		border-bottom: solid 1px;
 		border-color:silver;
 	}
-	input{
+	.admin-art-register input{
 		line-height: 25px;
 		width:100%;
 	}
 	
-	input[type=button], input[type=submit]{
+	.admin-art-register input[type=button], input[type=submit]{
 		margin: 0 10px;
 		font-size: 16px;
 		height:35px;
@@ -38,20 +42,18 @@
 		border: none;
 		background-color: #c33234;
 	}
-	input[type=file]{
-		
-	}
-	select{
+	
+	.admin-art-register select{
 		padding-top: 5px;
 		padding-bottom: 5px;
 	}
 	
-	textarea{
+	.admin-art-register textarea{
 		line-height: 21px;
 		width:100%;
 		height: 200px;
 	}
-	.foot-btn{
+	.admin-art-register .foot-btn{
 		text-align:center;
 		line-height:50px;
 		margin: 10px 0;
@@ -62,7 +64,7 @@
 <h1>작품 등록</h1>
 
 
-<div class="registerForm" align="center">
+<div class="admin-art-register" align="center">
 	<form action="register" method="post" enctype="multipart/form-data">
 		<table>
 			<tbody>

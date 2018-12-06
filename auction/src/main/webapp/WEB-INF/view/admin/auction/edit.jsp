@@ -4,18 +4,82 @@
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
+<style>
+	.admin-auction-edit table{
+		width: 60%;
+		margin: auto;
+		border-top: solid 2px;
+		border-bottom: solid 2px;
+	}
+	.admin-auction-edit th{
+		width:150px;
+		border-bottom: solid 1px;
+		border-color:silver;
+		text-align: center;
+		background-color: rgb(230, 230, 235);
+	}
+	.admin-auction-edit td{
+		line-height: 40px;
+		padding : 10px;
+		border-bottom: solid 1px;
+		border-color:silver;
+	}
+	.admin-auction-edit input{
+		padding:3px 10px;
+		margin:0;
+		line-height: 25px;
+		width:100%;
+	}
+	.admin-auction-edit #sample6_postcode{
+		width:100px;
+	}
+	.admin-auction-edit input[type=button], .admin-auction-edit input[type=submit]{
+		vertical-align:top;
+		margin: 0 10px;
+		font-size: 16px;
+		height:35px;
+		width:80px;
+		color: white;
+		border: none;
+		background-color: #c33234;
+	}
+	.admin-auction-edit input[type=file]{
+		padding:3px 0;
+		height: 35px;
+	}
+	.admin-auction-edit #post-btn{
+		height:29px;
+		width:130px;
+		font-size:14px;
+		vertical-align: middle;
+	}
+	.admin-auction-edit #sample6_address{
+		margin: 5px 0 10px;
+	}
+	.admin-auction-edit select{
+		padding:3px 5px;
+		vertical-align:top;
+		height:35px;
+		line-height: 25px;
+	}
+	.admin-auction-edit textarea{
+		line-height: 21px;
+		width:100%;
+		height: 200px;
+	}
+	.admin-auction-edit .foot-btn{
+		text-align:center;
+		line-height:50px;
+		margin: 10px 0;
+	}
+</style>
+
 <h1>경매 정보수정</h1>
 
-<div class="editForm" align="center">
+<div class="admin-auction-edit" align="center">
 	<form action="edit" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="auction_sq" value="${auction.auction_sq}">
-		<table border="1" width="1000px">
-			<thead>
-				<tr>
-					<th>구분</th>
-					<th>내용</th>
-				</tr>
-			</thead>
+		<table>
 			<tbody>
 				<tr>
 					<th>경매명</th>
@@ -31,14 +95,12 @@
 				</tr>
 				<tr>
 					<th>경매장소</th>
-					<td><input name="auction_post" type="text"
-						id="sample6_postcode" placeholder="우편번호"
-						value="${auction.auction_post}"> <input type="button"
-						onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input name="auction_addr1" type="text" id="sample6_address"
-						placeholder="주소" value="${auction.auction_addr1}"> <input
-						name="auction_addr2" type="text" id="sample6_address2"
-						placeholder="상세주소" value="${auction.auction_addr2}"></td>
+					<td>
+						<input name="auction_post" type="text" id="sample6_postcode" placeholder="우편번호"	value="${auction.auction_post}">
+						<input type="button" id="post-btn"	onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+						<input name="auction_addr1" type="text" id="sample6_address" placeholder="주소" value="${auction.auction_addr1}">
+						<input name="auction_addr2" type="text" id="sample6_address2"	placeholder="상세주소" value="${auction.auction_addr2}">
+					</td>
 				</tr>
 				<tr>
 					<th>경매시작시간</th>
@@ -80,16 +142,14 @@
 					</tr>
 				</c:if>
 			</tbody>
-			<tfoot>
-				<tr>
-					<th colspan="2"><input type="submit" value="수정"> <a
-						href="list?curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
-							<input type="button" value="취소">
-					</a> <a href="delete?auction_sq=${auction.auction_sq}"> <input
-							type="button" value="삭제"></a></th>
-				</tr>
-			</tfoot>
 		</table>
+		<div class="foot-btn">
+			<input type="submit" value="수정">
+			<a	href="list?curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
+				<input type="button" value="취소"></a>
+			<a href="delete?auction_sq=${auction.auction_sq}">
+				<input type="button" value="삭제"></a>
+		</div>
 	</form>
 </div>
 

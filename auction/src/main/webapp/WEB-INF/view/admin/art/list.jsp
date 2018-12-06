@@ -8,43 +8,55 @@
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
 <style>
-	*{
+	.admin-art-list *{
 		vertical-align: middle;
 		text-align: center;
 	}
-	table{
+	.admin-art-list table{
 		width: 70%;
 		margin: auto;
 		border: 2px solid black;
 		border:none;
 		table-layout:fixed;
 	}
-	th{
+	.admin-art-list th{
 		padding : 10px;
 		border: 1px solid silver;
 		text-align: center;
 		line-height:30px;
 		background-color: rgb(230, 230, 235);
 	}
-	td{
+	.admin-art-list td{
 		padding : 10px;
 		border: 1px solid silver;
 		line-height:30px;
 	}
-	input, select{
+	.admin-art-list input, .admin-art-list select{
+		vertical-align:top;
 		font-size: 15px;
 		height:35px;
 		line-height: 35px;
 	}
-	input[type=button], input[type=submit]{
+	.admin-art-list input[type=button], .admin-art-list input[type=submit]{
+		margin:0;
+		padding:0;
 		color: white;
 		border: none;
 		width:60px;
 		background-color: #c33234;
 	}
-	.nav-bar{
+	.admin-art-list .nav-bar{
 		line-height: 50px;
 		font-size:16px;
+	}
+	.admin-art-list .search-bar{
+		line-height: 35px;
+	}
+	.admin-art-list form{
+		line-height: 35px;
+	}
+	.admin-art-list .topBar{
+		min-height: 50px;
 	}
 	.center{
 		text-align: center;
@@ -57,9 +69,6 @@
 	}
 	.bold{
 		font-weight: bold;
-	}
-	.topBar{
-		min-height: 50px;
 	}
 	.w100p{
 		width:100%;
@@ -98,7 +107,7 @@
 
 <h1>작품목록</h1>
 
-<div class="artList" align="center">
+<div class="admin-art-list" align="center">
 
 	<table>
 		<thead>

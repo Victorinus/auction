@@ -15,19 +15,19 @@
     
     <style>
 
-   		th, td {
+   		.auction-online-curdetail th, .auction-online-curdetail td {
    			vertical-align: inherit;
 		}
     	
-   		th{
+   		.auction-online-curdetail th{
 			padding: 0;
 			display: table-row;
 		}
 		
-		tbody{
+		.auction-online-curdetail tbody{
 			vertical-align: middle;
 		}
-		#mask {
+		.auction-online-curdetail #mask {
 			position: absolute;
 			z-index: 9000;
 			background-color: #000;
@@ -36,7 +36,7 @@
 			top: 0;
 		}
 		
-		.frame {
+		.auction-online-curdetail .frame {
 			display: none;
 			position: absolute;
 			top: 15%;
@@ -49,7 +49,7 @@
 			overflow: auto;
 		}
 		
-		.info-bar {
+		.auction-online-curdetail .info-bar {
 			width: 100%;
 			min-height: 40px;
 			background-color: #c33234;
@@ -59,23 +59,187 @@
 			display: block;
 		}
 		
-		.info-bar-name {
+		.auction-online-curdetail .info-bar-name {
 			display: block;
 			padding-left: 20px;
 		}
 		
-		.wrap-info {
+		.auction-online-curdetail .wrap-info {
 			height: 91%;
 			display: block;
 			overflow: auto;
 		}
 		
-		.auction-info, .art-info, .bid-info {
+		.auction-online-curdetail .auction-info, .auction-online-curdetail .art-info, .auction-online-curdetail .bid-info {
 			width: 300px;
 			height: 100%;
 			display: inline-block;
 		}
+		.auction-online-curdetail .head {
+			font-size: 18px;
+			line-height: 25px;
+			border-bottom: 2px solid black;
+			padding: 10px 0;
+			margin: 10px 0;
+		}
+		.auction-online-curdetail .body{
+			margin: auto;
+		}
 		
+		.auction-online-curdetail .mar-topbot-35px{
+			margin: 35px 0;
+		}
+		.auction-online-curdetail .container{
+			display:block;
+		}
+		
+		.auction-online-curdetail .art-main{
+			min-height: 600px;
+		}
+		
+		.auction-online-curdetail .art-detail{
+			display: inline-block;
+		}
+		.auction-online-curdetail .image-prev{
+			padding:50px 50px;
+			vertical-align:inherit;
+			display: block;
+			width:600px;
+			height: 500px;
+			margin: auto;
+		}
+		.auction-online-curdetail .auction-image-tb{
+			width: 100%;
+		}
+		.auction-online-curdetail .body-tb{
+			width: 100%;
+		}
+		.auction-online-curdetail .body-tb tbody tr td{
+			width:50%;
+		}
+		.auction-online-curdetail .art-info-tb{
+			margin: 20px 0;
+			width:100%;
+		}
+		.auction-online-curdetail .art-detail.name{
+			width:100%;
+		}
+		.auction-online-curdetail .state-auction-info{
+			margin: auto;
+		}
+		.auction-online-curdetail .state-auction{
+			padding: 15px 15px;
+			min-height: 100px;
+			background-color: #dcdcdc;
+			margin: 15px 50px;
+		}
+		.auction-online-curdetail .hr{
+			margin:35px 0;
+		}
+		.auction-online-curdetail .hr-bold{
+			margin:50px 0;
+			height: 3px;
+			background-color: black;
+		}
+		.auction-online-curdetail .art-detailInfo-menu{
+			margin:20px 20px 0px;
+			border-bottom: 2px solid gray;
+		}
+		.auction-online-curdetail .bidding{
+			width:300px;
+		}
+		.auction-online-curdetail .bidding-btn{
+			margin: 30px 0 0;
+			background-color: #c33234;
+			color:white;
+			border: 0px solid;
+			width: 100%;
+			height: 50px;
+		}
+		.auction-online-curdetail .btn1{
+			background-color: #c33234;
+			color:white;
+			border: 0px solid;
+			width: 100px;
+			height: 50px;
+		}
+		.auction-online-curdetail .btn2{
+			background-color: #c33234;
+			color:white;
+			border: 0px solid;
+			width: 150px;
+			height: 40px;
+		}
+		.auction-online-curdetail .bid-info-list{
+			height:430px;
+			overflow: auto;
+			border: 1px solid gray;
+		}
+		.auction-online-curdetail .art-info-warning{
+			color: #c33234;
+			font-size:15px;
+			font-weight: bold;
+			padding:20 0 0px;
+		}
+		.auction-online-curdetail .bidbtn{
+			background-color: #555;
+			color: #fff;
+			font-size: 13px;
+			height: 24px;
+			width: 80px;
+			border: 0px;
+			margin: 5px 0;
+		}
+		.auction-online-curdetail .bid-info-list-val{
+			padding:20px 15px;
+		}
+		.auction-online-curdetail .bidhr, .auction-online-curdetail .dthr{
+			background-color: #dcdcdc;
+			height: 1px;
+		}
+		.auction-online-curdetail .bgc{
+			background-color: #e6e6fa;
+		}
+		.auction-online-curdetail .bid-art-detail{
+			padding: 10px;
+			font-size: 14px;
+		}
+		.auction-online-curdetail .bid-art-detail-lot, .auction-online-curdetail .bid-art-detail-nm, .auction-online-curdetail .bid-art-detail-artist{
+			font-size : 18px;
+		}
+		.auction-online-curdetail .art-detailInfo-info2{
+			margin:0 20px;
+			padding:40px;
+			background-color: #dcdcdc;
+			line-height: 1.5em;
+		}
+		.lh25{
+			line-height: 25px;
+		}
+		.mg0{
+			margin:0px;
+		}
+		.mg5{
+			margin:5px;
+		}
+		.red{
+			color: red;
+		}
+		.gray{
+			color:gray;
+		}
+		.ft15{
+			font-size: 15px;
+		}
+		.ft20{
+			font-size: 20px;
+		}
+		.ft25{
+			font-size: 25px;
+		}
+		.ft30{
+			font-size: 30px;
+		}
 		.left {
 			text-align: left;
 		}
@@ -91,22 +255,6 @@
 		.bold {
 			font-weight: bold;
 		}
-		
-		.head {
-			font-size: 18px;
-			line-height: 25px;
-			border-bottom: 2px solid black;
-			padding: 10px 0;
-			margin: 10px 0;
-		}
-		.body{
-			margin: auto;
-		}
-		
-		.mar-topbot-35px{
-			margin: 35px 0;
-		}
-		
 		.w100p {
 			width: 100%;
 		}
@@ -136,158 +284,6 @@
 		}
 		.w10p {
 			width: 10%;
-		}
-		
-		.container{
-			display:block;
-		}
-		
-		.art-main{
-			min-height: 600px;
-		}
-		
-		.art-detail{
-			display: inline-block;
-		}
-		.image-prev{
-			padding:50px 50px;
-			vertical-align:inherit;
-			display: block;
-			width:600px;
-			height: 500px;
-			margin: auto;
-		}
-		.auction-image-tb{
-			width: 100%;
-		}
-		.body-tb{
-			width: 100%;
-		}
-		.body-tb tbody tr td{
-			width:50%;
-		}
-		.art-info-tb{
-			margin: 20px 0;
-			width:100%;
-		}
-		.art-detail.name{
-			width:100%;
-		}
-		.state-auction-info{
-			margin: auto;
-		}
-		.state-auction{
-			padding: 15px 15px;
-			min-height: 100px;
-			background-color: #dcdcdc;
-			margin: 15px 50px;
-		}
-		.hr{
-			margin:35px 0;
-		}
-		.hr-bold{
-			margin:50px 0;
-			height: 3px;
-			background-color: black;
-		}
-		.art-detailInfo-menu{
-			margin:20px 20px 0px;
-			border-bottom: 2px solid gray;
-		}
-		.bidding{
-			width:300px;
-		}
-		.bidding-btn{
-			margin: 30px 0 0;
-			background-color: #c33234;
-			color:white;
-			border: 0px solid;
-			width: 100%;
-			height: 50px;
-		}
-		.btn1{
-			background-color: #c33234;
-			color:white;
-			border: 0px solid;
-			width: 100px;
-			height: 50px;
-		}
-		.btn2{
-			background-color: #c33234;
-			color:white;
-			border: 0px solid;
-			width: 150px;
-			height: 40px;
-		}
-		.bid-info-list{
-			height:430px;
-			overflow: auto;
-			border: 1px solid gray;
-		}
-		.art-info-warning{
-			color: #c33234;
-			font-size:15px;
-			font-weight: bold;
-			padding:20 0 0px;
-		}
-		.bidbtn{
-			background-color: #555;
-			color: #fff;
-			font-size: 13px;
-			height: 24px;
-			width: 80px;
-			border: 0px;
-			margin: 5px 0;
-		}
-		.bid-info-list-val{
-			padding:20px 15px;
-		}
-		.bidhr, dthr{
-			background-color: #dcdcdc;
-			height: 1px;
-		}
-		.lh25{
-			line-height: 25px;
-		}
-		.mg0{
-			margin:0px;
-		}
-		.mg5{
-		
-		}
-		.bgc{
-			background-color: #e6e6fa;
-		}
-		.bid-art-detail{
-			padding: 10px;
-			font-size: 14px;
-		}
-		.bid-art-detail-lot, .bid-art-detail-nm, .bid-art-detail-artist{
-			font-size : 18px;
-		}
-		.red{
-			color: red;
-		}
-		.gray{
-			color:gray;
-		}
-		.ft15{
-			font-size: 15px;
-		}
-		.ft20{
-			font-size: 20px;
-		}
-		.ft25{
-			font-size: 25px;
-		}
-		.ft30{
-			font-size: 30px;
-		}
-		.art-detailInfo-info2{
-			margin:0 20px;
-			padding:40px;
-			background-color: #dcdcdc;
-			line-height: 1.5em;
 		}
 </style>
     
@@ -544,7 +540,7 @@
 </head>
 
 <body>
-	
+<div class="auction-online-curdetail">
 	<div class="container w80p">
         <div class="left head w100p bold mar-topbot-35px ft25">
             진행경매 작품정보
@@ -860,6 +856,6 @@
 			</div>
 		</div>
 	</div>
-    
+</div>
 </body>
 </html>

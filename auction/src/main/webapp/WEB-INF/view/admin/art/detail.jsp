@@ -7,30 +7,30 @@
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
 <style>
-	table{
+	.admin-art-detail table{
 		width: 60%;
 		margin: auto;
 		border-top: solid 2px;
 		border-bottom: solid 2px;
 	}
-	th{
+	.admin-art-detail th{
 		border-bottom: solid 1px;
 		border-color:silver;
 		text-align: center;
 		background-color: rgb(230, 230, 235);
 	}
-	td{
+	.admin-art-detail td{
 		line-height: 40px;
 		padding : 10px;
 		border-bottom: solid 1px;
 		border-color:silver;
 	}
-	input{
+	.admin-art-detail input{
+		padding:3px 10px;
 		line-height: 25px;
 		width:100%;
 	}
-	
-	input[type=button]{
+	.admin-art-detail input[type=button]{
 		margin: 0 10px;
 		font-size: 16px;
 		height:35px;
@@ -40,17 +40,13 @@
 		background-color: #c33234;
 	}
 	
-	select{
-		padding-top: 5px;
-		padding-bottom: 5px;
-	}
-	
-	textarea{
+	.admin-art-detail textarea{
+		padding:3px 10px;
 		line-height: 21px;
 		width:100%;
 		height: 200px;
 	}
-	.foot-btn{
+	.admin-art-detail .foot-btn{
 		text-align:center;
 		line-height:50px;
 		margin: 10px 0;
@@ -60,7 +56,7 @@
 <h1>작품 상세정보</h1>
 
 
-<div class="detailInfo" align="center">
+<div class="admin-art-detail" align="center">
 	<table>
 		<tbody>
 			<tr>
@@ -69,15 +65,15 @@
 			</tr>
 			<tr>
 				<th>작품요약정보</th>
-				<td><input name="art_info" type="text"	  maxlength="4000" value='${art.art_info}'  readonly></td>
+				<td><input name="art_info" type="text"	  maxlength="4000" value='${fn:escapeXml(art.art_info)}'  readonly></td>
 			</tr>
 			<tr>
 				<th>작품설명</th>
-				<td><textarea name="art_info2" maxlength="4000" readonly>${art.art_info2}</textarea></td>
+				<td><textarea name="art_info2" maxlength="4000" readonly>${fn:escapeXml(art.art_info2)}</textarea></td>
 			</tr>
 			<tr>
 				<th>사이즈</th>
-				<td><input name="art_size" type="text"	 maxlength="150" value='${art.art_size}' readonly></td>
+				<td><input name="art_size" type="text"	 maxlength="150" value='${fn:escapeXml(art.art_size)}' readonly></td>
 			</tr>
 			<tr>
 				<th>제작연도</th>
@@ -108,7 +104,7 @@
 				<td>
 					<img	src="${pageContext.request.contextPath}/image/art/${art.art_image}" style="width: 100; height: 100;">
 					<span>${art.art_image.substring(37)}</span>
-					<input type="hidden" name="art_image" value="${art.art_image}">
+					<input type="hidden" name="art_image" value="${fn:escapeXml(art.art_image)}">
 				</td>
 			</tr>
 			<tr>
@@ -123,7 +119,7 @@
 			</tr>
 			<tr>
 				<th>서명정보</th>
-				<td><input name="art_sign" type="text"  maxlength="150" value='${art.art_sign}' readonly></td>
+				<td><input name="art_sign" type="text"  maxlength="150" value='${fn:escapeXml(art.art_sign)}' readonly></td>
 			</tr>
 			<tr>
 				<th>추정가</th>
