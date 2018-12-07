@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="auction.repository.member.MemberDaoImpl">
 	
-	<!-- USER 회원가입. 회원가입 정보를 받아 DB에 저장 -->
+	<!-- 회원가입 -->
 	<insert id="regist_user" parameterType="member">
 		insert into USER_TB values(
 				user_tb_seq.nextval, 
@@ -30,33 +30,79 @@
 				)
 	</insert>
 	
+	<!-- 로그인 판정 -->
 	<select id="login_user" parameterType="map" resultType="int">
 		select count(*) from user_tb where user_id=#{user_id} and user_pw=#{user_pw}
 	</select>
-	
 	<select id="grade_user" parameterType="string" resultType="string">
 		select user_grade from user_tb where user_id=#{user_id}
 	</select>
-	
-	<!-- userlist -->
-	<select id="user_list" resultType="member">
-		select
-			user_id,
-			user_nm,
-			user_phone,
-			user_email,
-			user_post,
-			user_addr1,
-			user_addr2,
-			deliver_post,
-			deliver_addr1,
-			deliver_addr2
-		from user_tb
-		order by user_id
-	</select>
-	
 	<select id="get_user" parameterType="string" resultType="int">
 		select user_sq from user_tb where user_id=#{user_id}
 	</select>
 	
+	<!-- 전체 회원수 -->
+	<select id="user_listCount" resultType="int">
+		select count(*) from user_tb where user_grade='준회원'
+	</select>
+	<select id="user_searchCount" parameterType="map" resultType="int">
+		select count(*) from user_tb where user_grade='준회원' and UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
+	</select>
+
+	<!-- 관리자 : 회원 조회 -->	
+	<select id="user_list" parameterType="map" resultType="member">
+		select * from (
+			select rownum as rn, tmp.* from(
+				select
+					user_sq,
+					user_id,
+					user_nm,
+					user_phone,
+					user_email,
+					user_post,
+					user_addr1,
+					user_addr2,
+					deliver_post,
+					deliver_addr1,
+					deliver_addr2,
+					reg_dt
+				from user_tb
+				where user_grade='준회원'
+			) tmp
+		)where rn between #{sn} and #{fn}	 order by user_sq asc 
+	</select>
+	
+	<!-- 관리자 : 회원 검색 -->
+	<select id="user_search" parameterType="map" resultType="member">
+		select * from(
+			select rownum, a.* from(
+				select * from(
+					select rownum as rn, tmp.* from(
+						select 
+							user_sq,
+							user_id,
+							user_nm,
+							user_phone,
+							user_email,
+							user_post,
+							user_addr1,
+							user_addr2,
+							deliver_post,
+							deliver_addr1,
+							deliver_addr2,
+							reg_dt
+						from 
+							user_tb 
+						where 
+							user_grade='준회원'
+					) tmp
+				) where ${searchType} like '%'||#{searchKey}||'%' 
+			) a	
+		) where rownum between #{sn} and #{fn}
+	</select>
+	
+	<!-- 관리자 : 회원 강제탈퇴 -->
+	<select id="delete_user" parameterType="int">
+		delete user_tb where user_sq=#{user_sq}
+	</select>
 </mapper>

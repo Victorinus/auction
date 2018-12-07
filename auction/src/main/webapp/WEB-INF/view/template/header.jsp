@@ -361,15 +361,17 @@
 		                </div>
 		            </li>
 		            <li style="float:right"><a class="active" href="${root}/member/logout">Logout</a></li>
-		            <li class="dropdown" style="float:right">
-		            	<a class="active dropbtn" href="${root}/member/mypage">Mypage</a>
-		            	<div class="dropdown-content">
-		            		<a href="">회원정보수정</a>
-		            		<a href="">회원탈퇴</a>
-		            		<a href="">온라인경매 응찰내역</a>
-		            		<a href="${root}/member/myfav">관심작품 목록</a>
-		            	</div>
-		            </li>
+		            <c:if test="${user_grade eq '준회원'}">
+			            <li class="dropdown" style="float:right">
+			            	<a class="active dropbtn" href="${root}/member/mypage">Mypage</a>
+			            	<div class="dropdown-content">
+			            		<a href="">회원정보수정</a>
+			            		<a href="">회원탈퇴</a>
+			            		<a href="">온라인경매 응찰내역</a>
+			            		<a href="${root}/member/myfav">관심작품 목록</a>
+			            	</div>
+			            </li>
+		            </c:if>
 		            <c:if test="${user_grade eq '관리자'}">
 			            <li class="dropdown" style="float:right">
 			            	<a href="javascript:void(0)" class="active dropbtn">관리자</a>

@@ -191,7 +191,7 @@
 		font-size: 20px;
 		color: black;
 	}
-	.auction-online-detail .paging a {
+	.auction-online-detail .paging a:hover {
 		color: orange;
 	}
 </style>

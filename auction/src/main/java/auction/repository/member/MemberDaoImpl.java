@@ -20,15 +20,47 @@ public class MemberDaoImpl implements MemberDao{
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
 	
-	//회원가입 등록을 위한 dao
+//	회원가입
 	@Override
 	public int regist(Member member) {
-		//member를 받어와서 mapping된 db에 집어넣기
 		int result = sqlSession.insert("regist_user", member);
-		log.debug("회원가입결과={}", result);
+		log.debug("결과 = {}", result);
 		return result;
 	}
 	
+//	전체 회원수 
+	@Override
+	public int getListCount() {
+		int count = sqlSession.selectOne("user_listCount");
+		log.debug("결과 = {}", count);
+		return count;
+	}
+	@Override
+	public int getSearchCount(Map<String, Object> map) {
+		int count = sqlSession.selectOne("user_searchCount", map);
+		log.debug("결과 = {}", count);
+		return 0;
+	}
+	
+//	회원 조회 및 검색
+	@Override
+	public List<Member> userList(Map<String, Object> map) {
+		List<Member> list = sqlSession.selectList("user_list", map);
+		for(Member member:list) {
+			log.debug(member.toString());
+		}
+		return list;
+	}
+	@Override
+	public List<Member> userSearch(Map<String, Object> map) {
+		List<Member> list = sqlSession.selectList("user_search", map);
+		for(Member member : list) {
+			log.debug(member.toString());
+		}
+		return list;
+	}
+
+//	로그인 관련
 	@Override
 	public int login(String user_id, String user_pw) {
 		Map<String, Object> map = new HashMap<>();
@@ -38,30 +70,26 @@ public class MemberDaoImpl implements MemberDao{
 		log.debug("결과 = {}", count);
 		return count;
 	}
-	
 	@Override
 	public String getGrade(String user_id) {
 		String user_grade = sqlSession.selectOne("grade_user", user_id);
 		log.debug("결과 = {}", user_grade);
 		return user_grade;
 	}
-	
-	//관리자페이지 회원목록 출력
-	@Override
-	public List<Member> userList() {
-		List<Member> list = sqlSession.selectList("user_list");
-		for(Member member:list) {
-			log.debug(member.toString());
-		}
-		return list;
-	}
 
-	//세션에 저장된 아이디로 회원고유번호 조회
+//	세션에 저장된 아이디로 회원고유번호 조회
 	@Override
 	public int getUser(String user_id) {
 		int user_sq = sqlSession.selectOne("get_user", user_id);
 		log.debug("결과 = {}", user_sq);
 		return user_sq;
-	}	
+	}
+
+//	회원 강제탈퇴
+	@Override
+	public void delete(int user_sq) {
+		int result = sqlSession.delete("delete_user", user_sq);
+		log.debug("결과 = {}", result);
+	}
 
 }
