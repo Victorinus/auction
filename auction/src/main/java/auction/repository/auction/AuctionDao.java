@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import auction.entity.Art;
 import auction.entity.Auction;
 import auction.entity.Page;
 
@@ -20,5 +21,6 @@ public interface AuctionDao {
         void delete(int auction_sq);
 		String getStart(int auction_sq);
 		String getEnd(int auction_sq);
+		List<Art> exhibitList(int auction_sq);
 }
 

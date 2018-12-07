@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import auction.entity.Art;
 import auction.entity.Auction;
 import auction.entity.Page;
 
@@ -108,6 +109,13 @@ public class AuctionDaoImpl implements AuctionDao {
 	public String getEnd(int auction_sq) {
 		String auction_end = sqlSession.selectOne("admin_auction_getEnd", auction_sq);
 		return auction_end;
+	}
+
+	@Override
+	public List<Art> exhibitList(int auction_sq) {
+		List<Integer> sqList = sqlSession.selectList("admin_auction_exhibitList", auction_sq);
+		List<Art> list = null;
+		return list;
 	}
 
 

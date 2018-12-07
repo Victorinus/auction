@@ -98,6 +98,10 @@
 		select auction_end from auction_main where auction_sq=#{auction_sq}
 	</select>
 	
+	<select id="admin_auction_exhibitList" resultType="int" parameterType="int">
+		select art_no as art_sq from auction_art where auction_no=#{auction_sq} order by desc art_no
+	</select>
+	
 	<update id="admin_auction_edit" parameterType="auction">
 		update auction_main set 
 			auction_nm=#{auction_nm}, 

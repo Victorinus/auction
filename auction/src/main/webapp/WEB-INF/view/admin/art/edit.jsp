@@ -17,6 +17,7 @@
 		margin: auto;
 		border-top: solid 2px;
 		border-bottom: solid 2px;
+		border-spacing: 0;
 	}
 	.admin-art-edit th{
 		border-bottom: solid 1px;

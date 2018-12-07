@@ -55,11 +55,20 @@ public class AdminPagingUtilImpl implements AdminPagingUtil{
 	public void setListCnt(String uri, String searchType, String searchKey) {
 		//작품/경매 페이징 구분
 		if(uri.substring(15).startsWith("art")) {
-			//총 게시물 수(검색 or 리스트)
-			if(searchType.equals("empty") || searchKey.equals("empty")) {
-				page.setListCnt(artDao.getListCnt());
+			if(uri.substring(19).startsWith("eval")){
+				//감정현황 출력이라면
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(artDao.getEvalListCnt());
+				}else {
+					page.setListCnt(artDao.getEvalSearchCnt(searchType, searchKey));
+				}
 			}else {
-				page.setListCnt(artDao.getSearchCnt(searchType, searchKey));
+				//총 게시물 수(검색 or 리스트)
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(artDao.getListCnt());
+				}else {
+					page.setListCnt(artDao.getSearchCnt(searchType, searchKey));
+				}
 			}
 		}else if(uri.substring(15).startsWith("auction")) {
 			//총 게시물 수(검색 or 리스트)
