@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <style>
 	table{
@@ -9,7 +11,6 @@
 		border-top: solid 2px;
 		border-bottom: solid 2px;
 	}
-	
 	th{
 		border-bottom: solid 1px;
 		border-color:silver;
@@ -46,12 +47,13 @@
 	}
 	
 	input[type=button]{
-		margin-left: 10px;
-		margin-bottom: 1px;
-		font-size: 12px;
+		margin: 0 10px;
+		font-size: 14px;
+		height:30px;
+		width:100px;
 		color: white;
 		border: none;
-		background-color: black;
+		background-color: #c33234;
 	}
 	
 	select{
@@ -70,17 +72,22 @@
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
+	.gdRadio{
+		padding: 0 10px;
+	}
 	
 	.joinConfirm{
+		margin:10px 0;
 		text-align: center;
 	}
 	
-	.joinConfirm > input[type=submit]{
-		width: 200px;
+	.joinConfirm > input[type=submit], .joinConfirm > a > input[type=button]{
+		font-size:20px;
+		width: 150px;
 		height: 50px;
 		border : none;
 		color : white;
-		background-color: rgb(102, 102, 110);
+		background-color: #c33234;
 	}
 	
 </style>
@@ -114,20 +121,20 @@
 			<tr>
 				<th>아이디</th>
 				<td>
-					<input type="text" name="user_id" placeholder="아이디 입력"><input type="button" value="ID중복확인">
+					<input type="text" name="user_id" placeholder="아이디 입력"><input type="button" value="중복확인">
 				</td>
 			</tr>
 			<tr>
-				<th>비밀번호 입력</th>
+				<th>비밀번호</th>
 				<td>
-					<input type="password" name="user_pw" placeholder="비밀번호 입력하기">
+					<input type="password" name="user_pw" placeholder="비밀번호 입력">
 					<input type="password" placeholder="비밀번호 재입력">
 				</td>
 			</tr>
 			<tr>
 				<th>이름</th>
-				<td><input type="text" name="user_nm" placeholder="이름"></td>
-							</tr>
+				<td><input type="text" name="user_nm" placeholder="이름 입력"></td>
+			</tr>
 			<tr>
 				<th>생년월일</th>
 				<td><input type="text" name="user_birth" placeholder="yyyymmdd"></td>
@@ -135,30 +142,33 @@
 			<tr>
 				<th>성별</th>
 				<td>
-					<input type="radio" name="user_gender" id="male" value="남자">
-					<label for="male">남자</label>
-					<input type="radio" name="user_gender" id="female" value="여자">
-					<label for="female">여자</label>
+					<div class="gdRadio">
+						<input type="radio" name="user_gender" id="male" value="남자">
+						<label for="male">남자</label>
+						<input type="radio" name="user_gender" id="female" value="여자">
+						<label for="female">여자</label>
+					</div>
 				</td>
 			</tr>
 			<tr>
 				<th>휴대전화</th>
 				<td>
-					<input type="tel" name="user_phone"><input type="button" value="중복확인"> 
+					<input type="tel" name="user_phone" placeholder="휴대전화번호 입력">
+					<input type="button" value="중복확인"> 
 				</td>
 			</tr>
 			<tr>
 				<th>전화번호</th>
 				<td>
-					<input type="tel" name="user_tel">
+					<input type="tel" name="user_tel" placeholder="전화번호 입력">
 				</td>
 			</tr>
 			<tr>
 				<th>이메일</th>
 				<td>
-						<input type="text" id="email_front" placeholder="이메일앞부분입력">
+						<input type="text" id="email_front" placeholder="이메일 앞부분 입력">
 						@
-						<input type="text" id="domain" placeholder="이메일도메인(뒷부분)입력">
+						<input type="text" id="domain" placeholder="이메일 도메인(뒷부분) 입력">
 						<select id="emaildomain" onchange="chooseEmail();">
 							<option value="직접입력">직접입력</option>
 							<option value="naver.com">naver.com</option>
@@ -173,22 +183,25 @@
 				<th>주소</th>
 				<td>
 					<input id="user_post" name="user_post" type="text" placeholder="우편번호" readonly="readonly"><input type="button" onclick="userFindPost()" value="주소검색"><span class="addr_alert">※주소를 입력해 주세요</span><br>
-					<input id="user_addr1" name="user_addr1" type="text" width="500px" placeholder="주소첫째줄"><br>
-					<input id="user_addr2" name="user_addr2" type="text" placeholder="주소둘째줄">
+					<input id="user_addr1" name="user_addr1" type="text" width="500px" placeholder="기본주소"><br>
+					<input id="user_addr2" name="user_addr2" type="text" placeholder="상세주소">
 				</td>
 			</tr>
 			<tr>
 				<th>배송주소</th>
 				<td>
 					<input id="deliver_post" name="deliver_post" type="text" placeholder="우편번호" readonly="readonly"><input type="button" onclick="deliverFindPost()" value="주소검색"><span class="addr_alert">※주소를 입력해 주세요</span><br>
-					<input id="deliver_addr1" name="deliver_addr1" type="text" width="500px" placeholder="주소첫째줄"><br>
-					<input id="deliver_addr2" name="deliver_addr2" type="text" placeholder="주소둘째줄">
+					<input id="deliver_addr1" name="deliver_addr1" type="text" width="500px" placeholder="기본주소"><br>
+					<input id="deliver_addr2" name="deliver_addr2" type="text" placeholder="상세주소">
 					<input type="hidden" name="user_grade" value="준회원">
 				</td>
 			</tr>
 		</table>
 		<div class="joinConfirm">
-			<input type="submit" value="회원가입하기" onclick="submitEmail();">
+			<input type="submit" value="회원가입" onclick="submitEmail();">
+			<a href="${root}">
+				<input type="button" value="취소">
+			</a>
 			<input type="hidden" name="session_id" value="">
 			<input type="hidden" name="session_limit" value="">
 			<!-- <input type="hidden" id ="user_email" name="user_email" value=""> -->

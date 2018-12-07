@@ -20,8 +20,9 @@ public class MyfavDaoImpl implements MyfavDao {
 	private SqlSession sqlSession;
 
 	@Override
-	public int find(int a_sq, int art_sq) {
+	public int find(int user_sq, int a_sq, int art_sq) {
 		Myfav myfav = Myfav.builder()
+											.user_sq(user_sq)
 											.a_sq(a_sq)
 											.art_sq(art_sq)
 										.build();
@@ -31,8 +32,9 @@ public class MyfavDaoImpl implements MyfavDao {
 	}
 	
 	@Override
-	public void insert(int a_sq, int art_sq) {
+	public void insert(int user_sq, int a_sq, int art_sq) {
 		Myfav myfav = Myfav.builder()
+											.user_sq(user_sq)
 											.a_sq(a_sq)
 											.art_sq(art_sq)
 										.build();
@@ -41,8 +43,9 @@ public class MyfavDaoImpl implements MyfavDao {
 	}
 
 	@Override
-	public void delete(int a_sq, int art_sq) {
+	public void delete(int user_sq, int a_sq, int art_sq) {
 		Myfav myfav = Myfav.builder()
+											.user_sq(user_sq)
 											.a_sq(a_sq)
 											.art_sq(art_sq)
 										.build();
@@ -51,8 +54,8 @@ public class MyfavDaoImpl implements MyfavDao {
 	}
 
 	@Override
-	public List<Integer> list(int user_no) {
-		List<Integer> list = sqlSession.selectList("myfav_listByUser", user_no);
+	public List<Integer> list(int user_sq) {
+		List<Integer> list = sqlSession.selectList("myfav_listByUser", user_sq);
 		for(Integer integer : list) {
 			log.debug("결과 = {}", integer);
 		}
@@ -60,8 +63,8 @@ public class MyfavDaoImpl implements MyfavDao {
 	}
 
 	@Override
-	public List<View> getMyfavList(int user_no) {
-		List<View> list = sqlSession.selectList("myfav_listForUser", user_no);
+	public List<View> getMyfavList(int user_sq) {
+		List<View> list = sqlSession.selectList("myfav_listForUser", user_sq);
 		for(View view : list) {
 			log.debug("결과 = {}", view);
 		}

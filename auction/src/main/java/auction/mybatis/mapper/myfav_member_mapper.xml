@@ -5,13 +5,13 @@
 <mapper namespace="auction.repository.myfav.MyfavDaoImpl">
 
 	<select id="myfav_find" parameterType="myfav" resultType="integer">
-		select count(*) from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
+		select count(*) from myfav where user_no=#{user_sq} and auction_no=#{a_sq} and art_no=#{art_sq}
 	</select>
 
 	<insert id="myfav_regist" parameterType="myfav">
 		insert into myfav values(
 			myfav_seq.nextval,
-			1,
+			#{user_sq},
 			#{a_sq},
 			#{art_sq},
 			sysdate
@@ -19,15 +19,15 @@
 	</insert>
 	
 	<delete id="myfav_delete" parameterType="myfav">
-		delete from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
+		delete from myfav where user_no=#{user_sq} and auction_no=#{a_sq} and art_no=#{art_sq}
 	</delete>
 	
 	<select id="myfav_listByUser" parameterType="integer" resultType="integer">
-		select art_no from myfav where user_no=#{user_no} order by myfav_sq
+		select art_no from myfav where user_no=#{user_sq} order by myfav_sq
 	</select>
 	
 	<select id="myfav_listForUser" parameterType="integer" resultType="myfavView">
-		select * from myfav_view where fav_user_no=#{user_no} order by fav_sq			
+		select * from myfav_view where fav_user_no=#{user_sq} order by fav_sq			
 	</select>
 	
 </mapper>

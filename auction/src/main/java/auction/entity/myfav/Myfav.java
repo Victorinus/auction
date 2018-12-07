@@ -20,6 +20,7 @@ public class Myfav {
 	private int art_no;
 	private String myfav_dt;
 	
+	private int user_sq;
 	private int a_sq;
 	private int art_sq;
 }

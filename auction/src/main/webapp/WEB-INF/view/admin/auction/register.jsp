@@ -1,18 +1,99 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/view/template/header.jsp"></jsp:include>
 
-<h1>경매 등록</h1>
+<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/admin/auction/menu.jsp"/>
 
-<div class="registerForm" align="center">
+
+<style>
+	.admin-auction-register{
+		margin: 100px 0;
+	}
+	.admin-auction-register table{
+		width: 60%;
+		margin: auto;
+		border-top: solid 2px;
+		border-bottom: solid 2px;
+		border-spacing: 0;	
+	}
+	.admin-auction-register th{
+		width:150px;
+		border-bottom: solid 1px;
+		border-color:silver;
+		text-align: center;
+		background-color: rgb(230, 230, 235);
+	}
+	.admin-auction-register td{
+		line-height: 40px;
+		padding : 10px;
+		border-bottom: solid 1px;
+		border-color:silver;
+		text-align:left;
+	}
+	.admin-auction-register input{
+		padding:3px 10px;
+		margin:0;
+		line-height: 25px;
+		width:100%;
+	}
+	.admin-auction-register #sample6_postcode{
+		width:100px;
+	}
+	.admin-auction-register input[type=text]{
+		text-align:left;
+	}
+	.admin-auction-register input[type=button], .admin-auction-register input[type=submit]{
+		vertical-align:top;
+		margin: 0 10px;
+		font-size: 16px;
+		height:35px;
+		width:80px;
+		color: white;
+		border: none;
+		background-color: #c33234;
+	}
+	.admin-auction-register input[type=file]{
+		padding:3px 0;
+		height: 35px;
+	}
+	.admin-auction-register #post-btn{
+		height:35px;
+		width:130px;
+		font-size:14px;
+		vertical-align: middle;
+	}
+	.admin-auction-register #sample6_address{
+		margin: 5px 0 10px;
+	}
+	.admin-auction-register select{
+		padding:3px 5px;
+		vertical-align:top;
+		height:35px;
+		line-height: 25px;
+	}
+	.admin-auction-register textarea{
+		line-height: 21px;
+		width:100%;
+		height: 200px;
+		text-align:left;
+		resize: none;
+	}
+	.admin-auction-register .foot-btn{
+		text-align:center;
+		line-height:50px;
+		margin: 10px 0;
+	}
+</style>
+<script>
+	function editMenuColor(){
+		$(".admin-menu-auction-register").css("color","#e41e21");
+	}
+	editMenuColor();
+</script>
+
+<div class="admin-auction-register" align="center">
 	<form action="register" method="post" enctype="multipart/form-data">
-		<table border="1" width="1000px">
-			<thead>
-				<tr>
-					<th>구분</th>
-					<th>내용</th>
-				</tr>
-			</thead>
+		<table>
 			<tbody>
 				<tr>
 					<th>경매명</th>
@@ -26,12 +107,12 @@
 				</tr>
 				<tr>
 					<th>경매장소</th>
-					<td><input name="auction_post" type="text"
-						id="sample6_postcode" placeholder="우편번호"> <input
-						type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-						<input name="auction_addr1" type="text" id="sample6_address"
-						placeholder="주소"> <input name="auction_addr2" type="text"
-						id="sample6_address2" placeholder="상세주소"></td>
+					<td>
+						<input name="auction_post" type="text" id="sample6_postcode" placeholder="우편번호">
+						<input type="button" id="post-btn" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+						<input name="auction_addr1" type="text" id="sample6_address" placeholder="주소">
+						<input name="auction_addr2" type="text" id="sample6_address2" placeholder="상세주소">
+					</td>
 				</tr>
 				<tr>
 					<th>경매시작시간</th>
@@ -55,14 +136,12 @@
 					<td><input type="file" name="image"></td>
 				</tr>
 			</tbody>
-			<tfoot>
-				<tr>
-					<th colspan="2"><input type="submit" value="등록"> <a
-						href="list"> <input type="button" value="취소">
-					</a></th>
-				</tr>
-			</tfoot>
 		</table>
+		<div class="foot-btn">
+			<input type="submit" value="등록">
+			 <a href="list">
+			 	<input type="button" value="취소"></a>
+		</div>
 	</form>
 </div>
 

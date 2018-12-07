@@ -1,34 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="root" value="${pageContext.request.contextPath}"></c:set>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="root" value="${pageContext.request.contextPath}"/>
 
 <html>
     <head>
-    <title>미술품 경매</title>
-    <!-- datetimepicker (날짜 및 시간 입력 라이브러리) -->
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/library/datetimepicker/jquery.datetimepicker.css" />
-
-    <style>
-    /* session 정보 */
-    	.session {
-    		margin-top: 10px;
-    		margin-bottom: 10px;
-    		text-align: center;
-    		font-size: 30px;
-    	}
+    <title>KG AUCTION l 미술품 경매</title>
     
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="${root}/library/js/nouislider.js"></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/library/datetimepicker/jquery.datetimepicker.css" />
+    <link rel="stylesheet" type="text/css" href="${root}/library/css/nouislider.css">
+    
+    <style>
     /* header,  .search, nav, section, footer 등 각 영역의 구분 */
         header,
         .search,
         nav,
         section,
         footer {
-            margin-top: 15px;
-            margin-bottom: 15px;
+            margin: 15px 0;
             padding: 15px;
         }
-        
         header {
         	margin-bottom: 30px;
         }
@@ -81,7 +77,8 @@
         
         nav li a:hover{
             text-decoration: none;
-            background-color: darkcyan;
+            background-color: lightcyan;
+            
         }
 
         .dropdown-content {
@@ -110,7 +107,7 @@
         }
 
         .active {
-            background-color: cadetblue;
+            background-color: darkcyan;
         }
 
         section {
@@ -164,6 +161,63 @@
         	vertical-align: middle;
         }
         
+        /* 관리자 메뉴 바 */
+        .admin-menu {
+        	line-height:70px;
+        	width:800px;
+        	height:70px;
+        	font-size:17px;
+        	padding:0 20px;
+        	margin: 30px auto;
+        	vertical-align:middle;
+        	text-align: center;
+        	border: 4px solid #d8dcdf;
+        	background-color: #f6f6f6;
+        }
+        .admin-menu span{
+        	float:left;
+       	    list-style-type: none;
+		    margin: 0 20px;
+		    padding: 0;
+        }
+        .admin-menu a{
+        	text-decoration: none;
+        	color: black;
+        	font-weight: bold;
+        }
+        .admin-menu .blank{
+        	margin: 0 15px;
+        	color:silver;
+        }
+        
+        /* 사용자 메뉴 바 */
+		.member-menu {
+        	line-height:70px;
+        	width:800px;
+        	height:70px;
+        	font-size:17px;
+        	padding:0 20px;
+        	margin: 30px auto;
+        	vertical-align:middle;
+        	text-align: center;
+        	border: 4px solid #d8dcdf;
+        	background-color: #f6f6f6;
+        }
+        .member-menu span{
+        	float:left;
+       	    list-style-type: none;
+		    margin: 0 20px;
+		    padding: 0;
+        }
+        .member-menu a{
+        	text-decoration: none;
+        	color: black;
+        	font-weight: bold;
+        }
+        .member-menu .blank{
+        	margin: 0 15px;
+        	color:silver;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -198,10 +252,6 @@
 </head>
 
 <body>
-    <div class="session">
-    	아이디 : <%=session.getAttribute("user_id") %>
-    	회원등급 : <%=session.getAttribute("user_grade") %>
-    </div>
     <header>
         <%-- <div class="title" style="cursor: pointer;" onclick="location.href='${root}';">Auction project</div> --%>
         <div class="title">Auction project</div>
@@ -311,7 +361,15 @@
 		                </div>
 		            </li>
 		            <li style="float:right"><a class="active" href="${root}/member/logout">Logout</a></li>
-		            <li style="float:right"><a class="active" href="#about">Mypage</a></li>
+		            <li class="dropdown" style="float:right">
+		            	<a class="active dropbtn" href="${root}/member/mypage">Mypage</a>
+		            	<div class="dropdown-content">
+		            		<a href="">회원정보수정</a>
+		            		<a href="">회원탈퇴</a>
+		            		<a href="">온라인경매 응찰내역</a>
+		            		<a href="${root}/member/myfav">관심작품 목록</a>
+		            	</div>
+		            </li>
 		            <c:if test="${user_grade eq '관리자'}">
 			            <li class="dropdown" style="float:right">
 			            	<a href="javascript:void(0)" class="active dropbtn">관리자</a>
@@ -327,4 +385,4 @@
 	        </c:otherwise>
         </c:choose>
     </nav>
-    <section>
+	<section> 
