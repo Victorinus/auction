@@ -229,7 +229,7 @@
 		font-size: 20px;
 		color: black;
 	}
-	.auction-online-current .paging a {
+	.auction-online-current .paging a:hover {
 		color: orange;
 	}
 </style>

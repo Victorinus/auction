@@ -19,12 +19,15 @@ public interface MemberDao {
 
 	List<Member> userSearch(Map<String, Object> map);
 	
-	int login(String user_id, String user_pw);
-
-	String getGrade(String user_id);
+	int login(String user_id, String encrypted_pw);
 
 	int getUser(String user_id);
+	
+	String getGrade(String user_id);
 
-	void delete(int user_sq);
+	Member find(int user_sq);
+
+	void edit(Member member);
+
 }
 

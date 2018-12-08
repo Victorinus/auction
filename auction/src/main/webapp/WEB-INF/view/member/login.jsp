@@ -61,18 +61,33 @@
         color: black;
     }
 </style>
+
+<script src="${root}/library/js/sha256.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script>
-	
+	//클라이언트에서의 암호화 처리
+	$(document).ready(function(){
+	    $("input[type=password]").on("input", function(){
+	        var origin = $(this).val()
+	        var encrypt = SHA256(origin)
+	        console.log("origin : "+origin)
+	        console.log("encrypt : "+encrypt)
+	        $("input[type=hidden]").attr("value", encrypt)
+	        console.log("value : "+$("input[type=hidden]").attr("value"))
+	    })
+	    
+	})
 </script>
 
 <div class="auction-member-login">
 	<div class="login-form">
         <form action="login" method="post">
+        	<input type="hidden" name="user_pw" value="">
             <div class="login-row">
                 <input type="text" name="user_id" placeholder="아이디" class="login-input" required>
             </div>
             <div class="login-row">
-                <input type="password" name="user_pw" placeholder="비밀번호" class="login-input" required>
+                <input type="password" placeholder="비밀번호" class="login-input" required>
             </div>
             <div class="login-row">
                 <input type="submit" value="로그인" class="login-btn">

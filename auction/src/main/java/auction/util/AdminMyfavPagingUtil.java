@@ -7,13 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import auction.entity.search.Search;
-import auction.repository.member.MemberDao;
+import auction.repository.myfav.MyfavDao;
 import lombok.Getter;
 
 @Service
 @Getter
-public class MemberPagingUtil {
+public class AdminMyfavPagingUtil {
 	
 	private int page;
 	private int count;
@@ -26,18 +25,20 @@ public class MemberPagingUtil {
 	private Logger log= LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private MemberDao memberDao;
-	
+	private MyfavDao myfavDao;
+
 	public void calculate(int page, Map<String, Object> map) {
-		log.debug("map = {}", map);
+		log.debug("page, map = {}, {}", page, map);
 		searchType = (String) map.get("searchType"); 
 		searchKey = (String) map.get("searchKey");
 		
 		if(searchType.equals("") && searchKey.equals("")) {
-			count = memberDao.getListCount();
+			log.debug("myfavDao.getListCount()");
+			count = myfavDao.getListCount();
 		}
 		else {
-			count = memberDao.getSearchCount(map);
+			log.debug("myfavDao.getSearchCount()");
+			count = myfavDao.getSearchCount(map);
 		}
 
 		pagesize = 10;
@@ -59,8 +60,9 @@ public class MemberPagingUtil {
 		else{
 			param = "";
 		}
-	}
 
+	}
+	
 	public boolean hasMorePrevPage() {
 		return sb>1;
 	}
@@ -72,5 +74,6 @@ public class MemberPagingUtil {
 	public boolean isCurrentPage(int page) {
 		return this.page == page;
 	}
+
 
 }

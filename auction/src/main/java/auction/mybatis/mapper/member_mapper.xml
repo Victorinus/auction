@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="auction.repository.member.MemberDaoImpl">
-	
+	<!-- 이하 사용자 -->
 	<!-- 회원가입 -->
 	<insert id="regist_user" parameterType="member">
 		insert into USER_TB values(
@@ -19,20 +19,15 @@
 				#{user_post},
 				#{user_addr1},
 				#{user_addr2},
-				#{deliver_post},
-				#{deliver_addr1},
-				#{deliver_addr2},
 				#{user_grade},
 				sysdate,
-				sysdate,
-				#{session_id},
-				#{session_limit}
+				sysdate
 				)
 	</insert>
 	
 	<!-- 로그인 판정 -->
 	<select id="login_user" parameterType="map" resultType="int">
-		select count(*) from user_tb where user_id=#{user_id} and user_pw=#{user_pw}
+		select count(*) from user_tb where user_id=#{user_id} and user_pw=#{encrypted_pw}
 	</select>
 	<select id="grade_user" parameterType="string" resultType="string">
 		select user_grade from user_tb where user_id=#{user_id}
@@ -41,15 +36,17 @@
 		select user_sq from user_tb where user_id=#{user_id}
 	</select>
 	
+	<!-- 이하 관리자 -->
 	<!-- 전체 회원수 -->
 	<select id="user_listCount" resultType="int">
 		select count(*) from user_tb where user_grade='준회원'
 	</select>
 	<select id="user_searchCount" parameterType="map" resultType="int">
-		select count(*) from user_tb where user_grade='준회원' and UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
+		select count(*) from user_tb 
+			where user_grade='준회원' and UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
 	</select>
 
-	<!-- 관리자 : 회원 조회 -->	
+	<!-- 회원 목록 -->	
 	<select id="user_list" parameterType="map" resultType="member">
 		select * from (
 			select rownum as rn, tmp.* from(
@@ -62,17 +59,17 @@
 					user_post,
 					user_addr1,
 					user_addr2,
-					deliver_post,
-					deliver_addr1,
-					deliver_addr2,
 					reg_dt
-				from user_tb
-				where user_grade='준회원'
+				from 
+					user_tb
+				where 
+					user_grade='준회원'
+				order by user_sq desc 
 			) tmp
-		)where rn between #{sn} and #{fn}	 order by user_sq asc 
+		)where rn between #{sn} and #{fn}	
 	</select>
 	
-	<!-- 관리자 : 회원 검색 -->
+	<!-- 회원 검색 -->
 	<select id="user_search" parameterType="map" resultType="member">
 		select * from(
 			select rownum, a.* from(
@@ -87,22 +84,42 @@
 							user_post,
 							user_addr1,
 							user_addr2,
-							deliver_post,
-							deliver_addr1,
-							deliver_addr2,
 							reg_dt
 						from 
 							user_tb 
 						where 
 							user_grade='준회원'
+						order by user_sq desc
 					) tmp
 				) where ${searchType} like '%'||#{searchKey}||'%' 
 			) a	
 		) where rownum between #{sn} and #{fn}
 	</select>
 	
-	<!-- 관리자 : 회원 강제탈퇴 -->
-	<select id="delete_user" parameterType="int">
-		delete user_tb where user_sq=#{user_sq}
+	<!-- 특정 회원정보 조회  -->
+	<select id="find_user" parameterType="int" resultType="member">
+		select * from user_tb where user_sq = #{user_sq}
 	</select>
+
+	<!-- 특정 회원정보 수정 -->
+	<update id="update_user" parameterType="member">
+		update user_tb 
+			set 
+				user_id=#{user_id},
+				user_pw=#{user_pw},
+				user_nm=#{user_nm},
+				user_birth=#{user_birth},
+				user_gender=#{user_gender},
+				user_phone=#{user_phone},
+				user_tell=#{user_tel},
+				user_email=#{user_email},
+				user_post=#{user_post},
+				user_addr1=#{user_addr1},
+				user_addr2=#{user_addr2},
+				user_grade=#{user_grade},
+				reg_dt=to_date(#{reg_dt}, 'YYYY-MM-DD HH24:MI:SS'),
+				chg_dt=sysdate
+			where 
+				user_sq=#{user_sq}
+	</update>
 </mapper>

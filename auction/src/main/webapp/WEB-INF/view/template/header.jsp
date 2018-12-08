@@ -9,6 +9,7 @@
     <head>
     <title>KG AUCTION l 미술품 경매</title>
     
+    <script src="${root}/library/js/sha256.js"></script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="${root}/library/js/nouislider.js"></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
@@ -150,7 +151,6 @@
         	outline: 0;
         	vertical-align: middle;
         }
-        
         .input-text {
         	width: 200px;
         	padding: 5px;
@@ -160,7 +160,10 @@
         	font-size: 15px;
         	vertical-align: middle;
         }
-        
+        .bold {
+        	font-weight: bold;
+        	color: blue;
+        }
         /* 관리자 메뉴 바 */
         .admin-menu {
         	line-height:70px;
@@ -218,6 +221,7 @@
         	margin: 0 15px;
         	color:silver;
         }
+        
     </style>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -254,10 +258,16 @@
 <body>
     <header>
         <%-- <div class="title" style="cursor: pointer;" onclick="location.href='${root}';">Auction project</div> --%>
-        <div class="title">Auction project</div>
+        <div class="title">KG Auction</div>
     </header>
     <div class="search">
         <form action="${root}/search" method="get">
+        	<c:if test="${!empty user_id}">
+	        	<span class="welcome-msg">
+	        		<span class="bold">${user_id}</span>
+	        		 님, 방문을 환영합니다.
+	        	</span>
+        	</c:if>
             <input type="text" name="keyword" placeholder="검색어를 입력하세요." class="input-text">
            	<input type="submit" value="" class="submit-btn">
         </form>
@@ -267,15 +277,6 @@
     		<c:when test="${empty user_id}">
 		        <ul>
 		            <li><a class="active" href="${root}">Home</a></li>
-					<li class="dropdown">
-		                <a href="javascript:void(0)" class="dropbtn">오프라인경매</a>
-		                <div class="dropdown-content">
-		                    <a href="${root}/online/current">진행경매</a>
-		                    <a href="${root}/online/upcoming">예정경매</a>
-		                    <a href="${root}/online/result">경매결과</a>
-		                    <a href="${root}">경매 안내</a>
-		                </div>
-		            </li>
 		            <li class="dropdown">
 		                <a href="javascript:void(0)" class="dropbtn">온라인경매</a>
 		                <div class="dropdown-content">
@@ -316,16 +317,7 @@
 	        </c:when>
 	        <c:otherwise>
 				<ul>
-		            <li><a class="active" href="${root}">Home</a></li>
-					<li class="dropdown">
-		                <a href="javascript:void(0)" class="dropbtn">오프라인경매</a>
-		                <div class="dropdown-content">
-		                    <a href="${root}/online/current">진행경매</a>
-		                    <a href="${root}/online/upcoming">예정경매</a>
-		                    <a href="${root}/online/result">경매결과</a>
-		                    <a href="${root}">경매 안내</a>
-		                </div>
-		            </li>
+		            <li><a class="active" href="${root}">Home</a></li>	
 		            <li class="dropdown">
 		                <a href="javascript:void(0)" class="dropbtn">온라인경매</a>
 		                <div class="dropdown-content">

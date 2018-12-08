@@ -1,6 +1,7 @@
 package auction.repository.myfav;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +19,13 @@ public interface MyfavDao {
 	List<Integer> list(int user_sq);
 
 	List<View> getMyfavList(int user_sq);
+
+	int getListCount();
+
+	int getSearchCount(Map<String, Object> map);
+
+	List<View> getAdminMyfavList(Map<String, Object> map);
+
+	List<View> getAdminMyfavSearch(Map<String, Object> map);
 
 }

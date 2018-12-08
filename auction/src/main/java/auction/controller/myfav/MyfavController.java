@@ -26,6 +26,7 @@ public class MyfavController {
 	@Autowired
 	private MemberDao memberDao;
 	
+//	관심작품 등록/해제
 	@RequestMapping("/myfav/register")
 	public Model register(
 						@RequestParam(required=false) int a_sq,
@@ -53,6 +54,7 @@ public class MyfavController {
 		}
 	}
 	
+//	사용자 : 관심작품 목록
 	@RequestMapping("/member/myfav")
 	public String myfav(
 						HttpSession session,
@@ -62,5 +64,4 @@ public class MyfavController {
 		model.addAttribute("myfavList", myfavDao.getMyfavList(user_sq));		
 		return "member/myfav";
 	}
-	
 }
