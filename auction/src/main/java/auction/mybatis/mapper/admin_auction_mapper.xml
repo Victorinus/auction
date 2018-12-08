@@ -3,6 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<mapper namespace="auction.repository.auction.AuctionDaoImpl">
+	<!-- <mapper namespace="/auction/src/test/java/auction/admin/auction/test/TestRegist.java"> -->
 	<insert id="admin_auction_regist" parameterType="auction">
 		insert into auction_main values(
 			auction_seq.nextval,

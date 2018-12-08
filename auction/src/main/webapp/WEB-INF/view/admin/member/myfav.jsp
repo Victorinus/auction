@@ -25,7 +25,7 @@
 
 .admin-member-myfav #count {
 	font-size: 15px;
-	font-weight: 500;
+	font-weight: bold;
 	color: blue;
 }
 
@@ -65,11 +65,12 @@
 
 .admin-member-myfav input[type=button], .admin-member-myfav input[type=submit]
 	{
-	margin: 0;
+	margin: 0 5px;
 	padding: 0;
 	color: white;
 	border: none;
-	width: 60px;
+	width: 70px;
+	height:35px;
 	background-color: #c33234;
 	cursor: pointer;
 }
@@ -187,11 +188,9 @@
 					</td>
 					<td>
 						<a href=""> 
-							<input type="button" value="바로가기">
-						</a>
+							<input type="button" value="바로가기"></a>
 						<a href=""> 
-							<input type="button" value="삭제">
-						</a>
+							<input type="button" value="삭제"></a>
 					</td>
 				</tr>
 			</c:forEach>
