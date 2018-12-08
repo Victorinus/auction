@@ -406,7 +406,7 @@
 			            		<div class="dropdown-content">
 			            			<a href="${root}/admin/art/list">작품관리</a>
 			            			<a href="${root}/admin/auction/list">경매관리</a>
-			            			<a href="#">회원관리</a>
+			            			<a href="${root}/admin/member/list">회원관리</a>
 			            			<a href="${root}/admin/statis/aucsts">통계</a>
 			            		</div>
 			            </li>

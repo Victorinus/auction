@@ -135,10 +135,14 @@ public class AuctionController {
 	public String onlineCurDetail(
 									@RequestParam int art_sq,
 									@RequestParam int auction_sq,
+									HttpSession session,
 									Model model
 			) {
 		View view = onlineDao.find(art_sq, auction_sq);
 		List<Bid> bid = onlineDao.getBid(art_sq, auction_sq);
+		String user_id = (String) session.getAttribute("user_id");
+		int user_sq = memberDao.getUser(user_id);
+		model.addAttribute("myfavList", myfavDao.list(user_sq));		
 		model.addAttribute("view", view);
 		model.addAttribute("bid", bid);
 		return "auction/online/curdetail";

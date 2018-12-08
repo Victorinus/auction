@@ -26,6 +26,7 @@ public class MyfavController {
 	@Autowired
 	private MemberDao memberDao;
 	
+//	이하 사용자
 //	관심작품 등록/해제
 	@RequestMapping("/myfav/register")
 	public Model register(
@@ -54,7 +55,7 @@ public class MyfavController {
 		}
 	}
 	
-//	사용자 : 관심작품 목록
+//	관심작품 목록 반환
 	@RequestMapping("/member/myfav")
 	public String myfav(
 						HttpSession session,
@@ -63,5 +64,25 @@ public class MyfavController {
 		int user_sq = memberDao.getUser(user_id);
 		model.addAttribute("myfavList", myfavDao.getMyfavList(user_sq));		
 		return "member/myfav";
+	}
+	
+//	이하 관리자
+//	관심작품 삭제
+	@RequestMapping("/admin/member/myfav/delete")
+	public String delete(
+							@RequestParam(required=false) int user_sq,
+							@RequestParam(required=false) int a_sq,
+							@RequestParam(required=false) int art_sq,
+							Model model) {
+		log.debug("user_sq = {}", user_sq);
+		log.debug("a_sq = {}", a_sq);
+		log.debug("art_sq = {}", art_sq);
+		int count = myfavDao.find(user_sq, a_sq, art_sq);
+		log.debug("count = {}", count);
+		if(count != 0) {
+			myfavDao.delete(user_sq, a_sq, art_sq);
+			return "redirect:/admin/member/myfav";
+		}
+		return null;		
 	}
 }
