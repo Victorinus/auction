@@ -121,7 +121,7 @@
 }
 </style>
 
-<div class="member-loginfail">
+<div class="member-loginfail">0
 	<h1>로그인 실패!</h1>
 	<div>
 		<a href="joinform"><input type="button" value="회원가입"></a>
