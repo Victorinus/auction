@@ -38,7 +38,7 @@
         flex-grow: 1;
         padding: 10px;
         font-size: 20px;
-        color: chocolate;
+        color: #c33234;
     }
     .auction-online-current .intro-sort-inner {
         padding-top: 5px;
@@ -89,8 +89,8 @@
         padding-right: 15px;
         padding-top: 5px;
         padding-bottom: 5px;
-        background-color: dimgrey;
-        border: 1px solid dimgrey;
+        background-color: #c33234;
+        border: 1px solid #c33234;
         color: white;
         cursor: pointer;
     }
@@ -117,7 +117,7 @@
 		width: 100%;
 	}
 	.auction-online-current .noUi-connect {
-		border: 10px solid skyblue;
+		border: 10px solid #c33234;
 	}
 	.auction-online-current .noUi-horizontal .noUi-handle {
 		border: transparent;
@@ -189,9 +189,9 @@
 	.auction-online-current .form-fav-button {
 		width: 125px;
 		height: 50px;
-		background-color: cornflowerblue;
+		background-color: #c33234;
 		padding: 0px;
-		border: 1px solid cornflowerblue;
+		border: 1px solid #c33234;
 		color: white;
 		font-size: 15px;
 		cursor: pointer;
@@ -199,9 +199,9 @@
 	.auction-online-current .form-bid-button {
 		width: 125px;
 		height: 50px;
-		background-color: lightblue;
+		background-color: #c33234;
 		padding: 0px;
-		border: 1px solid lightblue;
+		border: 1px solid #c33234;
 		color: white;
 		font-size: 15px;
 		cursor: pointer;

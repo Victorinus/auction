@@ -116,6 +116,9 @@
 		width:100%;
 	}
 	.auction-online-curdetail .art-detail.name{
+		line-height: 25px;
+	}
+	.auction-online-curdetail .art-detail.name{
 		width:100%;
 	}
 	.auction-online-curdetail .state-auction-info{
@@ -212,6 +215,9 @@
 	}
 	.lh25{
 		line-height: 25px;
+	}
+	.lh30{
+		line-height: 30px;
 	}
 	.mg0{
 		margin:0px;
@@ -339,23 +345,23 @@
 			        				<tr>
 			        					<td>
 			        						<div class="art-detail left w100p">
-							        			<div class="art-detail-lot lh25 ft20 gray">
+							        			<div class="art-detail-lot lh30 ft20 gray">
 							        				LOT. ${param.lot}
 							        			</div>
-							        			<div class="art-detail-artist lh25 ft25">
+							        			<div class="art-detail-artist lh30 ft25">
 							        				${view.art_artist}
 							        			</div>
-							        			<div class="art-detail-cdt lh25 ft20">
+							        			<div class="art-detail-cdt lh30 ft20">
 							        				${view.art_cdt}
 							        			</div>
 							        			<div class="hr"><hr class="dthr"></div>
-							        			<div class="art-detail-nm lh25 ft20">
+							        			<div class="art-detail-nm lh30 ft20">
 							        				${view.art_nm}
 							        			</div>
-							        			<div class="art-detail-medium lh25 ft15">
+							        			<div class="art-detail-medium lh30 ft15">
 							        				${view.art_medium}
 							        			</div>
-							        			<div class="art-detail-size lh25 ft15">
+							        			<div class="art-detail-size lh30 ft15">
 							        				${view.art_size}
 							        			</div>
 							        			<div class="hr"><hr class="dthr"></div>
@@ -778,7 +784,7 @@
 				bidInfo = {
 					a_sq : "${view.a_sq}",
 					art_sq : "${view.art_sq}",
-					bid_user : "test",
+					bid_user : "${user_id}",
 					bid_price : $(".bidNowVal").val()
 				};
 				webSendMsg();

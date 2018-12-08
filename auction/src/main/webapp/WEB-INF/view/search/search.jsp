@@ -38,15 +38,15 @@
     }
     .reset-btn {
         height: 30px;
-        background-color: burlywood;
-        border: 1px solid burlywood;
+        background-color: #c33234;
+        border: 1px solid #c33234;
         color: white;
         cursor: pointer;
     }    
     .search-btn {
         height: 30px;
-        background-color: darksalmon;
-        border: 1px solid darksalmon;
+        background-color: #c33234;
+        border: 1px solid #c33234;
         color: white;
         cursor: pointer;
     }

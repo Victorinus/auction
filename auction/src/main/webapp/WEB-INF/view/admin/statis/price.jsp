@@ -4,6 +4,5 @@
 <jsp:include page="/WEB-INF/view/template/header.jsp"/>
 <jsp:include page="/WEB-INF/view/admin/statis/menu.jsp"/>
 
-<h1>금액정보</h1>
 
 <jsp:include page="/WEB-INF/view/template/footer.jsp"/>

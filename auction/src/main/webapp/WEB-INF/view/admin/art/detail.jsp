@@ -68,7 +68,7 @@
 		<tbody>
 			<tr>
 				<th>작품명</th>
-				<td><input name="art_nm" type="text"  maxlength="300" value='${art.art_nm}' readonly></td>
+				<td><input name="art_nm" type="text"  maxlength="300" value='${fn:escapeXml(art.art_nm)}' readonly></td>
 			</tr>
 			<tr>
 				<th>작품요약정보</th>
