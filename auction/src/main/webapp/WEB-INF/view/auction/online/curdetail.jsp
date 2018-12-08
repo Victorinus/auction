@@ -8,357 +8,301 @@
 <jsp:include page="/WEB-INF/view/template/header.jsp" />
 
 <style>
-.auction-online-curdetail {
-	margin: auto;
-}
-
-.auction-online-curdetail input {
-	vertical-align: middle;
-}
-
-.auction-online-curdetail th, .auction-online-curdetail td {
-	vertical-align: inherit;
-}
-
-.auction-online-curdetail th {
-	padding: 0;
-	display: table-row;
-}
-
-.auction-online-curdetail tbody {
-	vertical-align: middle;
-}
-
-.auction-online-curdetail #mask {
-	position: absolute;
-	z-index: 9000;
-	background-color: #000;
-	display: none;
-	left: 0;
-	top: 0;
-}
-
-.auction-online-curdetail .frame {
-	display: none;
-	position: fixed;
-	top: 10%;
-	left: 25%;
-	width: 50%;
-	height: 80%;
-	padding: 0px;
-	z-index: 10000;
-	background-color: white;
-	overflow: auto;
-}
-
-.auction-online-curdetail .info-bar {
-	line-height: 40px;
-	background-color: #c33234;
-	padding: 10px 10px;
-	font-size: 20px;
-	color: white;
-	display: block;
-}
-
-.auction-online-curdetail .close {
-	background-color: #c33234;
-	border: 1px solid white;
-	color: white;
-	width: 60px;
-	height: 35px;
-	font-size: 15px;
-}
-
-.auction-online-curdetail .info-bar-name {
-	display: block;
-	padding-left: 20px;
-}
-
-.auction-online-curdetail .wrap-info {
-	height: 91%;
-	display: block;
-	overflow: hidden;
-}
-
-.auction-online-curdetail .auction-info, .auction-online-curdetail .art-info,
-	.auction-online-curdetail .bid-info {
-	width: 300px;
-	height: 100%;
-	display: inline-block;
-}
-
-.auction-online-curdetail .head {
-	font-size: 18px;
-	line-height: 25px;
-	border-bottom: 2px solid black;
-	padding: 10px 0;
-	margin: 10px 0;
-}
-
-.auction-online-curdetail .body {
-	margin: auto;
-}
-
-.auction-online-curdetail .mar-topbot-35px {
-	margin: 35px 0;
-}
-
-.auction-online-curdetail .container {
-	display: block;
-}
-
-.auction-online-curdetail .art-detail {
-	display: inline-block;
-}
-
-.auction-online-curdetail .image-prev {
-	padding: 50px 50px;
-	vertical-align: inherit;
-	display: block;
-	width: 600px;
-	height: 500px;
-	margin: auto;
-}
-
-.auction-online-curdetail .auction-image-tb {
-	width: 100%;
-}
-
-.auction-online-curdetail .body-tb {
-	width: 100%;
-}
-
-.auction-online-curdetail .body-tb tbody tr td {
-	width: 50%;
-}
-
-.auction-online-curdetail .art-info-tb {
-	margin: 20px 0;
-	width: 100%;
-}
-
-.auction-online-curdetail .art-detail.name {
-	width: 100%;
-}
-
-.auction-online-curdetail .state-auction-info {
-	margin: auto;
-}
-
-.auction-online-curdetail .state-auction {
-	padding: 15px 15px;
-	background-color: #dcdcdc;
-	margin: 15px 50px;
-	line-height: 100px;
-}
-
-.auction-online-curdetail .hr {
-	margin: 35px 0;
-}
-
-.auction-online-curdetail .hr-bold {
-	margin: 50px 0;
-	height: 2px;
-	background-color: black;
-}
-
-.auction-online-curdetail .art-detailInfo-menu {
-	margin: 20px 20px 0px;
-	border-bottom: 2px solid gray;
-}
-
-.auction-online-curdetail .bidding {
-	width: 300px;
-}
-
-.auction-online-curdetail .bidding-btn {
-	margin: 20px 0 0;
-	background-color: #c33234;
-	color: white;
-	border: 0px solid;
-	width: 100%;
-	height: 50px;
-	font-size: 16px;
-}
-
-.auction-online-curdetail .btn1 {
-	background-color: #c33234;
-	color: white;
-	border: 0px solid;
-	width: 125px;
-	height: 50px;
-	font-size: 16px;
-}
-
-.auction-online-curdetail .btn2 {
-	background-color: #c33234;
-	color: white;
-	border: 0px solid;
-	width: 150px;
-	height: 40px;
-	font-size: 16px;
-}
-
-.auction-online-curdetail .bid-info-list {
-	height: 450px;
-	overflow: auto;
-	border: 1px solid gray;
-}
-
-.auction-online-curdetail .art-info-warning {
-	color: #c33234;
-	font-size: 15px;
-	font-weight: bold;
-	padding: 20 0 0px;
-}
-
-.auction-online-curdetail .bidbtn {
-	background-color: #555;
-	color: #fff;
-	font-size: 13px;
-	height: 24px;
-	width: 80px;
-	border: 0px;
-	margin: 5px 0;
-}
-
-.auction-online-curdetail .bid-info-list-val {
-	padding: 20px 15px;
-}
-
-.auction-online-curdetail .bidhr, .auction-online-curdetail .dthr {
-	background-color: #dcdcdc;
-	height: 1px;
-}
-
-.auction-online-curdetail .bgc {
-	background-color: #e6e6fa;
-}
-
-.auction-online-curdetail .bid-art-detail {
-	padding: 10px;
-	font-size: 14px;
-}
-
-.auction-online-curdetail .bid-art-detail-lot, .auction-online-curdetail .bid-art-detail-nm,
-	.auction-online-curdetail .bid-art-detail-artist {
-	font-size: 18px;
-}
-
-.auction-online-curdetail .art-detailInfo-info2 {
-	margin: 0 20px;
-	padding: 40px;
-	background-color: #dcdcdc;
-	line-height: 1.5em;
-}
-
-.lh25 {
-	line-height: 25px;
-}
-
-.mg0 {
-	margin: 0px;
-}
-
-.mg5 {
-	margin: 5px;
-}
-
-.red {
-	color: red;
-}
-
-.gray {
-	color: gray;
-}
-
-.ft15 {
-	font-size: 15px;
-}
-
-.ft20 {
-	font-size: 20px;
-}
-
-.ft25 {
-	font-size: 25px;
-}
-
-.ft30 {
-	font-size: 30px;
-}
-
-.float-r {
-	float: right;
-}
-
-.float-l {
-	float: left;
-}
-
-.float-i {
-	float: inherit;
-}
-
-.float-n {
-	float: none;
-}
-
-.left {
-	text-align: left;
-}
-
-.center {
-	text-align: center;
-}
-
-.right {
-	text-align: right;
-}
-
-.bold {
-	font-weight: bold;
-}
-
-.w100p {
-	width: 100%;
-}
-
-.w90p {
-	width: 90%;
-}
-
-.w80p {
-	width: 80%;
-}
-
-.w70p {
-	width: 70%;
-}
-
-.w60p {
-	width: 60%;
-}
-
-.w50p {
-	width: 50%;
-}
-
-.w40p {
-	width: 40%;
-}
-
-.w30p {
-	width: 30%;
-}
-
-.w20p {
-	width: 20%;
-}
-
-.w10p {
-	width: 10%;
-}
+	.auction-online-curdetail{
+		margin: auto;
+	}
+	.auction-online-curdetail input{
+		vertical-align: middle;
+	}
+	.auction-online-curdetail th, .auction-online-curdetail td {
+		vertical-align: inherit;
+	}
+	.auction-online-curdetail th{
+		padding: 0;
+		display: table-row;
+	}
+	.auction-online-curdetail tbody{
+		vertical-align: middle;
+	}
+	.auction-online-curdetail #mask {
+		position: absolute;
+		z-index: 9000;
+		background-color: #000;
+		display: none;
+		left: 0;
+		top: 0;
+	}
+	.auction-online-curdetail .frame {
+		display: none;
+		position: fixed;
+		top: 10%;
+		left: 25%;
+		width: 50%;
+		height: 80%;
+		padding: 0px;
+		z-index: 10000;
+		background-color: white;
+		overflow: auto;
+	}
+	.auction-online-curdetail .info-bar {
+		line-height:40px;
+		background-color: #c33234;
+		padding: 10px 10px;
+		font-size: 20px;
+		color: white;
+		display: block;
+	}
+	
+	.auction-online-curdetail .close{
+		background-color: #c33234;
+		border:1px solid white;
+		color:white;
+		width:60px;
+		height: 35px;
+		font-size:15px;
+	}
+	.auction-online-curdetail .info-bar-name {
+		display: block;
+		padding-left: 20px;
+	}
+	.auction-online-curdetail .wrap-info {
+		height: 91%;
+		display: block;
+		overflow: auto;
+	}
+	.auction-online-curdetail .auction-info, .auction-online-curdetail .art-info, .auction-online-curdetail .bid-info {
+		width: 300px;
+		height: 100%;
+		display: inline-block;
+	}
+	.auction-online-curdetail .head {
+		font-size: 18px;
+		line-height: 25px;
+		border-bottom: 2px solid black;
+		padding: 10px 0;
+		margin: 10px 0;
+	}
+	.auction-online-curdetail .body{
+		margin: auto;
+	}
+	.auction-online-curdetail .mar-topbot-35px{
+		margin: 35px 0;
+	}
+	.auction-online-curdetail .container{
+		display:block;
+	}
+	.auction-online-curdetail .art-detail{
+		display: inline-block;
+	}
+	.auction-online-curdetail .image-prev{
+		padding:50px 50px;
+		vertical-align:inherit;
+		display: block;
+		width:600px;
+		height: 500px;
+		margin: auto;
+	}
+	.auction-online-curdetail .auction-image-tb{
+		width: 100%;
+	}
+	.auction-online-curdetail .body-tb{
+		width: 100%;
+	}
+	.auction-online-curdetail .body-tb tbody tr td{
+		width:50%;
+	}
+	.auction-online-curdetail .art-info-tb{
+		margin: 20px 0;
+		width:100%;
+	}
+	.auction-online-curdetail .art-detail.name{
+		line-height: 25px;
+	}
+	.auction-online-curdetail .art-detail.name{
+		width:100%;
+	}
+	.auction-online-curdetail .state-auction-info{
+		margin: auto;
+	}
+	.auction-online-curdetail .state-auction{
+		padding: 15px 15px;
+		background-color: #dcdcdc;
+		margin: 15px 50px;
+		line-height: 100px;
+	}
+	.auction-online-curdetail .hr{
+		margin:35px 0;
+	}
+	.auction-online-curdetail .hr-bold{
+		margin:50px 0;
+		height: 2px;
+		background-color: black;
+	}
+	.auction-online-curdetail .art-detailInfo-menu{
+		margin:20px 20px 0px;
+		border-bottom: 2px solid gray;
+	}
+	.auction-online-curdetail .bidding{
+		width:300px;
+	}
+	.auction-online-curdetail .bidding-btn{
+		margin: 20px 0 0;
+		background-color: #c33234;
+		color:white;
+		border: 0px solid;
+		width: 100%;
+		height: 50px;
+		font-size:16px;
+		cursor: pointer;
+	}
+	.auction-online-curdetail .btn1{
+		background-color: #c33234;
+		color:white;
+		border: 0px solid;
+		width: 100px;
+		height: 50px;
+		font-size:16px;
+		cursor: pointer;
+	}
+	.auction-online-curdetail .btn2{
+		background-color: #c33234;
+		color:white;
+		border: 0px solid;
+		width: 150px;
+		height: 40px;
+		font-size:16px;
+	}
+	.auction-online-curdetail .bid-info-list{
+		height:450px;
+		overflow: auto;
+		border: 1px solid gray;
+	}
+	.auction-online-curdetail .art-info-warning{
+		color: #c33234;
+		font-size:15px;
+		font-weight: bold;
+		padding:20 0 0px;
+	}
+	.auction-online-curdetail .bidbtn{
+		background-color: #555;
+		color: #fff;
+		font-size: 13px;
+		height: 24px;
+		width: 80px;
+		border: 0px;
+		margin: 5px 0;
+		cursor: pointer;
+	}
+	.auction-online-curdetail .bid-info-list-val{
+		padding:20px 15px;
+	}
+	.auction-online-curdetail .bidhr, .auction-online-curdetail .dthr{
+		background-color: #dcdcdc;
+		height: 1px;
+	}
+	.auction-online-curdetail .bgc{
+		background-color: #e6e6fa;
+	}
+	.auction-online-curdetail .bid-art-detail{
+		padding: 10px;
+		font-size: 14px;
+	}
+	.auction-online-curdetail .bid-art-detail-lot, .auction-online-curdetail .bid-art-detail-nm, .auction-online-curdetail .bid-art-detail-artist{
+		font-size : 18px;
+	}
+	.auction-online-curdetail .art-detailInfo-info2{
+		margin:0 20px;
+		padding:40px;
+		background-color: #dcdcdc;
+		line-height: 1.5em;
+	}
+	.lh25{
+		line-height: 25px;
+	}
+	.lh30{
+		line-height: 30px;
+	}
+	.mg0{
+		margin:0px;
+	}
+	.mg5{
+		margin:5px;
+	}
+	.red{
+		color: red;
+	}
+	.gray{
+		color:gray;
+	}
+	.ft15{
+		font-size: 15px;
+	}
+	.ft20{
+		font-size: 20px;
+	}
+	.ft25{
+		font-size: 25px;
+	}
+	.ft30{
+		font-size: 30px;
+	}
+	.float-r{
+		float: right;
+	}
+	.float-l{
+		float: left;
+	}
+	.float-i{
+		float: inherit;
+	}
+	.float-n{
+		float: none;
+	}
+	.left {
+		text-align: left;
+	}
+	
+	.center {
+		text-align: center;
+	}
+	
+	.right {
+		text-align: right;
+	}
+	
+	.bold {
+		font-weight: bold;
+	}
+	.w100p {
+		width: 100%;
+	}
+	.w90p {
+		width: 90%;
+	}
+	.w80p {
+		width: 80%;
+	}
+	.w70p {
+		width: 70%;
+	}
+	.w60p {
+		width: 60%;
+	}
+	.w50p {
+		width: 50%;
+	}
+	.w40p {
+		width: 40%;
+	}
+	.w30p {
+		width: 30%;
+	}
+	.w20p {
+		width: 20%;
+	}
+	.w10p {
+		width: 10%;
+	}
 </style>
 
 <div class="auction-online-curdetail w80p">
@@ -400,69 +344,64 @@
 							</table>
 						</td>
 						<td>
-							<table class="art-info-tb">
-								<tbody>
-									<tr>
-										<td>
-											<div class="art-detail left w100p">
-												<div class="art-detail-lot lh25 ft20 gray">LOT.
-													${param.lot}</div>
-												<div class="art-detail-artist lh25 ft25">
-													${view.art_artist}</div>
-												<div class="art-detail-cdt lh25 ft20">${view.art_cdt}
-												</div>
-												<div class="hr">
-													<hr class="dthr">
-												</div>
-												<div class="art-detail-nm lh25 ft20">${view.art_nm}</div>
-												<div class="art-detail-medium lh25 ft15">
-													${view.art_medium}</div>
-												<div class="art-detail-size lh25 ft15">
-													${view.art_size}</div>
-												<div class="hr">
-													<hr class="dthr">
-												</div>
-												<div class="art-detail-ep lh25 ft15">
-													<input type="button" class="bidbtn" value="추정가">
-													KRW
-													<fmt:formatNumber value="${view.art_ep}" pattern="#,###" />
-													이상
-												</div>
-												<div class="art-detail-sp lh25 ft15">
-													<input type="button" class="bidbtn" value="시작가">
-													KRW
-													<fmt:formatNumber value="${view.art_ep}" pattern="#,###" />
-												</div>
-												<div class="art-detail-np lh25 ft15">
-													<input type="button" class="bidbtn" value="현재가"> <span
-														class="bidPrice red">KRW <span class="bidPriceVal"></span></span>
-												</div>
-												<div class="hr">
-													<hr class="dthr">
-												</div>
-												<div class="art-detail-menu">
+			        		<table class="art-info-tb">
+			        			<tbody>
+			        				<tr>
+			        					<td>
+			        						<div class="art-detail left w100p">
+							        			<div class="art-detail-lot lh30 ft20 gray">
+							        				LOT. ${param.lot}
+							        			</div>
+							        			<div class="art-detail-artist lh30 ft25">
+							        				${view.art_artist}
+							        			</div>
+							        			<div class="art-detail-cdt lh30 ft20">
+							        				${view.art_cdt}
+							        			</div>
+							        			<div class="hr"><hr class="dthr"></div>
+							        			<div class="art-detail-nm lh30 ft20">
+							        				${view.art_nm}
+							        			</div>
+							        			<div class="art-detail-medium lh30 ft15">
+							        				${view.art_medium}
+							        			</div>
+							        			<div class="art-detail-size lh30 ft15">
+							        				${view.art_size}
+							        			</div>
+							        			<div class="hr"><hr class="dthr"></div>
+							        			<div class="art-detail-ep lh25 ft15">
+							        				<input type="button" class="bidbtn" value="추정가"> 
+							        				KRW <fmt:formatNumber value="${view.art_ep}" pattern="#,###" /> 이상
+							        			</div>
+							        			<div class="art-detail-sp lh25 ft15">
+							        				<input type="button" class="bidbtn" value="시작가"> 
+							        				KRW <fmt:formatNumber value="${view.art_ep}" pattern="#,###" />
+							        			</div>
+							        			<div class="art-detail-np lh25 ft15">
+							        				<input type="button" class="bidbtn" value="현재가"> 
+							        				<span class="bidPrice red">KRW <span class="bidPriceVal"></span></span>
+							        			</div>
+							        			<div class="hr"><hr class="dthr"></div>
+							        			<div class="art-detail-menu">
 													<input type="button" class="openMask btn1" value="응찰하기">
-													<c:choose>
-														<c:when test="${myfavList.contains(view.art_sq)}">
-															<input type="button" class="addLike btn1" value="관심작품 끄기"
-															data-a_sq="${view.a_sq}" data-art_sq="${view.art_sq}"
-															data-lot="${view.lot}">
-														</c:when>
-														<c:otherwise>
-															<input type="button" class="addLike btn1" value="관심작품"
+														<c:choose>
+															<c:when test="${myfavList.contains(view.art_sq)}">
+																<input type="button" class="addLike btn1" value="관심취소"
 																data-a_sq="${view.a_sq}" data-art_sq="${view.art_sq}"
-																data-lot="${view.lot}">	
-														</c:otherwise>
-													</c:choose>
-													<a href="current"> <input
-														type="button" class="goList btn1" value="목록">
-													</a>
-												</div>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+																data-lot="${view.lot}">
+															</c:when>
+															<c:otherwise>
+																<input type="button" class="addLike btn1" value="관심작품"
+																	data-a_sq="${view.a_sq}" data-art_sq="${view.art_sq}"
+																	data-lot="${view.lot}">	
+															</c:otherwise>
+														</c:choose>
+								        			</div>
+			        						</div>
+			        					</td>
+			        				</tr>
+			        			</tbody>
+			        		</table>
 						</td>
 					</tr>
 					<tr>
@@ -711,12 +650,12 @@
 				}
 			})
 			
-			if(status === '관심작품 끄기'){
+			if(status === '관심취소'){
 				$(target).val("관심작품")
 				console.log("관심작품 등록")
 			}
 			else{
-				$(target).val("관심작품 끄기")
+				$(target).val("관심취소")
 				console.log("관심작품 해제")
 			}
 		})
@@ -883,7 +822,7 @@
 				bidInfo = {
 					a_sq : "${view.a_sq}",
 					art_sq : "${view.art_sq}",
-					bid_user : "test",
+					bid_user : "${user_id}",
 					bid_price : $(".bidNowVal").val()
 				};
 				webSendMsg();

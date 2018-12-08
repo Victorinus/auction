@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath}" />>
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"/>
 
@@ -39,7 +40,7 @@
 							<h2>프리뷰 안내</h2>
 						</div>
 						<div class="col-md-6 text-center">
-							<img src="http://www.dummyimage.com/500x500">
+							<img src="${root}/image/auction/${auction.auction_image}" style="width: 500px;height: 500px;">
 						</div>
 						<div class="col-md-6 text-center">
 							<h4>프리뷰 기간(관리자 입력)</h4>

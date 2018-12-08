@@ -25,7 +25,7 @@
 
 .admin-member-myfav #count {
 	font-size: 15px;
-	font-weight: 500;
+	font-weight: bold;
 	color: blue;
 }
 
@@ -65,11 +65,12 @@
 
 .admin-member-myfav input[type=button], .admin-member-myfav input[type=submit]
 	{
-	margin: 0;
+	margin: 0 5px;
 	padding: 0;
 	color: white;
 	border: none;
-	width: 75px;
+	width: 70px;
+	height:35px;
 	background-color: #c33234;
 	cursor: pointer;
 }

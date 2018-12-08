@@ -3,6 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	<mapper namespace="auction.repository.art.ArtDaoImpl">
+	<!-- <mapper namespace="/auction/src/test/java/auction/admin/art/test/TestRegist.java"> -->
 	<insert id="admin_art_regist" parameterType="art">
 		insert into art values(
 			art_seq.nextval,

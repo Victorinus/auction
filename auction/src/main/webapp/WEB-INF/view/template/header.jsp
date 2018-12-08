@@ -19,9 +19,7 @@
     <style>
     /* header,  .search, nav, section, footer 등 각 영역의 구분 */
         header,
-        .search,
-        nav,
-        section {
+        .search {
             margin: 15px 0;
             padding: 15px 0;
         }
@@ -31,13 +29,18 @@
         body{
         	margin:0;
         }
+        section {
+        	
+        }
         footer{
         	padding: 0;
         }
 
         header,
         nav {
+        	padding:15px 0 0;
             margin: auto;
+            
         }
 
         header,
@@ -58,7 +61,11 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #333;
+            border-bottom: 2px solid #c33234; 
+            /* background-color: #333; */
+        }
+        footer ul{
+        	border: none;
         }
 
         li {
@@ -68,22 +75,28 @@
         li a,
         .dropbtn {
             display: inline-block;
-            color: white;
+            color: black;
             text-align: center;
             font-size: 20px;
             padding: 14px 16px;
             text-decoration: none;
         }
+        li > a{
+        	font-weight: bold;
+        }
 
         li a:hover:not(.active),
         .dropdown:hover .dropbtn {
             text-decoration: none;
+            color:#c33234;
             /*background-color: #111;*/
         }
         
         nav li a:hover{
+			color:#c33234;
+			font-weight:bold;
             text-decoration: none;
-            background-color: lightcyan;
+            /* background-color: lightcyan; */
             
         }
 
@@ -113,7 +126,7 @@
         }
 
         .active {
-            background-color: darkcyan;
+            /*background-color: darkcyan;*/
         }
 
         section {
@@ -169,8 +182,62 @@
         }
         .bold {
         	font-weight: bold;
-        	color: blue;
         }
+        .user-id{
+        	color: #c33234;
+        }
+        
+        /* 홈 메뉴*/
+        .home {
+        	width:100%;
+        	height: 100%;
+        }
+        .home .bgimage{
+       		width:100%;
+       		height: 100%;
+        	background-color:white;
+        	background-image: url("${root}/image/about/home.jpeg");
+        	background-position: top;
+        	background-repeat: no-repeat;
+        	background-size: cover;
+        }
+        .home .adv{
+        	z-index:10;
+        	color:white;
+        	padding:20px;
+        	position: absolute;
+        	top: 300px;
+        	left: 150px;
+        	width: 350px;
+        	height: 280px;
+        	background-color: rgba(0, 0, 0, 0.7);
+        }
+        .home .adv-tit{
+        	margin:15px 0 20px;
+        	font-weight: bold;
+        	font-size: 25px;
+        	line-height:35px;
+        	color: #ff595b;
+       	}
+        .home .adv-con{
+        	margin:10px 0;
+        	font-size: 16px;
+        	line-height:25px;
+       	}
+       	.home .adv-btn{
+       		margin:15px 0;
+       		width:100%;
+       	}
+   	    .home .adv-btn input[type=button]{
+   	    	margin:0 5px;
+   	    	float:right;
+			width:80px;
+			height: 35px;
+			color: silver;
+			background-color: rgba(0, 0, 0, 0.8);
+			border: 1px solid silver;
+       	}
+       	
         /* 관리자 메뉴 바 */
         .admin-menu {
         	line-height:70px;
@@ -262,7 +329,12 @@
     <script src="${pageContext.request.contextPath}/library/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
     <script>
         $(document).ready(function() {
-
+			
+            //홈 광고 닫기 버튼 클릭하면 숨기기
+            $(".adv-close-btn").click(function(){
+            	$(".adv").hide();
+            });
+        	
             // datetimepicker 라이브러리 사용
             var nowTime = new Date();
             var addrFlag = document.getElementById('sample6_postcode').value;
@@ -283,6 +355,8 @@
                 });
             }
             $.datetimepicker.setLocale('ko');
+            
+            
         });
     </script>
 </head>
@@ -300,7 +374,7 @@
         <form action="${root}/search" method="get">
         	<c:if test="${!empty user_id}">
 	        	<span class="welcome-msg">
-	        		<span class="bold">${user_id}</span>
+	        		<span class="bold user-id">${user_id}</span>
 	        		 님, 방문을 환영합니다.
 	        	</span>
         	</c:if>

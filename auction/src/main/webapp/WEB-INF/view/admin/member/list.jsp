@@ -24,7 +24,7 @@
 
 .admin-member-list #count {
 	font-size: 15px;
-	font-weight: 500;
+	font-weight: bold;
 	color: blue;
 }
 
@@ -85,9 +85,15 @@
 }
 
 .admin-member-list .nav-bar a:hover {
-	color: orange;
+	color: red;
 }
 
+.admin-art-eval .nav-bar a{
+	text-decoration: none;
+}
+.red{
+	color: red;
+}
 .center {
 	text-align: center;
 }
@@ -195,7 +201,7 @@
 		<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
 			<c:choose>
 				<c:when test="${util.isCurrentPage(i) }">
-					<span class="bold">${i}</span>
+					<span class="bold red">${i}</span>
 				</c:when>
 				<c:otherwise>
 					<a href="${root}/admin/member/list?page=${i}${util.param}">${i}</a>

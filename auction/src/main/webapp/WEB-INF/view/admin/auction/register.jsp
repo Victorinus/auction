@@ -51,6 +51,7 @@
 		color: white;
 		border: none;
 		background-color: #c33234;
+		cursor:pointer;
 	}
 	.admin-auction-register input[type=file]{
 		padding:3px 0;

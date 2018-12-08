@@ -49,23 +49,27 @@ public class MemberController {
 	}
 	@RequestMapping(value="/member/joinform", method=RequestMethod.POST)
 	public String regist(@ModelAttribute Member init) throws NoSuchAlgorithmException {
-		String encrypted_pw = encrypt(init.getUser_pw());
-		Member member = Member.builder()
-										.user_id(init.getUser_id())
-										.user_pw(encrypted_pw)
-										.user_nm(init.getUser_nm())
-										.user_birth(init.getUser_birth())
-										.user_gender(init.getUser_gender())
-										.user_phone(init.getUser_phone())
-										.user_tel(init.getUser_tel())
-										.user_email(init.getUser_email())
-										.user_post(init.getUser_post())
-										.user_addr1(init.getUser_addr1())
-										.user_addr2(init.getUser_addr2())
-										.user_grade(init.getUser_grade())
-										.build();
-		memberDao.regist(member);
-		return "member/joinresult";
+		try{
+			String encrypted_pw = encrypt(init.getUser_pw());
+			Member member = Member.builder()
+					.user_id(init.getUser_id())
+					.user_pw(encrypted_pw)
+					.user_nm(init.getUser_nm())
+					.user_birth(init.getUser_birth())
+					.user_gender(init.getUser_gender())
+					.user_phone(init.getUser_phone())
+					.user_tel(init.getUser_tel())
+					.user_email(init.getUser_email())
+					.user_post(init.getUser_post())
+					.user_addr1(init.getUser_addr1())
+					.user_addr2(init.getUser_addr2())
+					.user_grade(init.getUser_grade())
+					.build();
+			memberDao.regist(member);
+			return "member/joinresult";
+		}catch(Exception e) {
+			return "member/joinfail";
+		}
 	}
 	
 //	로그인

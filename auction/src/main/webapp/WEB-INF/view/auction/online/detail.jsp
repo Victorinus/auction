@@ -88,8 +88,8 @@
         padding-right: 15px;
         padding-top: 5px;
         padding-bottom: 5px;
-        background-color: dimgrey;
-        border: 1px solid dimgrey;
+        background-color: #c33234;
+        border: 1px solid #c33234;
         color: white;
         cursor: pointer;
     }

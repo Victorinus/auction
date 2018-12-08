@@ -58,9 +58,9 @@
 	.auction-online-result .result-btn {
 		width: 120px;
 		height: 40px;
-		background-color: #FAFAFA;
-		border: 1px solid #FAFAFA;
-		color: black;
+		background-color: #c33234;
+		border: 1px solid #c33234;
+		color: white;
 		cursor: pointer;
 	}
 	

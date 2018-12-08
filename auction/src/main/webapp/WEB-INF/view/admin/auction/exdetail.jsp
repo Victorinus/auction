@@ -56,6 +56,7 @@
 		color: white;
 		border: none;
 		background-color: #c33234;
+		cursor:pointer;
 	}
 	.admin-auction-exdetail input[type=file]{
 		padding: 3px 0;

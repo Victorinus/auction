@@ -272,25 +272,217 @@
 	border: 1px solid white;
 	cursor: pointer;
 	
-	color: black;
-	font-size: 12px;
-}
-
-/* 네비게이터 */
-.auction-online-current .paging {
-	text-align: center;
-	font-size: 20px;
-}
-
-.auction-online-current .paging a {
-	text-decoration: none;
-	font-size: 20px;
-	color: black;
-}
-
-.auction-online-current .paging a:hover {
-	color: orange;
-}
+    /* 경매 개요*/
+	.auction-online-current .intro {
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+		border-top : 1px solid gray;
+        border-bottom : 1px solid gray;
+        min-height: 100px;
+    }
+	.auction-online-current .intro-name {
+        padding: 10px;
+        flex-grow: 1;
+        font-size: 25px;
+	}
+    .auction-online-current .intro-sort {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 20px;
+        color: #c33234;
+    }
+    .auction-online-current .intro-sort-inner {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .auction-online-current .intro-detail {
+        flex-grow: 10;
+        padding: 10px;
+        font-size: 20px;
+	}
+    .auction-online-current .intro-detail-inner {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    /* 검색창 */
+    .auction-online-current .search {
+        border-bottom: 2px solid gray;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        min-height: 100px;
+    }
+    .auction-online-current .search-type {
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+    .auction-online-current .search-type-text {
+    	height: 30px;
+    }
+    .auction-online-current .search-type-dt1,
+    .auction-online-current .search-type-dt2,
+    .auction-online-current .search-type-dt4 {
+        flex-grow: 1;
+    }
+    .auction-online-current .search-type-dt3 {
+    	flex-grow: 7;
+    }
+    .auction-online-current .search-btns {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .auction-online-current .search-btn {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: #c33234;
+        border: 1px solid #c33234;
+        color: white;
+        cursor: pointer;
+    }
+    
+    /* 슬라이더바 */
+	.auction-online-current .sliderBar {
+		display: flex;
+		flex-direction: row;
+	}
+	.auction-online-current .sliderEp {
+		/* flex-grow: 1; */
+		width: 30%;
+		text-align: center;
+	}
+	.auction-online-current .sliderRange {
+		/* flex-grow: 3; */
+		/* width: 150px; */
+		width: 70%;
+	}
+	.auction-online-current #value {
+		text-align: center;
+	}
+	.auction-online-current .noUi-target {
+		width: 100%;
+	}
+	.auction-online-current .noUi-connect {
+		border: 10px solid #c33234;
+	}
+	.auction-online-current .noUi-horizontal .noUi-handle {
+		border: transparent;
+		padding: 6px;
+		background-image: url("/auction/image/icon/handle.png");
+		background-repeat: no-repeat;
+		background-origin: content-box;
+		background-size: 20px;
+		background-position: 0;
+		background-color: transparent;
+	}
+	.auction-online-current
+	.noUi-horizontal .noUi-handle:before,
+	.noUi-horizontal .noUi-handle:after {
+		background: transparent;
+	}
+	
+    /* 갤러리 */
+	.auction-online-current .gallery {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		padding: 10px;
+	}
+	.auction-online-current .gallery-each {
+        /* flex-grow: 1; */
+        width: 30%;
+        padding: 10px;
+    }
+    .auction-online-current .gallery-each-lot,
+    .auction-online-current .gallery-each-info {
+    	text-align: center;
+    }
+    .auction-online-current .gallery-each-info p {
+    	margin-top: 1px;
+    	margin-bottom: 1px;
+	}
+    .auction-online-current .gallery-each-info a:link,
+    .auction-online-current .gallery-each-info a:visited {
+    	text-decoration: none;
+    	color: black;
+    }
+    .auction-online-current .gallery-each-info .artist {
+    	border-bottom: 1px solid gray;
+    	height: 150px;
+    	padding: 10px;
+    }
+    .auction-online-current .gallery-each-info .info {
+    	border-bottom: 1px solid gray;
+    	height: 100px;
+    	padding: 10px;
+    }
+    .auction-online-current .gallery-each-info .time {
+    	height: 75px;
+    	padding: 10px;
+    }
+    .auction-online-current .gallery-each-info .artist,
+    .auction-online-current .gallery-each-info .info,
+    .auction-online-current .gallery-each-info .time {
+    	text-align: left;
+    }
+    
+    /* 관심작품/응찰하기 버튼 */
+    .auction-online-current .form-submit {
+		display: inline-block;
+	}
+	.auction-online-current .form-fav-button {
+		width: 125px;
+		height: 50px;
+		background-color: #c33234;
+		padding: 0px;
+		border: 1px solid #c33234;
+		color: white;
+		font-size: 15px;
+		cursor: pointer;
+	}
+	.auction-online-current .form-bid-button {
+		width: 125px;
+		height: 50px;
+		background-color: #c33234;
+		padding: 0px;
+		border: 1px solid #c33234;
+		color: white;
+		font-size: 15px;
+		cursor: pointer;
+	}
+	.auction-online-current .text {
+		display: inline-block;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		vertical-align: middle;
+	}
+	.auction-online-current .img {
+		display: inline-block;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		vertical-align: middle;
+	}
+    
+    /* 네비게이터 */
+    .auction-online-current .paging {
+        text-align: center;
+        font-size: 20px;
+    }
+	.auction-online-current .paging a {
+		text-decoration: none;
+		font-size: 20px;
+	}
+	.auction-online-current .paging a:hover {
+		color: orange;
+	}
 </style>
 
 <script>

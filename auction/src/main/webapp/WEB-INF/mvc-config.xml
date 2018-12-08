@@ -26,8 +26,11 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/admin/**"/>
 			<mvc:mapping path="/member/**"/>
+			<mvc:mapping path="/online/curdetail/**"/>
 			<mvc:exclude-mapping path="/member/login"/>
+			<mvc:exclude-mapping path="/member/loginfail"/>
 			<mvc:exclude-mapping path="/member/joinform"/>
+			<mvc:exclude-mapping path="/member/joinfail"/>
 			<bean class="auction.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
 		<mvc:interceptor>

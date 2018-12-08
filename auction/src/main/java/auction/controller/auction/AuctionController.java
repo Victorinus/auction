@@ -54,7 +54,7 @@ public class AuctionController {
 	@Autowired
 	private ServletContext application;
 	
-//	진행경매	
+//	진행경매
 	@RequestMapping("/online/current")
 	public String onlineCurrent(
 								@ModelAttribute Search search, 
@@ -80,7 +80,7 @@ public class AuctionController {
 		}
 		return "auction/online/current";
 	}
-	
+
 //	예정경매
 	@RequestMapping("/online/upcoming")
 	public String onlineUpcoming(
