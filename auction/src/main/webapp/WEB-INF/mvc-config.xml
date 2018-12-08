@@ -22,12 +22,19 @@
 	<mvc:resources location="/image/" mapping="/image/**"></mvc:resources>
 
 	<!-- 인터셉터 설정 -->
-	<!-- <mvc:interceptors>
+	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/admin/**"/>
+			<mvc:mapping path="/member/**"/>
+			<mvc:exclude-mapping path="/member/login"/>
+			<mvc:exclude-mapping path="/member/joinform"/>
 			<bean class="auction.interceptor.UserInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**"/>
+			<bean class="auction.interceptor.AdminInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 	<!-- 웹소켓 서비스 설정 -->
 	<bean id="websocketServer" class="auction.websocket.WebsocketServer"></bean>

@@ -69,8 +69,12 @@
 	padding: 0;
 	color: white;
 	border: none;
+<<<<<<< HEAD
 	width: 70px;
 	height:35px;
+=======
+	width: 75px;
+>>>>>>> refs/heads/master
 	background-color: #c33234;
 	cursor: pointer;
 }
@@ -150,30 +154,55 @@
 	width: 10%;
 }
 </style>
-
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script>
 	function editMenuColor() {
 		$(".admin-menu-member-myfav").css("color", "#e41e21");
 	}
 	editMenuColor();
+
+	$(document).ready(function() {
+		$(".deleteLike").click(function() {
+			var target = this;
+			console.log($(target))
+			var user_no = $(target).attr("data-user_no")
+			var auction_no = $(target).attr("data-auction_no")
+			var art_no = $(target).attr("data-art_no")
+			if (!confirm("관심작품을 삭제하시겠습니까?")) {
+				return;
+			}
+			$.ajax({
+				type : "post",
+				url : "/auction/admin/member/myfav/delete",
+				data : {
+					user_sq : user_no,
+					a_sq : auction_no,
+					art_sq : art_no,
+				},
+				success : function(data, status, xhr) {
+					console.log("데이터 전송 완료!")
+					console.log(status)
+				}
+			})
+			$(target).parents("tr").remove();
+		})
+	})
 </script>
 
 <div class="admin-member-myfav" align="center">
 	<div class="totalCnt">
-		총 <span id="count">
-			${util.count}
-		</span> 건의 작품이 관심작품으로 등록되었습니다.
+		총 <span id="count"> ${util.count} </span> 건의 작품이 관심작품으로 등록되었습니다.
 	</div>
 	<table>
 		<tbody>
 			<tr>
-				<th style="width:7%">번호</th>
-				<th style="width:13%">아이디</th>
-				<th style="width:18%">경매명</th>
-				<th style="width:18%">작품명</th>
-				<th style="width:18%">작가명</th>
-				<th style="width:13%">등록일자</th>
-				<th style="width:13%">관리</th>
+				<th style="width: 7%">번호</th>
+				<th style="width: 10%">아이디</th>
+				<th style="width: 18%">경매명</th>
+				<th style="width: 20%">작품명</th>
+				<th style="width: 15%">작가명</th>
+				<th style="width: 15%">등록일자</th>
+				<th style="width: 15%">관리</th>
 			</tr>
 			<c:forEach var="view" items="${list}" varStatus="status">
 				<tr>
@@ -182,16 +211,16 @@
 					<td>${view.fav_auction_nm}</td>
 					<td>${view.fav_art_nm}</td>
 					<td>${view.fav_art_artist}</td>
-					<td>
-						<fmt:parseDate var="parsed" value="${view.fav_dt}" pattern="yyyy-MM-dd HH:mm:ss.S"/>
-						<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일(E) a hh시 mm분"/>
-					</td>
-					<td>
-						<a href=""> 
-							<input type="button" value="바로가기"></a>
-						<a href=""> 
-							<input type="button" value="삭제"></a>
-					</td>
+					<td><fmt:parseDate var="parsed" value="${view.fav_dt}"
+							pattern="yyyy-MM-dd HH:mm:ss.S" /> <fmt:formatDate
+							value="${parsed}" pattern="yyyy년 MM월 dd일(E) a hh시 mm분" /></td>
+					<td><a
+						href="${root}/online/curdetail?art_sq=${view.fav_art_no}&auction_sq=${view.fav_auction_no}&lot="><input
+							type="button" value="바로가기"></a> <input type="button"
+						class="deleteLike" value="삭제"
+						data-user_no="${view.fav_user_no}"
+						data-auction_no="${view.fav_auction_no}"
+						data-art_no="${view.fav_art_no}"></td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -246,4 +275,5 @@
 		</form>
 	</div>
 </div>
+
 <jsp:include page="/WEB-INF/view/template/footer.jsp" />

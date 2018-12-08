@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<c:set var="root" value="${pageContext.request.contextPath}"/>
+<c:set var="root" value="${pageContext.request.contextPath}" />
 
-<jsp:include page="/WEB-INF/view/template/header.jsp"/>
+<jsp:include page="/WEB-INF/view/template/header.jsp" />
 
 <style>
 	.auction-online-curdetail{
@@ -304,36 +304,37 @@
 
 <div class="auction-online-curdetail w80p">
 	<div class="container">
-        <div class="left head bold mar-topbot-35px ft25">
-            진행경매 작품정보
-        </div>
-        <div class="body">
-        	<table class="body-tb">
-        		<tbody>
-        			<tr>
+		<div class="left head bold mar-topbot-35px ft25">진행경매 작품정보</div>
+		<div class="body">
+			<table class="body-tb">
+				<tbody>
+					<tr>
 						<td colspan="2">
 							<div class="state-auction">
 								<div class="state-auction-info">
 									<div class="state-auction-nm lh25">${view.a_nm}</div>
-									<div class="state-auction-addr lh25">${view.a_addr1} ${view.a_addr2}</div>
+									<div class="state-auction-addr lh25">${view.a_addr1}
+										${view.a_addr2}</div>
 									<div class="state-auction-count lh25">
-										<span class="counter"></span> / 
-										<span class="bidTotal">총 <span class="bidTotalVal">${fn:length(bid)}</span>회 응찰</span> / 
-										<span class="bidPrice red">현재가 KRW <span class="bidPriceVal"></span></span>
+										<span class="counter"></span> / <span class="bidTotal">총
+											<span class="bidTotalVal">${fn:length(bid)}</span>회 응찰
+										</span> / <span class="bidPrice red">현재가 KRW <span
+											class="bidPriceVal"></span></span>
 									</div>
 								</div>
 							</div>
 						</td>
-        			</tr>
-        			<tr>
+					</tr>
+					<tr>
 						<td>
 							<table class="auction-image-tb">
 								<tbody>
 									<tr>
 										<td>
 											<div class="image-prev center">
-	        									<img src="${root}/image/art?art_image=${view.art_image}" style="width:500; height:400;">
-	        								</div>
+												<img src="${root}/image/art?art_image=${view.art_image}"
+													style="width: 500; height: 400;">
+											</div>
 										</td>
 									</tr>
 								</tbody>
@@ -379,48 +380,53 @@
 							        			</div>
 							        			<div class="hr"><hr class="dthr"></div>
 							        			<div class="art-detail-menu">
-								        			<input type="button" class="openMask btn1" value="응찰하기">
-								        			<input type="button" class="addLike btn1" value="관심작품">
-								        			<a href="current">
-									        			<input type="button" class="goList btn1" value="목록">
-								        			</a>
-							        			</div>
+													<input type="button" class="openMask btn1" value="응찰하기">
+														<c:choose>
+															<c:when test="${myfavList.contains(view.art_sq)}">
+																<input type="button" class="addLike btn1" value="관심작품 끄기"
+																data-a_sq="${view.a_sq}" data-art_sq="${view.art_sq}"
+																data-lot="${view.lot}">
+															</c:when>
+															<c:otherwise>
+																<input type="button" class="addLike btn1" value="관심작품"
+																	data-a_sq="${view.a_sq}" data-art_sq="${view.art_sq}"
+																	data-lot="${view.lot}">	
+															</c:otherwise>
+														</c:choose>
+								        			</div>
 			        						</div>
 			        					</td>
 			        				</tr>
 			        			</tbody>
 			        		</table>
 						</td>
-        			</tr>
-        			<tr>
-        				<td colspan="2">
-        					<div class="hr-bold"></div>
-        					<div class="art-detailInfo">
-        						<div class="art-detailInfo-menu">
-        							<input type="button" class="btn2" value="작품설명">
-        						</div>
-			        			<div class="art-detailInfo-info2">
-			        				${view.art_info2}
-			        			</div>
-        					</div>
-        				</td>
-        			</tr>
-        		</tbody>
-        	</table>
-        </div>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div class="hr-bold"></div>
+							<div class="art-detailInfo">
+								<div class="art-detailInfo-menu">
+									<input type="button" class="btn2" value="작품설명">
+								</div>
+								<div class="art-detailInfo-info2">${view.art_info2}</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-        		
 
-    <!-- 응찰 기능 -->
-    <div id="mask" align="center"></div>
+
+	<!-- 응찰 기능 -->
+	<div id="mask" align="center"></div>
 	<div class="frame" align="center">
 		<div class="info-bar">
-			<span class="info-bar-name left bold">
-				경매 응찰하기
-				<span style="font-weight: normal;font-size:15px;">[${view.a_nm}]</span>
-				<span class="float-r">
-					<input type="button" class="close" value="닫기"/>
-				</span>
+			<span class="info-bar-name left bold"> 경매 응찰하기 <span
+				style="font-weight: normal; font-size: 15px;">[${view.a_nm}]</span>
+				<span class="float-r"> <input type="button" class="close"
+					value="닫기" />
+			</span>
 			</span>
 		</div>
 		<div class="wrap-info">
@@ -435,31 +441,22 @@
 						<tr>
 							<td>
 								<div class="art-img center">
-									<img src="${root}/image/art?art_image=${view.art_image}" style="width:280; height:280;">
+									<img src="${root}/image/art?art_image=${view.art_image}"
+										style="width: 280; height: 280;">
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<div class="bid-art-detail left">
-									<div class="bid-art-detail-lot lh25">
-				        				LOT. ${param.lot}
-				        			</div>
-				        			<div class="bid-art-detail-artist lh25 bold">
-				        				${view.art_artist}
-				        			</div>
-				        			<div class="bid-art-detail-nm lh25 bold">
-				        				${view.art_nm}
-				        			</div>
-				        			<div class="bid-art-detail-cdt lh25">
-				        				${view.art_cdt}
-				        			</div>
-				        			<div class="bid-art-detail-medium lh25">
-				        				${view.art_medium}
-				        			</div>
-				        			<div class="bid-art-detail-size lh25">
-				        				${view.art_size}
-				        			</div>
+									<div class="bid-art-detail-lot lh25">LOT. ${param.lot}</div>
+									<div class="bid-art-detail-artist lh25 bold">
+										${view.art_artist}</div>
+									<div class="bid-art-detail-nm lh25 bold">${view.art_nm}</div>
+									<div class="bid-art-detail-cdt lh25">${view.art_cdt}</div>
+									<div class="bid-art-detail-medium lh25">
+										${view.art_medium}</div>
+									<div class="bid-art-detail-size lh25">${view.art_size}</div>
 								</div>
 							</td>
 						</tr>
@@ -472,100 +469,100 @@
 						<tr>
 							<td>
 								<div class="left bold head w100p">경매정보</div>
-								
+
 							</td>
-							<tr>
+						<tr>
 						</tr>
 						<tr>
 							<td>
 								<div class="art-info-warning">
-									응찰 및 낙찰 이후에는 취소 할 수 없습니다.<br>
-									신중한 응찰 부탁드립니다.<br><br>
-									응찰 후 반드시 새로고침 버튼을 클릭하여<br>
-									응찰현황을 확인하시기 바랍니다.								
+									응찰 및 낙찰 이후에는 취소 할 수 없습니다.<br> 신중한 응찰 부탁드립니다.<br>
+									<br> 응찰 후 반드시 새로고침 버튼을 클릭하여<br> 응찰현황을 확인하시기 바랍니다.
 								</div>
-								<div class="hr"><hr class="bidhr"></div>
+								<div class="hr">
+									<hr class="bidhr">
+								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<div class="art-info-count">
-									<input type="button" class="bidbtn" value="남은시간">
-									<span class="counter"></span>
+									<input type="button" class="bidbtn" value="남은시간"> <span
+										class="counter"></span>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<div class="art-info-start">
-									<input type="button" class="bidbtn" value="시작시간">
-									<span>${view.a_start}</span>
+									<input type="button" class="bidbtn" value="시작시간"> <span>${view.a_start}</span>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
 								<div class="art-info-end">
-									<input type="button" class="bidbtn" value="종료시간"> 
-									<span>${view.a_end}</span>
+									<input type="button" class="bidbtn" value="종료시간"> <span>${view.a_end}</span>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<div class="hr"><hr class="bidhr"></div>
+								<div class="hr">
+									<hr class="bidhr">
+								</div>
 								<div class="art-bidding-info">
 									<div class="art-bidding-info-bid">
-										<input type="button" class="bidbtn" value="응찰단위"> 
-										KRW 
+										<input type="button" class="bidbtn" value="응찰단위"> KRW
 										<c:choose>
 											<c:when test="${view.art_ep>=100000000}">
-												<c:set var="bidUnit" value="500000"/>
+												<c:set var="bidUnit" value="500000" />
 											</c:when>
 											<c:when test="${view.art_ep>=30000000}">
-												<c:set var="bidUnit" value="400000"/>
+												<c:set var="bidUnit" value="400000" />
 											</c:when>
 											<c:when test="${view.art_ep>=5000000}">
-												<c:set var="bidUnit" value="200000"/>
+												<c:set var="bidUnit" value="200000" />
 											</c:when>
 											<c:when test="${view.art_ep>=3000000}">
-												<c:set var="bidUnit" value="100000"/>
+												<c:set var="bidUnit" value="100000" />
 											</c:when>
 											<c:when test="${view.art_ep>=1000000}">
-												<c:set var="bidUnit" value="50000"/>
+												<c:set var="bidUnit" value="50000" />
 											</c:when>
 											<c:when test="${view.art_ep>=500000}">
-												<c:set var="bidUnit" value="30000"/>
+												<c:set var="bidUnit" value="30000" />
 											</c:when>
 											<c:when test="${view.art_ep>=200000}">
-												<c:set var="bidUnit" value="20000"/>
+												<c:set var="bidUnit" value="20000" />
 											</c:when>
 											<c:otherwise>
-												<c:set var="bidUnit" value="10000"/>
+												<c:set var="bidUnit" value="10000" />
 											</c:otherwise>
 										</c:choose>
-										<span class="bidUnit">
-											<fmt:formatNumber value="${bidUnit}" pattern="#,###" />
-										</span>
-										<input type="hidden" class="bidUnitVal" value="${bidUnit}">
+										<span class="bidUnit"> <fmt:formatNumber
+												value="${bidUnit}" pattern="#,###" />
+										</span> <input type="hidden" class="bidUnitVal" value="${bidUnit}">
 									</div>
 									<div class="art-bidding-info-now">
-										<input type="button" class="bidbtn" value="현재가"> 
-										<span class="red bold">KRW </span>
+										<input type="button" class="bidbtn" value="현재가"> <span
+											class="red bold">KRW </span>
 										<c:choose>
 											<c:when test="${empty bid}">
-												<span class="bidNow red bold">
-													<fmt:formatNumber value="${view.art_ep}" pattern="#,###" />
+												<span class="bidNow red bold"> <fmt:formatNumber
+														value="${view.art_ep}" pattern="#,###" />
 												</span>
-												<input type="hidden" class="bidNowVal" value="${view.art_ep}">
+												<input type="hidden" class="bidNowVal"
+													value="${view.art_ep}">
 											</c:when>
 											<c:otherwise>
 												<c:forEach var="bid" items="${bid}" varStatus="status">
 													<c:if test="${status.first}">
-														<span class="bidNow red bold">
-															<fmt:formatNumber value="${bid.bid_bp + bidUnit}" pattern="#,###" />
+														<span class="bidNow red bold"> <fmt:formatNumber
+																value="${bid.bid_bp + bidUnit}" pattern="#,###" />
 														</span>
-														<input type="hidden" class="bidNowVal" value="${bid.bid_bp+bidUnit}">
+														<input type="hidden" class="bidNowVal"
+															value="${bid.bid_bp+bidUnit}">
 													</c:if>
 												</c:forEach>
 											</c:otherwise>
@@ -589,9 +586,7 @@
 					<tbody>
 						<tr>
 							<td>
-								<div class="left bold head w100p">
-									응찰현황
-								</div>
+								<div class="left bold head w100p">응찰현황</div>
 							</td>
 						</tr>
 						<tr>
@@ -600,13 +595,19 @@
 									<c:forEach var="bid" items="${bid}">
 										<div class="bid-info-list-val">
 											<div class="lh25">
-												<c:set var="length" value="${fn:length(bid.user_id)}"/>
-												<c:set var="halfLength" value="${fn:length(bid.user_id)/2}"/>
-												<c:set var="CeilHalfLength" value="${halfLength+(1-(halfLength%1))%1}"/>
+												<c:set var="length" value="${fn:length(bid.user_id)}" />
+												<c:set var="halfLength" value="${fn:length(bid.user_id)/2}" />
+												<c:set var="CeilHalfLength"
+													value="${halfLength+(1-(halfLength%1))%1}" />
 												<c:forEach begin="1" end="${CeilHalfLength}" step="1">*</c:forEach>${fn:substring((bid.user_id),CeilHalfLength,length)}
 											</div>
-											<div class="lh25">Price KRW <fmt:formatNumber value="${bid.bid_bp}" pattern="#,###" /></div>
-											<div class="lh25">Date <span class="bid-info-list-val-dt">${bid.bid_dt.substring(0, 19)}</span></div>
+											<div class="lh25">
+												Price KRW
+												<fmt:formatNumber value="${bid.bid_bp}" pattern="#,###" />
+											</div>
+											<div class="lh25">
+												Date <span class="bid-info-list-val-dt">${bid.bid_dt.substring(0, 19)}</span>
+											</div>
 										</div>
 										<hr class="mg0 bidhr">
 									</c:forEach>
@@ -621,6 +622,40 @@
 </div>
 
 <script>
+		
+		//관심작품		
+		$(".addLike").click(function(){
+			console.log("관심작품 버튼 클릭!")
+			var target = this
+			var status = $(target).val()
+			var a_sq = $(target).attr("data-a_sq")
+			var art_sq = $(target).attr("data-art_sq")
+			var lot = $(target).attr("data-lot")
+			console.log("a_sq : "+a_sq)	
+			console.log("art_sq : "+art_sq)
+			
+			$.ajax({
+				type : "post",
+				url : "/auction/myfav/register",
+				data : {
+					a_sq : a_sq,
+					art_sq : art_sq,
+					lot : lot
+				},
+				success : function() {
+					console.log("데이터 전송 완료")
+				}
+			})
+			
+			if(status === '관심작품 끄기'){
+				$(target).val("관심작품")
+				console.log("관심작품 등록")
+			}
+			else{
+				$(target).val("관심작품 끄기")
+				console.log("관심작품 해제")
+			}
+		})
 		
 		function wrapWindowByMask() {
 			//화면의 높이와 너비를 구한다
