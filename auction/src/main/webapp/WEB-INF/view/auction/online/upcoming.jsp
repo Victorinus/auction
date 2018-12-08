@@ -5,22 +5,30 @@
 <jsp:include page="/WEB-INF/view/template/header.jsp"/>
 
 <style>
-	.auction-online-result div{
-		margin-top: 15px;
-		margin-bottom: 15px;
+	/* 레이아웃 */
+	.auction-online-upcoming {
+		margin: auto;
+        width: 1000px;
+	}
+	.auction-online-upcoming .title {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		padding: 10px;
+		text-align: center;
 	}
 </style>
 
-<div class="auction-online-result">
-	<div class="container-fluid">
-        <!-- 경매 개요 -->
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1 text-center">
-				<c:forEach var="auction" items="${upcomingList}">
-					<div class="col-md-12">
-						<h2>${auction.auction_nm}</h2>
-					</div>					
-					<hr>
+<div class="auction-online-upcoming">
+	<div class="title">
+		<h1>예정경매</h1>
+	</div>
+	<!-- 경매 개요 -->
+	<div class="row">
+		<c:forEach var="auction" items="${upcomingList}">
+			<div class="col-md-12">
+				<h2>${auction.auction_nm}</h2>
+			</div>					
+
 					<div class="col-md-12">
 						<h4>[AUCTION]</h4>
 						<h4>${auction.auction_dt}</h4>
@@ -40,8 +48,7 @@
 						</div>
 					</div>
 				</c:forEach>
-            </div>
         </div>
-    </div>
 </div>
+
 <jsp:include page="/WEB-INF/view/template/footer.jsp"/>

@@ -3,31 +3,62 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="auction.repository.myfav.MyfavDaoImpl">
-
+	<!-- 이하 사용자 -->
+	<!-- 관심작품 등록 여부 확인 -->
 	<select id="myfav_find" parameterType="myfav" resultType="integer">
-		select count(*) from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
+		select count(*) from myfav where user_no=#{user_sq} and auction_no=#{a_sq} and art_no=#{art_sq}
 	</select>
-
+	<!-- 관심작품 등록 -->
 	<insert id="myfav_regist" parameterType="myfav">
 		insert into myfav values(
 			myfav_seq.nextval,
-			1,
+			#{user_sq},
 			#{a_sq},
 			#{art_sq},
 			sysdate
 		)
 	</insert>
-	
+	<!-- 관심작품 해제 -->
 	<delete id="myfav_delete" parameterType="myfav">
-		delete from myfav where auction_no=#{a_sq} and art_no=#{art_sq}
+		delete from myfav where user_no=#{user_sq} and auction_no=#{a_sq} and art_no=#{art_sq}
 	</delete>
-	
+	<!-- 등록된 관심작품 목록 -->
 	<select id="myfav_listByUser" parameterType="integer" resultType="integer">
-		select art_no from myfav where user_no=#{user_no} order by myfav_sq
+		select art_no from myfav where user_no=#{user_sq} order by myfav_sq
 	</select>
-	
 	<select id="myfav_listForUser" parameterType="integer" resultType="myfavView">
-		select * from myfav_view where fav_user_no=#{user_no} order by fav_sq			
+		select * from myfav_view where fav_user_no=#{user_sq} order by fav_sq			
 	</select>
 	
+	<!-- 이하 관리자 -->
+	<!-- 전체 관심작품수 -->
+	<select id="myfav_listCount" resultType="int">
+		select count(*) from myfav_view
+	</select>
+	<select id="myfav_searchCount" parameterType="map" resultType="int">
+		select count(*) from myfav_view 
+			where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
+	</select>
+	<!-- 관심작품 목록 -->
+	<select id="myfav_listForAdmin" parameterType="map" resultType="myfavView">
+		select * from (
+			select rownum as rn, tmp.* from (
+				select * from myfav_view
+				order by fav_sq desc 
+			) tmp
+		) where rn between #{sn} and #{fn}
+	</select>
+	<!-- 관심작품 검색 -->
+	<select id="myfav_searchForAdmin" parameterType="map" resultType="myfavView">
+		select * from(
+			select rownum, a.* from(
+				select * from(
+					select rownum as rn, tmp.* from(
+						select * from myfav_view
+						order by fav_sq desc
+					) tmp
+				) where ${searchType} like '%'||#{searchKey}||'%' 
+			) a	
+		) where rownum between #{sn} and #{fn}
+	</select>
 </mapper>

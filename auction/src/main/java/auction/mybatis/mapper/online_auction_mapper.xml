@@ -18,6 +18,18 @@
 		</selectKey>
 	</insert>
 
+	<!-- 진행경매 : 개요 -->
+	<select id="currentAuction" resultType="auction">
+		select * 
+		FROM auction_main
+		<![CDATA[
+			WHERE 
+				sysdate >= to_date(auction_start, 'YYYY-MM-DD HH24:MI')
+			and
+				sysdate <= to_date(auction_end, 'YYYY-MM-DD HH24:MI')
+		]]>
+	</select>
+
 	<!-- 진행경매 : 목록 -->
 	<select id="currentList" resultType="view" parameterType="paging">
 		select * from(

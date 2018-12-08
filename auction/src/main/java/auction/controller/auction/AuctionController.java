@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import auction.entity.Auction;
 import auction.entity.Bid;
 import auction.entity.Search;
 import auction.entity.View;
+import auction.repository.member.MemberDao;
 import auction.repository.myfav.MyfavDao;
 import auction.repository.online.OnlineDao;
 import auction.util.OnlinePagingUtil;
@@ -36,6 +38,9 @@ import auction.util.OnlinePagingUtil;
 public class AuctionController {
 	
 	private Logger log = LoggerFactory.getLogger(getClass());
+	
+	@Autowired
+	private MemberDao memberDao;
 	
 	@Autowired
 	private OnlineDao onlineDao;
@@ -53,11 +58,12 @@ public class AuctionController {
 	@RequestMapping("/online/current")
 	public String onlineCurrent(
 								@ModelAttribute Search search, 
-								@RequestParam(defaultValue="1") int user_no,
 								HttpServletRequest request, 
+								HttpSession session,
 								Model model) {		
 		pagingUtil.setHttpServletRequest(search, request);
 		model.addAttribute("util", pagingUtil);		
+		model.addAttribute("currentAuction", onlineDao.currentAuction());
 		model.addAttribute(
 				"currentList", onlineDao.currentSearch(
 						pagingUtil.getArt_artist(), 
@@ -67,7 +73,11 @@ public class AuctionController {
 						pagingUtil.getLot(), 
 						pagingUtil.getSn(), 
 						pagingUtil.getFn()));
-		model.addAttribute("myfavList", myfavDao.list(user_no));		
+		String user_id = (String) session.getAttribute("user_id");
+		if(user_id != null) {
+			int user_sq = memberDao.getUser(user_id);
+			model.addAttribute("myfavList", myfavDao.list(user_sq));		
+		}
 		return "auction/online/current";
 	}
 	

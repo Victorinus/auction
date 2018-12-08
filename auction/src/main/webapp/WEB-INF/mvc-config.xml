@@ -16,18 +16,25 @@
             
 	<context:component-scan base-package="auction.controller.**"></context:component-scan>
 
+    <mvc:annotation-driven />
+
+	<mvc:resources location="/library/" mapping="/library/**"></mvc:resources>
+	<mvc:resources location="/image/" mapping="/image/**"></mvc:resources>
+
+	<!-- 인터셉터 설정 -->
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**"/>
+			<bean class="auction.interceptor.UserInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+
 	<!-- 웹소켓 서비스 설정 -->
 	<bean id="websocketServer" class="auction.websocket.WebsocketServer"></bean>
 	<websocket:handlers>
 		<!-- /echo로 들어오시면 websocketServer가 처리합니다 -->
 		<websocket:mapping handler="websocketServer" path="/echo"/>
 	</websocket:handlers>
-	
-    <mvc:annotation-driven />
-
-	<mvc:resources location="/library/" mapping="/library/**"></mvc:resources>
-	<mvc:resources location="/image/" mapping="/image/**"></mvc:resources>
-
 
 	<!-- 파일 업로드  관련 설정을 bean으로 등록 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

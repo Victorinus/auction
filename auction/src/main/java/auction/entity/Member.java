@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor @Builder
 public class Member {
+	private int rn;
 	private int user_sq;
 	private String user_id;
 	private String user_pw;
@@ -21,13 +22,8 @@ public class Member {
 	private String user_post;
 	private String user_addr1;
 	private String user_addr2;
-	private String deliver_post;
-	private String deliver_addr1;
-	private String deliver_addr2;
 	private String user_grade;
 	private String reg_dt;
 	private String chg_dt;
-	private String session_id;
-	private String session_limit;
 
 }

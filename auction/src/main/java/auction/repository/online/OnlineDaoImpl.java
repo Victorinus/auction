@@ -24,6 +24,12 @@ public class OnlineDaoImpl implements OnlineDao {
 	private SqlSession sqlSession;
 	
 //	이하 경매 상태(진행/예정/종료)에 따른 List 호출하는 메소드
+//	진행경매 : 개요
+	@Override
+	public Auction currentAuction() {
+		return sqlSession.selectOne("currentAuction");
+	}
+	
 //	진행경매 : 목록
 	@Override
 	public List<View> currentList(int sn, int fn) {
