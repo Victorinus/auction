@@ -479,7 +479,6 @@
 	.auction-online-current .paging a {
 		text-decoration: none;
 		font-size: 20px;
-		color: black;
 	}
 	.auction-online-current .paging a:hover {
 		color: orange;

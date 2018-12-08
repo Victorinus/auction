@@ -47,6 +47,7 @@
 		color: white;
 		border: none;
 		background-color: #c33234;
+		cursor:pointer;
 	}
 	
 	.admin-art-detail textarea{

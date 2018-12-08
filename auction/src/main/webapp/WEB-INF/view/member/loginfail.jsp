@@ -51,12 +51,15 @@
 
 .member-loginfail input[type=button], .member-loginfail input[type=submit]
 	{
-	margin: 0;
+	margin: 50px 0;
 	padding: 0;
 	color: white;
 	border: none;
-	width: 60px;
+	width: 120px;
+	height: 60px;
+	font-size: 20px;
 	background-color: #c33234;
+	border: 1px solid #c33234;
 	cursor: pointer;
 }
 

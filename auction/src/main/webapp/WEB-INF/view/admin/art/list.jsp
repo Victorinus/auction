@@ -51,6 +51,7 @@
 		border: none;
 		width:60px;
 		background-color: #c33234;
+		cursor:pointer;
 	}
 	.admin-art-list .nav-bar{
 		line-height: 50px;

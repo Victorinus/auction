@@ -69,12 +69,8 @@
 	padding: 0;
 	color: white;
 	border: none;
-<<<<<<< HEAD
 	width: 70px;
 	height:35px;
-=======
-	width: 75px;
->>>>>>> refs/heads/master
 	background-color: #c33234;
 	cursor: pointer;
 }

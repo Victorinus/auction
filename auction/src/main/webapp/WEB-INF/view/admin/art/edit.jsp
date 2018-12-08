@@ -45,6 +45,7 @@
 		color: white;
 		border: none;
 		background-color: #c33234;
+		cursor:pointer;
 	}
 	.admin-art-edit input[type=file]{
 		padding:3px 0;

@@ -17,10 +17,11 @@
 	text-align: center;
 }
 table {
-	width: 60%;
+	width: 100%;
 	margin: auto;
 	border-top: solid 2px;
 	border-bottom: solid 2px;
+	border-spacing: 0;
 }
 
 th {
@@ -28,20 +29,21 @@ th {
 	border-color: silver;
 	text-align: center;
 	background-color: rgb(230, 230, 235);
+	width:150px;
 }
 
 td {
-	padding-left: 10px;
+	line-height: 40px;
+	padding : 10px;
 	border-bottom: solid 1px;
-	border-color: silver;
+	border-color:silver;
+	text-align:left;
+	vertical-align: middle;
 }
 
 input {
-	padding-top: 5px;
-	padding-bottom: 5px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	margin-left: 10px;
+	line-height: 25px;
+	padding : 3px 10px;
 }
 
 #user_post, #deliver_post {
@@ -91,14 +93,16 @@ label {
 }
 
 .joinConfirm {
-	margin: 10px 0;
+	margin: 25px 0;
 	text-align: center;
 }
-
+.join-form{
+	margin: 10px 0 50px;
+}
 .joinConfirm>input[type=submit], .joinConfirm>a>input[type=button] {
-	font-size: 20px;
-	width: 150px;
-	height: 50px;
+	font-size: 18px;
+	width: 120px;
+	height: 40px;
 	border: none;
 	color: white;
 	background-color: #c33234;
@@ -161,7 +165,7 @@ label {
 				<tr>
 					<th>생년월일</th>
 					<td><input type="text" name="user_birth"
-						placeholder="yyyymmdd"></td>
+						placeholder="yyyymmdd" maxlength="8"></td>
 				</tr>
 				<tr>
 					<th>성별</th>

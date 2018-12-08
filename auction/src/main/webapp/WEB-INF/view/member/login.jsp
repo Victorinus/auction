@@ -30,14 +30,14 @@
         border: 2px solid lightgray;
     }
     .login-input:hover {
-        border: 2px solid cadetblue;
+        border: 2px solid #c33234;
     }
     .login-btn {
         width: 50%;
         height: 50px;
         font-size: 20px;
-        background-color: cadetblue;
-        border: 1px solid cadetblue;
+        background-color: #c33234;
+        border: 1px solid #c33234;
         color: white;
         cursor: pointer;
     }

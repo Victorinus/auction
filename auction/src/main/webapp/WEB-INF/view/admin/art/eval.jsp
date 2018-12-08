@@ -55,6 +55,7 @@
 		color: white;
 		border: none;
 		background-color: #c33234;
+		cursor:pointer;
 	}
 	.admin-art-eval .nav-bar{
 		line-height: 50px;
@@ -70,6 +71,7 @@
 		border: none;
 		width:60px;
 		background-color: #c33234;
+		cursor:pointer;
 	}
 	.admin-art-eval form{
 		line-height: 35px;

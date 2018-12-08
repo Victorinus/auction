@@ -68,7 +68,7 @@
 	.auction-online-curdetail .wrap-info {
 		height: 91%;
 		display: block;
-		overflow: hidden;
+		overflow: auto;
 	}
 	.auction-online-curdetail .auction-info, .auction-online-curdetail .art-info, .auction-online-curdetail .bid-info {
 		width: 300px;
@@ -153,6 +153,7 @@
 		width: 100%;
 		height: 50px;
 		font-size:16px;
+		cursor: pointer;
 	}
 	.auction-online-curdetail .btn1{
 		background-color: #c33234;
@@ -161,6 +162,7 @@
 		width: 100px;
 		height: 50px;
 		font-size:16px;
+		cursor: pointer;
 	}
 	.auction-online-curdetail .btn2{
 		background-color: #c33234;
@@ -189,6 +191,7 @@
 		width: 80px;
 		border: 0px;
 		margin: 5px 0;
+		cursor: pointer;
 	}
 	.auction-online-curdetail .bid-info-list-val{
 		padding:20px 15px;
@@ -383,7 +386,7 @@
 													<input type="button" class="openMask btn1" value="응찰하기">
 														<c:choose>
 															<c:when test="${myfavList.contains(view.art_sq)}">
-																<input type="button" class="addLike btn1" value="관심작품 끄기"
+																<input type="button" class="addLike btn1" value="관심취소"
 																data-a_sq="${view.a_sq}" data-art_sq="${view.art_sq}"
 																data-lot="${view.lot}">
 															</c:when>
@@ -647,12 +650,12 @@
 				}
 			})
 			
-			if(status === '관심작품 끄기'){
+			if(status === '관심취소'){
 				$(target).val("관심작품")
 				console.log("관심작품 등록")
 			}
 			else{
-				$(target).val("관심작품 끄기")
+				$(target).val("관심취소")
 				console.log("관심작품 해제")
 			}
 		})
