@@ -65,6 +65,15 @@
 	.admin-art-list .topBar{
 		min-height: 50px;
 	}
+	.admin-art-list .nav-bar a{
+		text-decoration: none;
+	}
+	.bold{
+		font-weight: bold;
+	}
+	.red{
+		color: red;
+	}
 	.center{
 		text-align: center;
 	}
@@ -270,7 +279,7 @@
 			<c:forEach var="pageNum" begin="${page.startPage}" end="${page.endPage}">
 				<c:choose>
 					<c:when test="${pageNum eq page.curPage}">
-						<span class="bold">${pageNum} 
+						<span class="bold red">${pageNum} 
 						</span>
 					</c:when>
 					<c:otherwise>

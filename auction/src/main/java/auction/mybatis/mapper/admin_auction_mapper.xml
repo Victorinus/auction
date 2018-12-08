@@ -18,6 +18,12 @@
 			#{auction_image}
 			)
 	</insert>
+	<insert id="admin_auction_exRegist" parameterType="map">
+		insert into auction_art values(
+			#{auction_sq},
+			#{art_sq}
+			)
+	</insert>
 	
 	<select id="admin_auction_list" resultType="auction">
 		select * from auction_main order by auction_sq desc
@@ -98,6 +104,60 @@
 		select auction_end from auction_main where auction_sq=#{auction_sq}
 	</select>
 	
+	<select id="admin_auction_exhibitList" resultType="Integer" parameterType="int">
+		select art_no from auction_art where auction_no=#{auction_sq} order by art_no desc 
+	</select>
+	
+	<select id="admin_auction_exhibitView" resultType="view" parameterType="map">
+		select * from auction_view where a_sq=#{auction_sq} and art_sq=#{art_sq}
+	</select>
+	
+	<select id="admin_auction_getEntry" resultType="art" parameterType="map">
+		select X.* from (
+			select rownum as rn, A.* from (
+				select * from art where art_status='출품대기' order by art_sq desc) A
+			where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+		where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+	</select>
+	
+	
+	<select id="admin_auction_getEntrySearch" resultType="art" parameterType="map">
+		select X.* from (
+			select rownum as rn, A.* from (
+				select * from art where art_status='출품대기' and UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%' 
+					<choose>
+						<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
+							order by art_nm asc, art_sq desc) A 
+						</when>
+						<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
+							order by art_nm desc, art_sq desc) A 
+						</when>
+						<when test="sortType != null and sortType.equalsIgnoreCase('artist')">
+							order by art_artist asc, art_sq desc) A 
+						</when>
+						<when test="sortType != null and sortType.equalsIgnoreCase('artistR')">
+							order by art_artist desc, art_sq desc) A 
+						</when>
+						<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
+							order by art_sq asc) A 
+						</when>
+						<otherwise>
+							order by art_sq desc) A 
+						</otherwise>
+					</choose>
+			where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+		where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+	</select>
+	
+	
+	<select id="admin_auction_getEntryCnt" resultType="int">
+		select count(*) from art where art_status='출품대기'
+	</select>
+	
+	<select id="admin_auction_entrySearchCnt" resultType="int" parameterType="map">
+		select count(*) from art where art_status='출품대기' and UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
+	</select>
+	
 	<update id="admin_auction_edit" parameterType="auction">
 		update auction_main set 
 			auction_nm=#{auction_nm}, 
@@ -124,6 +184,10 @@
 	
 	<delete id="admin_auction_deleteAll">
 		delete from auction_main
+	</delete>
+		
+	<delete id="admin_auction_exDelete" parameterType="map">
+		delete from auction_art where auction_no=#{auction_sq} and art_no=#{art_sq}
 	</delete>
 		
 </mapper>

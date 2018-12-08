@@ -21,13 +21,18 @@
         header,
         .search,
         nav,
-        section,
-        footer {
+        section {
             margin: 15px 0;
-            padding: 15px;
+            padding: 15px 0;
         }
         header {
         	margin-bottom: 30px;
+        }
+        body{
+        	margin:0;
+        }
+        footer{
+        	padding: 0;
         }
 
         header,
@@ -38,7 +43,7 @@
         header,
         header>.title {
             text-align: center;
-            font-size: 60px;
+            font-size: 30px;
         }
         
         .search, form {
@@ -123,19 +128,21 @@
         footer .info-menu {
             list-style-type: none;
             margin: 0px;
-            padding: 0px;
+            padding: 10px 20px;
             overflow: hidden;
-            background-color: #555;
-            color: black;
-            font-size: 15px;
+            line-height:20px;
+            background-color: black;
+            color: silver;
+            font-size: 12px;
         }
-        
+        footer .info-about li{
+        	margin-right: 10px;
+        }
         footer .info-menu-li:not(.active) {
-            margin: 0px;
             padding: 0px;
-            padding-right: 15px;
-            color: black;
-            font-size: 15px;
+            margin-right: 15px;
+            color: silver;
+            font-size: 12px;
         }
         
         /* 각종 버튼 */
@@ -193,6 +200,32 @@
         	color:silver;
         }
         
+        /* 통계 메뉴 바*/
+        .admin-side{
+        	line-height:25px;
+        	float:left;
+        	padding: 0px;
+        	margin:0;
+        	vertical-align:middle;
+        	border: 2px solid #d8dcdf;
+        	background-color:#f6f6f6;
+        	width:250px;
+        	height: 600px;
+        }
+        .admin-side a{
+        	text-decoration: none;
+        	color: black;
+        	font-weight: bold;
+        }
+       .admin-side .main{
+       		padding:20px 15px;
+       		font-size: 18px;
+       		background-color:#dddddd;
+        }
+        .admin-side .sub{
+       		padding:15px 10px;
+       		font-size: 17px;
+       		
         /* 사용자 메뉴 바 */
 		.member-menu {
         	line-height:70px;
@@ -221,7 +254,6 @@
         	margin: 0 15px;
         	color:silver;
         }
-        
     </style>
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -257,8 +289,12 @@
 
 <body>
     <header>
+        <div class="title">
+        	<a href="${root}">
+        		<img src="${root}/image/about/kg.png">
+        	</a>
+       	</div>
         <%-- <div class="title" style="cursor: pointer;" onclick="location.href='${root}';">Auction project</div> --%>
-        <div class="title">KG Auction</div>
     </header>
     <div class="search">
         <form action="${root}/search" method="get">
@@ -368,10 +404,10 @@
 			            <li class="dropdown" style="float:right">
 			            	<a href="javascript:void(0)" class="active dropbtn">관리자</a>
 			            		<div class="dropdown-content">
-			            			<a href="${root}/admin/auction/regeister">작품관리</a>
+			            			<a href="${root}/admin/art/list">작품관리</a>
 			            			<a href="${root}/admin/auction/list">경매관리</a>
 			            			<a href="#">회원관리</a>
-			            			<a href="#">통계</a>
+			            			<a href="${root}/admin/statis/aucsts">통계</a>
 			            		</div>
 			            </li>
 		            </c:if>

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import auction.entity.Auction;
 import auction.entity.Page;
+import auction.repository.art.ArtDao;
 import auction.repository.auction.AuctionDao;
 import auction.util.AdminPagingUtil;
 import auction.util.UUIDUtil;
@@ -30,6 +31,8 @@ public class AdminAuctionController {
 	
 	@Autowired
 	private AuctionDao auctionDao;
+	@Autowired
+	private ArtDao artDao;
 	@Autowired
 	private ServletContext application;
 	@Autowired
@@ -125,6 +128,75 @@ public class AdminAuctionController {
 		auctionDao.delete(auction_sq);
 		return "redirect:/admin/auction/list";
 	}
+	
+	@RequestMapping("/admin/auction/exhibit")
+	public String exhibit(
+			Model model,
+			HttpServletRequest request,
+			@RequestParam(defaultValue="1") int curPage,
+			@RequestParam(defaultValue="dt") String sortType,
+			@RequestParam(defaultValue="empty") String searchType,
+			@RequestParam(defaultValue="empty") String searchKey
+		) {
+		String uri = request.getRequestURI();
+		Page page = pagingUtil.paging(curPage, searchType, searchKey, uri);
+		model.addAttribute("page", page);
+		if(searchType.equals("empty") || searchKey.equals("empty")) {
+			model.addAttribute("list", auctionDao.list(page, sortType));
+		}else {
+			model.addAttribute("list", auctionDao.search(page, sortType, searchType, searchKey));
+		}
+		return "/admin/auction/exhibit";
+	}
+	
+    @RequestMapping("/admin/auction/exdetail")
+    public String exdetail(
+    			Model model, 
+    			HttpServletRequest request,
+    			@RequestParam(defaultValue="1") int curPage,
+    			@RequestParam(defaultValue="dt") String sortType,
+    			@RequestParam(defaultValue="empty") String searchType,
+    			@RequestParam(defaultValue="empty") String searchKey,
+    			@RequestParam int auction_sq
+			) {
+		String uri = request.getRequestURI();
+		Page page = pagingUtil.paging(curPage, searchType, searchKey, uri);
+		//페이지정보
+		model.addAttribute("page", page);
+		//경매정보
+		model.addAttribute("auction", auctionDao.find(auction_sq));
+		//출품대기작품 리스트
+		if(searchType.equals("empty") || searchKey.equals("empty")) {
+			model.addAttribute("artEntry", auctionDao.getEntryList(page));
+		}else {
+			model.addAttribute("artEntry", auctionDao.getEntrySearch(page, sortType, searchType, searchKey));
+		}
+		//현재 등록된 작품 리스트
+    	model.addAttribute("exList", auctionDao.exhibitList(auction_sq));
+    	
+        return "/admin/auction/exdetail";
+    }
+    
+	@RequestMapping("/admin/auction/exreg")
+	public String exReg(
+				@RequestParam int auction_sq,
+				@RequestParam int art_sq
+			) {
+		auctionDao.exRegist(auction_sq, art_sq);
+		artDao.editStatusEx(art_sq);
+		return "redirect:/admin/auction/exdetail?auction_sq="+auction_sq;
+	}
+    
+	@RequestMapping("/admin/auction/exdel")
+	public String exDel(
+				@RequestParam int auction_sq,
+				@RequestParam int art_sq
+			) {
+		auctionDao.exDelete(auction_sq, art_sq);
+		artDao.editStatusEntry(art_sq);
+		return "redirect:/admin/auction/exdetail?auction_sq="+auction_sq;
+	}
+	
 	
 }
 

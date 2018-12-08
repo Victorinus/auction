@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import auction.entity.Art;
+import auction.entity.Eval;
 import auction.entity.Page;
 import auction.repository.art.ArtDao;
 import auction.util.AdminPagingUtil;
@@ -129,6 +130,47 @@ public class AdminArtController {
         public String delete(@RequestParam int art_sq) {
             artDao.delete(art_sq);
             return "redirect:/admin/art/list";
+        }
+        
+        @RequestMapping("/admin/art/eval")
+        public String eval(
+        			Model model,
+        			HttpServletRequest request,
+					@RequestParam(defaultValue="1") int curPage,
+					@RequestParam(defaultValue="dt") String sortType,
+					@RequestParam(defaultValue="empty") String searchType,
+					@RequestParam(defaultValue="empty") String searchKey
+        		) {
+        	//주소
+        	String uri = request.getRequestURI();
+        	
+        	//페이지 정보 가져오기
+        	Page page = pagingUtil.paging(curPage, searchType, searchKey, uri);
+			model.addAttribute("page", page);
+			
+			//DB에서 리스트 가져오기
+			if (searchType.equals("empty") || searchKey.equals("empty")) {
+				model.addAttribute("list", artDao.evalList(page, sortType));
+			} else {
+				model.addAttribute("list", artDao.evalSearch(page, sortType, searchType, searchKey));
+			}
+            return "/admin/art/eval";
+        }
+        
+        @RequestMapping("/admin/art/evalreg")
+        public String evalReg(Model model, @RequestParam int art_sq) {
+        	model.addAttribute("art", artDao.find(art_sq));
+            return "/admin/art/evalreg";
+        }
+        
+        @RequestMapping(value="/admin/art/evalreg", method=RequestMethod.POST)
+        public String evalReg(
+        			Model model,
+					@ModelAttribute Eval eval
+        		){
+        	//DB등록
+        	artDao.evalReg(eval);
+        	return "redirect:/admin/art/detail?art_sq=" + eval.getArt_sq() ;
         }
         
 }

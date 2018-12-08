@@ -139,6 +139,82 @@
 		select count(*) from art where UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
 	</select>
 	
+	<select id="admin_art_evalListPage" resultType="eval" parameterType="map">
+		select X.* from (
+					select rownum as rn, A.* from (
+								select * from art where art_status='미감정'
+		<choose>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
+				order by art_nm asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
+				order by art_nm desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('ep')">
+				order by art_ep desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('epR')">
+				order by art_ep asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artist')">
+				order by art_artist asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artistR')">
+				order by art_artist desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
+				order by art_sq asc) A 
+			</when>
+			<otherwise>
+				order by art_sq desc) A 
+			</otherwise>
+		</choose>
+					where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+		where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+	</select>
+	
+	<select id="admin_art_evalListCnt" resultType="int">
+		select count(*) from art where art_status='미감정'
+	</select>	
+	
+	<select id="admin_art_evalSearch" resultType="eval" parameterType="map">
+		select X.* from (
+					select rownum as rn, A.* from (
+						select * from art where art_status='미감정' and UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%' 
+		<choose>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nm')">
+				order by art_nm asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('nmR')">
+				order by art_nm desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('ep')">
+				order by art_ep desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('epR')">
+				order by art_ep asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artist')">
+				order by art_artist asc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('artistR')">
+				order by art_artist desc, art_sq desc) A 
+			</when>
+			<when test="sortType != null and sortType.equalsIgnoreCase('dtR')">
+				order by art_sq asc) A 
+			</when>
+			<otherwise>
+				order by art_sq desc) A 
+			</otherwise>
+		</choose>
+					where rownum <![CDATA[ <= ]]> #{page.endIndex}) X
+			where X.rn <![CDATA[ >= ]]> #{page.startIndex}
+	</select>
+	
+	<select id="admin_art_evalSearchCnt" resultType="int" parameterType="map">
+		select count(*) from art where art_status='미감정' and UPPER(${searchType}) like '%'||UPPER(#{searchKey})||'%'
+	</select>
+	
 	<select id="admin_art_find" resultType="art" parameterType="int">
 		select * from art where art_sq=#{art_sq}
 	</select>
@@ -159,6 +235,26 @@
 			art_ep=#{art_ep},
 			art_eval=#{art_eval},
 			art_status=#{art_status}
+		where art_sq=#{art_sq}
+	</update>
+	
+	<update id="admin_art_eval" parameterType="eval">
+		update art set 
+			art_ep=#{art_ep},
+			art_eval=#{art_eval},
+			art_status=#{art_status}
+		where art_sq=#{art_sq}
+	</update>
+	
+	<update id="admin_art_statusEx" parameterType="int">
+		update art set 
+			art_status='출품'
+		where art_sq=#{art_sq}
+	</update>
+	
+	<update id="admin_art_statusEntry" parameterType="int">
+		update art set 
+			art_status='출품대기'
 		where art_sq=#{art_sq}
 	</update>
 	

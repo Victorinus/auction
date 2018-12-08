@@ -9,42 +9,42 @@
 <jsp:include page="/WEB-INF/view/admin/auction/menu.jsp"/>
 
 <style>
-	.admin-auction-list{
+	.admin-auction-exhibit{
 		margin: 100px 0;
 	}
-	.admin-auction-list *{
+	.admin-auction-exhibit *{
 		vertical-align: middle;
 		text-align: center;
 	}
-	.admin-auction-list a{
+	.admin-auction-exhibit a{
 		color:black;
 	}
-	.admin-auction-list table{
+	.admin-auction-exhibit table{
 		width: 70%;
 		margin: auto;
 		border: 1px solid silver;
 		table-layout:fixed;
 		border-spacing: 0;	
 	}
-	.admin-auction-list th{
+	.admin-auction-exhibit th{
 		padding : 10px;
 		border: 0.5px solid silver;
 		text-align: center;
 		line-height:30px;
 		background-color: rgb(230, 230, 235);
 	}
-	.admin-auction-list td{
+	.admin-auction-exhibit td{
 		padding : 10px;
 		border: 0.5px solid silver;
 		line-height:30px;
 	}
-	.admin-auction-list input, select{
+	.admin-auction-exhibit input, select{
 		vertical-align:top;
 		font-size: 15px;
 		height:35px;
 		line-height: 35px;
 	}
-	.admin-auction-list input[type=button], .admin-auction-list input[type=submit]{
+	.admin-auction-exhibit .search-bar input[type=button], .admin-auction-exhibit .search-bar input[type=submit]{
 		margin:0;
 		padding:0;
 		color: white;
@@ -52,11 +52,22 @@
 		width:60px;
 		background-color: #c33234;
 	}
-	.admin-auction-list .nav-bar{
+	.admin-auction-exhibit .list-btn{
+		width:100px;
+		height:35px;
+		line-height: 35px;
+		font-size:16px;
+		margin:0;
+		padding:0;
+		color: white;
+		border: none;
+		background-color: #c33234;
+	}
+	.admin-auction-exhibit .nav-bar{
 		line-height: 50px;
 		font-size:16px;
 	}
-	.admin-auction-list .nav-bar a{
+	.admin-auction-exhibit .nav-bar a{
 		text-decoration: none;
 	}
 	.bold{
@@ -113,62 +124,70 @@
 </style>
 <script>
 	function editMenuColor(){
-		$(".admin-menu-auction-list").css("color","#e41e21");
+		$(".admin-menu-auction-exhibit").css("color","#e41e21");
 	}
 	editMenuColor();
 </script>
 
-<div class="admin-auction-list" align="center">
-
+<div class="admin-auction-exhibit" align="center">
 	<table>
 		<thead>
 			<tr>
-				<th style="width:7%">번호
+				<th style="width:8%">번호
 				<c:choose>
 					<c:when test="${empty param.sortType or param.sortType eq 'dt'}">
-						<a	href="${root}/admin/auction/list?curPage=${param.curPage}&sortType=dtR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${root}/admin/auction/exhibit?curPage=${param.curPage}&sortType=dtR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px;"></a>
 					</c:when>
 					<c:otherwise>
-						<a href="${root}/admin/auction/list?curPage=${param.curPage}&sortType=dt&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a href="${root}/admin/auction/exhibit?curPage=${param.curPage}&sortType=dt&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
 				</th>
-				<th style="width:25%">경매명
+				<th style="width:10%">경매종류
+				<c:choose>
+					<c:when test="${param.sortType eq 'type'}">
+						<a	href="${root}/admin/auction/exhibit?curPage=${param.curPage}&sortType=typeR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<img	src="${root}/image/icon/sortReverse.png"style="width: 13px; height: 13px"></a>
+					</c:when>
+					<c:otherwise>
+						<a	href="${root}/admin/auction/exhibit?curPage=${param.curPage}&sortType=type&searchType=${param.searchType}&searchKey=${param.searchKey}">
+							<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
+					</c:otherwise>
+				</c:choose>
+				</th>
+				<th style="width:37%">경매명
 				<c:choose>
 					<c:when test="${param.sortType eq 'nm'}">
-						<a	href="${root}/admin/auction/list?curPage=${param.curPage}&sortType=nmR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+						<a	href="${root}/admin/auction/exhibit?curPage=${param.curPage}&sortType=nmR&searchType=${param.searchType}&searchKey=${param.searchKey}">
 							<img src="${root}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
 					</c:when>
 					<c:otherwise>
-					<a	href="${root}/admin/auction/list?curPage=${param.curPage}&sortType=nm&searchType=${param.searchType}&searchKey=${param.searchKey}">
+					<a	href="${root}/admin/auction/exhibit?curPage=${param.curPage}&sortType=nm&searchType=${param.searchType}&searchKey=${param.searchKey}">
 						<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
 					</c:otherwise>
 				</c:choose>
 				</th>
-				<th style="width:15%">요약정보</th>
-				<th style="width:23%">주소</th>
 				<th style="width:15%">경매시작시간</th>
 				<th style="width:15%">경매종료시간</th>
-				<th style="width:10%">경매종류
-				<c:choose>
-					<c:when test="${param.sortType eq 'type'}">
-						<a	href="${root}/admin/auction/list?curPage=${param.curPage}&sortType=typeR&searchType=${param.searchType}&searchKey=${param.searchKey}">
-							<img	src="${root}/image/icon/sortReverse.png"style="width: 13px; height: 13px"></a>
-					</c:when>
-					<c:otherwise>
-						<a	href="${root}/admin/auction/list?curPage=${param.curPage}&sortType=type&searchType=${param.searchType}&searchKey=${param.searchKey}">
-							<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
-					</c:otherwise>
-				</c:choose>
-				</th>
+				<th style="width:15%">비고</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="auction" items="${list}">
 				<tr>
 					<td>${auction.auction_sq}</td>
+					<td>
+						<c:choose>
+							<c:when test="${auction.auction_type eq 'online'}">
+								온라인
+							</c:when>
+							<c:otherwise>
+								오프라인
+							</c:otherwise>
+						</c:choose>
+					</td>
 					<td class="left">
 						<img	src="${root}/image/auction/${auction.auction_image}" style="width: 50; height: 50;">
 						<a	href="edit?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
@@ -179,34 +198,12 @@
 								<c:otherwise>${auction.auction_nm}</c:otherwise>
 							</c:choose></a>
 					</td>
-					<td>
-						<c:choose>
-							<c:when test="${fn:length(auction.auction_info) > 10}">
-								${fn:substring(auction.auction_info, 0, 10)}...
-							</c:when>
-							<c:otherwise>${auction.auction_info}</c:otherwise>
-						</c:choose>
-					</td>
-					<td>
-						<c:choose>
-							<c:when test="${fn:length(auction.auction_addr1) + fn:length(auction.auction_addr2) > 15}">
-								<c:set var="fullAddr" value="${auction.auction_addr1} ${auction.auction_addr2}" />
-								${fn:substring(fullAddr,0,15)}...
-							</c:when>
-							<c:otherwise>${auction.auction_addr1} ${auction.auction_addr2}</c:otherwise>
-						</c:choose>
-					</td>
 					<td>${auction.auction_start}</td>
 					<td>${auction.auction_end}</td>
 					<td>
-						<c:choose>
-							<c:when test="${auction.auction_type eq 'online'}">
-								온라인
-							</c:when>
-							<c:otherwise>
-								오프라인
-							</c:otherwise>
-						</c:choose></td>
+						<a href="exdetail?auction_sq=${auction.auction_sq}">
+							<input type="button" class="list-btn" value="작품목록"></a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -214,12 +211,12 @@
 	<div class="nav-bar" style="min-height: 30px; padding: 10px 0;">
 		<c:if test="${page.curRange ne 1}">
 			<a
-				href="${root}/admin/auction/list?curPage=1&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[처음]
+				href="${root}/admin/auction/exhibit?curPage=1&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[처음]
 			</a>
 		</c:if>
 		<c:if test="${page.curRange ne 1}">
 			<a
-				href="${root}/admin/auction/list?curPage=${page.startPage-1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[이전]
+				href="${root}/admin/auction/exhibit?curPage=${page.startPage-1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[이전]
 			</a>
 		</c:if>
 		<c:forEach var="pageNum" begin="${page.startPage}"
@@ -231,7 +228,7 @@
 				</c:when>
 				<c:otherwise>
 					<a
-						href="${root}/admin/auction/list?curPage=${pageNum}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">${pageNum}
+						href="${root}/admin/auction/exhibit?curPage=${pageNum}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">${pageNum}
 					</a>
 				</c:otherwise>
 			</c:choose>
@@ -239,17 +236,17 @@
 		<c:if
 			test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
 			<a
-				href="${root}/admin/auction/list?curPage=${page.endPage+1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[다음]
+				href="${root}/admin/auction/exhibit?curPage=${page.endPage+1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[다음]
 			</a>
 		</c:if>
 		<c:if
 			test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
 			<a
-				href="${root}/admin/auction/list?curPage=${page.pageCnt}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[끝]</a>
+				href="${root}/admin/auction/exhibit?curPage=${page.pageCnt}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[끝]</a>
 		</c:if>
 	</div>
 	<div class="search-bar" style="min-height: 30px; padding: 10px 0;">
-		<form action="list" method="post">
+		<form action="exhibit" method="post">
 			<select name="searchType">
 				<c:choose>
 					<c:when test="${param.searchType eq 'auction_sq'}">
@@ -271,7 +268,7 @@
 			</select>
 			<input class="left" name="searchKey" type="text" placeholder="검색어를 입력" value="${param.searchKey}">
 			<input type="submit" value="검색">
-			<a href="list">
+			<a href="exhibit">
 				<input type="button" value="목록"></a>
 		</form>
 	</div>
