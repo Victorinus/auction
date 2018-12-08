@@ -34,8 +34,11 @@
 		line-height: 40px;
 		padding : 10px;
 		border-top: solid 2px;
-		text-align:left;
+		text-align:center;
 		vertical-align: middle;
+	}
+	.admin-auction-exdetail a{
+		color:black;
 	}
 	.admin-auction-exdetail input{
 		line-height: 25px;
@@ -96,56 +99,77 @@
 	.admin-auction-exdetail .tit-img-box{
 		
 	}
-	.admin-auction-exdetail .tit-info-box{
-		
+	.admin-auction-exdetail .tit-img-box > img{
+		vertical-align: middle;
+	}
+	.admin-auction-exdetail .tit-info-box > div{
+		text-align:left;
+		padding: 5px 10px;
+		line-height:25px;
+		font-size: 17px;
+	}
+	.admin-auction-exdetail .entry-tb, .admin-auction-exdetail .ex-tb{
+		border: 1px solid silver;
+		width:85%;
+	}
+	.admin-auction-exdetail .entry-tb th, .admin-auction-exdetail .entry-tb td{
+		border: 0.5px solid silver;
+	}
+	.admin-auction-exdetail .ex-tb th, .admin-auction-exdetail .ex-tb td{
+		border: 0.5px solid silver;
+	}
+	.admin-auction-exdetail .entry-tb td, .admin-auction-exdetail .ex-tb td{
+		text-align: center;
+	}
+	.admin-auction-exdetail .entry-tb .artnm, .admin-auction-exdetail .ex-tb .artnm{
+		text-align: left;
+	}
+	.admin-auction-exdetail .entry-tb-nm, .admin-auction-exdetail .ex-tb-nm{
+		font-size:18px;
+		font-weight: bold;
+		margin: 15px 0;
+	}
+	.admin-auction-exdetail .auction-main-entry, .admin-auction-exdetail .auction-main-ex{
+		border: 3px solid #d8dcdf;
+		background-color: #f6f6f6;
+		margin:50px 0;
+	}
+	.admin-auction-exdetail .auction-main th{
+		height:50px;
+	}
+	.admin-auction-exdetail .ex-tb{
+		margin:20px auto 50px; 
+	}
+	.admin-auction-exdetail .menu-btn {
+		float: right;
+		padding:20px 10px;
+	}
+	.admin-auction-exdetail  .entry-foot-bar input, .admin-auction-exdetail  .entry-foot-bar select{
+		padding:0;
+		margin: 0;
+		line-height: 35px;
+		height: 35px; 
+		vertical-align: top;
+	}
+	.admin-auction-exdetail .search-bar{
+		margin:0 auto 30px;
+	}
+	.admin-auction-exdetail .entry-foot-bar select{
+		width:100px;
+	}
+	.admin-auction-exdetail .entry-foot-bar input[type=text]{
+		width:300px;
+	}
+	.admin-auction-exdetail .nav-bar a{
+		text-decoration: none;
+	}
+	.bold{
+		font-weight: bold;
+	}
+	.red{
+		color: red;
 	}
 	
-	    /* 갤러리 */
-	.admin-auction-exdetail .gallery {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-		margin-top: 10px;
-		margin-bottom: 10px;
-		padding: 10px;
-	}
-	.admin-auction-exdetail .gallery-each {
-        /* flex-grow: 1; */
-        width: 30%;
-        padding: 10px;
-    }
-    .admin-auction-exdetail .gallery-each-lot,
-    .admin-auction-exdetail .gallery-each-info {
-    	text-align: center;
-    }
-    .admin-auction-exdetail .gallery-each-info p {
-    	margin-top: 1px;
-    	margin-bottom: 1px;
-	}
-    .admin-auction-exdetail .gallery-each-info a:link,
-    .admin-auction-exdetail .gallery-each-info a:visited {
-    	text-decoration: none;
-    	color: black;
-    }
-    .admin-auction-exdetail .gallery-each-info .artist {
-    	border-bottom: 1px solid gray;
-    	height: 150px;
-    	padding: 10px;
-    }
-    .admin-auction-exdetail .gallery-each-info .info {
-    	border-bottom: 1px solid gray;
-    	height: 100px;
-    	padding: 10px;
-    }
-    .admin-auction-exdetail .gallery-each-info .time {
-    	height: 75px;
-    	padding: 10px;
-    }
-    .admin-auction-exdetail .gallery-each-info .artist,
-    .admin-auction-exdetail .gallery-each-info .info,
-    .admin-auction-exdetail .gallery-each-info .time {
-    	text-align: left;
-    }
 </style>
 <script>
 	function editMenuColor(){
@@ -155,8 +179,7 @@
 </script>
 
 <div class="admin-auction-exdetail" align="center">
-	<form action="exhibit" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="auction_sq" value="${auction.auction_sq}">
+	<input type="hidden" name="auction_sq" value="${auction.auction_sq}">
 		<table>
 			<tbody>
 				<tr>
@@ -190,88 +213,180 @@
 				</tr>
 				<tr>
 					<td>
+						<div class="menu-btn">
+						<a	href="exhibit">
+							<input type="button" value="목록"></a>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
 						<div class="auction-main">
-							<div class="gallery">
-				            	<c:forEach var="view" items="${currentList}" varStatus="status">
-					                <div class="gallery-each">	                	
-					                	<div class="gallery-each-lot">
-					                        <h1>LOT. <span class="lot">${view.lot}</span></h1>
-					                    </div>
-					                    <div class="gallery-each-info">
-					                        <div class="image">
-					                            <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
-					                            <img src="${root}/image/art?art_image=${view.art_image}" width="275" height="275"></a>
-					                        </div>
-					                        <div class="artist">
-						                        <h2 class="art_artist">
-						                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
-						                        ${view.art_artist}</a></h2>
-						                        <h4 class="art_nm">
-						                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
-						                        ${view.art_nm}</a></h4>
-						                        <h4>
-						                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
-						                        ${view.art_cdt}</a></h4>
-											</div>
-											<div class="info">
-						                        <p>${view.art_medium}</p>
-						                        <p>${view.art_size}</p>
-						                        <p>${view.art_origin}</p>
-											</div>
-											<div class="time">
-												<p>
-													마감 :
-													<fmt:parseDate var="parsed" value="${view.a_end}" pattern="yyyy-MM-dd HH:mm"/>
-													<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일 a hh시"/>
-												</p>
-												<p>
-													남은시간 : 
-														<span class="timeleft"></span>
-												</p>
-											</div>
-											<div class="">
-					        					<div class="row">
-					        						<div class="form-submit">
-									            		<button class="form-fav-button" 
-									            								data-index="${status.index}"
-									            								data-a_sq="${view.a_sq}"
-									            								data-art_sq="${view.art_sq}"
-									            								data-lot="${view.lot}">
-									                		<div class="img">
-									                		<c:choose>
-									                			<c:when test="${myfavList.contains(view.art_sq)}">
-									                				<img src="${root}/image/icon/fav.png" width="50%">
-									                			</c:when>
-									                			<c:otherwise>
-									                				<img src="${root}/image/icon/unfav.png" width="50%">
-									                			</c:otherwise>
-									                		</c:choose>
-									                		</div>
-									                		<div class="text">관심작품</div>
-									            		</button>
-								            		</div>
-								            		<a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
-														<button class="form-bid-button">
-															<div class="text">응찰하기</div>
-							            				</button>
-						            				</a>
-												</div>
-					        				</div>
-					                    </div>
-					                </div>
-				                </c:forEach>
-				        </div>
+							<div class="auction-main-entry">
+								<div class="entry-tb-nm left">출품대기 작품목록</div>
+								<table class="entry-tb">
+									<thead>
+										<tr>
+											<th style="width:10%">번호
+												<c:choose>
+													<c:when test="${empty param.sortType or param.sortType eq 'dt'}">
+														<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=dtR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+															<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px;"></a>
+													</c:when>
+													<c:otherwise>
+														<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=dt&searchType=${param.searchType}&searchKey=${param.searchKey}">
+															<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
+													</c:otherwise>
+												</c:choose>
+											</th>
+											<th style="width:50%">작품명
+											<c:choose>
+												<c:when test="${param.sortType eq 'nm'}">
+													<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=nmR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+														<img src="${root}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
+												</c:when>
+												<c:otherwise>
+													<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=nm&searchType=${param.searchType}&searchKey=${param.searchKey}">
+														<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
+												</c:otherwise>
+											</c:choose>
+											</th>
+											<th style="width:25%">작가명
+											<c:choose>
+												<c:when test="${param.sortType eq 'artist'}">
+													<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=artistR&searchType=${param.searchType}&searchKey=${param.searchKey}">
+														<img src="${root}/image/icon/sortReverse.png" style="width: 13px; height: 13px"></a>
+												</c:when>
+												<c:otherwise>
+													<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${param.curPage}&sortType=artist&searchType=${param.searchType}&searchKey=${param.searchKey}">
+														<img	src="${root}/image/icon/sortReverse.png"	style="width: 13px; height: 13px"></a>
+												</c:otherwise>
+											</c:choose>
+											</th>
+											<th style="width: 15%">비고</th>
+										</tr>
+									<tbody>
+										<c:forEach var="entry" items="${artEntry}">
+											<tr>
+												<td>${entry.art_sq}</td>
+												<td class="artnm">
+													<img src="${root}/image/art/${entry.art_image}" style="width: 50; height: 50;margin-right: 10px;">
+													
+													<a	href="${root}/admin/art/detail?art_sq=${entry.art_sq}&curPage=${param.curPage}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">
+														<c:choose>
+															<c:when test="${fn:length(entry.art_nm) > 40}">
+																${fn:substring(entry.art_nm, 0, 40)}...
+															</c:when>
+															<c:otherwise>${entry.art_nm}</c:otherwise>
+														</c:choose>
+													</a>
+												</td>
+												<td>
+												<c:choose>
+													<c:when test="${fn:length(entry.art_artist) > 20}">
+														${fn:substring(entry.art_artist, 0, 20)}...
+													</c:when>
+													<c:otherwise>${entry.art_artist}</c:otherwise>
+												</c:choose>
+												</td>
+												<td>
+													<a href="exreg?auction_sq=${auction.auction_sq}&art_sq=${entry.art_sq}">
+														<input type="button" class="list-btn" value="출품하기"></a>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<div class="entry-foot-bar">
+									<div class="nav-bar" style="min-height: 30px; padding: 10px 0;">
+										<c:if test="${page.curRange ne 1}">
+											<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=1&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[처음]</a>
+										</c:if>
+										<c:if test="${page.curRange ne 1}">
+											<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${page.startPage-1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[이전]</a>
+										</c:if>
+										<c:forEach var="pageNum" begin="${page.startPage}" end="${page.endPage}">
+											<c:choose>
+												<c:when test="${pageNum eq page.curPage}">
+													<span class="bold red">${pageNum} 
+													</span>
+												</c:when>
+												<c:otherwise>
+													<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${pageNum}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">${pageNum}</a>
+												</c:otherwise>
+											</c:choose>
+										</c:forEach>
+										<c:if	test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
+											<a href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${page.endPage+1}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[다음]</a>
+										</c:if>
+										<c:if	test="${page.curRange ne page.rangeCnt && page.rangeCnt > 0}">
+											<a	href="${root}/admin/auction/exdetail?auction_sq=${auction.auction_sq}&curPage=${page.pageCnt}&sortType=${param.sortType}&searchType=${param.searchType}&searchKey=${param.searchKey}">[끝]</a>
+										</c:if>
+									</div>
+									<div class="search-bar" style="min-height: 30px; padding: 10px 0;">
+										<form action="exdetail" method="post">
+											<input type="hidden" name="auction_sq" value="${auction.auction_sq}">
+											<select name="searchType">
+												<option value="art_nm" <c:if test="${param.searchType eq 'art_nm'}">selected</c:if>>작품명</option>
+												<option value="art_sq" <c:if test="${param.searchType eq 'art_sq'}">selected</c:if>>작품번호</option>
+												<option value="art_artist" <c:if test="${param.searchType eq 'art_artist'}">selected</c:if>>작가명</option>
+											</select>
+											<input class="left" name="searchKey" type="text" placeholder="검색어를 입력" value="${param.searchKey}">
+											<input type="submit"	value="검색">
+											<a href="exdetail?auction_sq=${auction.auction_sq}">
+												<input type="button" value="목록"></a>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="auction-main-ex">
+								<div class="ex-tb-nm left">현재 출품 목록</div>
+								<table class="ex-tb">
+									<thead>
+										<tr>
+											<th style="width:10%">번호	</th>
+											<th style="width:50%">작품명</th>
+											<th style="width:25%">작가명</th>
+											<th style="width: 15%">비고</th>
+										</tr>
+									<tbody>
+										<c:forEach var="map" items="${exList}">
+											<tr>
+												<td>${map.key}</td>
+												<td class="artnm">
+													<img src="${root}/image/art/${map.value.art_image}" style="width: 50; height: 50;margin-right: 10px;">
+													
+													<a	href="${root}/admin/art/detail?art_sq=${map.value.art_sq}">
+														<c:choose>
+															<c:when test="${fn:length(map.value.art_nm) > 40}">
+																${fn:substring(map.value.art_nm, 0, 40)}...
+															</c:when>
+															<c:otherwise>${map.value.art_nm}</c:otherwise>
+														</c:choose>
+													</a>
+												</td>
+												<td>
+												<c:choose>
+													<c:when test="${fn:length(map.value.art_artist) > 20}">
+														${fn:substring(map.value.art_artist, 0, 20)}...
+													</c:when>
+													<c:otherwise>${map.value.art_artist}</c:otherwise>
+												</c:choose>
+												</td>
+												<td>
+													<a href="exdel?auction_sq=${auction.auction_sq}&art_sq=${map.value.art_sq}">
+														<input type="button" class="list-btn" value="출품취소"></a>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<div class="foot-btn">
-			<input type="submit" value="등록">
-			<a	href="exhibit">
-				<input type="button" value="취소"></a>
-		</div>
-	</form>
 </div>
 
 

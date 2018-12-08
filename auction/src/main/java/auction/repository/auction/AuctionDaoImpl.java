@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import auction.entity.Art;
 import auction.entity.Auction;
 import auction.entity.Page;
+import auction.entity.View;
 
 @Service("auctionDao")
 public class AuctionDaoImpl implements AuctionDao {
@@ -112,12 +113,74 @@ public class AuctionDaoImpl implements AuctionDao {
 	}
 
 	@Override
-	public List<Art> exhibitList(int auction_sq) {
+	public Map<String, View> exhibitList(int auction_sq) {
 		List<Integer> sqList = sqlSession.selectList("admin_auction_exhibitList", auction_sq);
-		List<Art> list = null;
-		return list;
+		Map<String, Integer> paramMap = new HashMap<>(); 
+		paramMap.put("auction_sq", auction_sq);
+		Map<String, View> map = new HashMap<>(); 
+		for(Integer list : sqList) {
+			paramMap.put("art_sq", list);
+			map.put(list.toString(), sqlSession.selectOne("admin_auction_exhibitView", paramMap));
+		}
+		
+		return map;
 	}
 
-
+	@Override
+	public List<Art> getEntryList(Page page) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page", page);
+		List<Art> list = sqlSession.selectList("admin_auction_getEntry", map);
+		return list;
+	}
 	
+	@Override
+	public List<Art> getEntrySearch(Page page, String sortType, String searchType, String searchKey) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("page", page);
+		map.put("sortType", sortType);
+		map.put("searchType", searchType);
+		map.put("searchKey", searchKey);
+		List<Art> list = sqlSession.selectList("admin_auction_getEntrySearch", map);
+		for(Art art : list) {
+			log.debug("결과 = {}", art);
+		}
+		return list;
+	}
+	
+	@Override
+	public int getEntryListCnt() {
+		int result = sqlSession.selectOne("admin_auction_getEntryCnt");
+		log.debug("결과값 = {}", result);
+		return result;
+	}
+
+	@Override
+	public int getEntrySearchCnt(String searchType, String searchKey) {
+		Map<String, String> map = new HashMap<>();
+		map.put("searchType", searchType);
+		map.put("searchKey", searchKey);
+		int result = sqlSession.selectOne("admin_auction_entrySearchCnt", map);
+		log.debug("결과값 = {}", result);
+		return result;
+	}
+
+	@Override
+	public void exRegist(int auction_sq, int art_sq) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("auction_sq", auction_sq);
+		map.put("art_sq", art_sq);
+		int result = sqlSession.insert("admin_auction_exRegist", map);
+		log.debug("결과값 = {}", result);
+	}
+
+	@Override
+	public void exDelete(int auction_sq, int art_sq) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("auction_sq", auction_sq);
+		map.put("art_sq", art_sq);
+		int result = sqlSession.delete("admin_auction_exDelete", map);
+		log.debug("결과값 = {}", result);
+	}
+
 }

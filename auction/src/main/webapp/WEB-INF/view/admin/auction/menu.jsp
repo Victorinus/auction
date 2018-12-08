@@ -6,5 +6,5 @@
 	<span class="blank">l</span>
 	<span><a class="admin-menu-auction-list" href="list">경매목록/수정</a></span>
 	<span class="blank">l</span>
-	<span><a class="admin-menu-auction-exhibit" href="exhibit">경매출품목록</a></span>
+	<span><a class="admin-menu-auction-exhibit" href="exhibit">출품관리</a></span>
 </div>

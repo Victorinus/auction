@@ -25,5 +25,6 @@ public interface ArtDao {
 		List<Eval> evalList(Page page, String sortType);
 		List<Eval> evalSearch(Page page, String sortType, String searchType, String searchKey);
 		void evalReg(Eval eval);
-		List<Art> getEntryList();
+		void editStatusEx(int art_sq);
+		void editStatusEntry(int art_sq);
 }

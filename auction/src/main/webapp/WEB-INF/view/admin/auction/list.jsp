@@ -56,6 +56,15 @@
 		line-height: 50px;
 		font-size:16px;
 	}
+	.admin-auction-list .nav-bar a{
+		text-decoration: none;
+	}
+	.bold{
+		font-weight: bold;
+	}
+	.red{
+		color: red;
+	}
 	.center{
 		text-align: center;
 	}
@@ -217,7 +226,7 @@
 			end="${page.endPage}">
 			<c:choose>
 				<c:when test="${pageNum eq page.curPage}">
-					<span class="bold">${pageNum} 
+					<span class="bold red">${pageNum} 
 					</span>
 				</c:when>
 				<c:otherwise>

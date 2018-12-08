@@ -150,9 +150,15 @@ public class ArtDaoImpl implements ArtDao {
 	}
 
 	@Override
-	public List<Art> getEntryList() {
-		List<Art> list = sqlSession.selectList("admin_art_getEntry");
-		return list;
+	public void editStatusEx(int art_sq) {
+		int result = sqlSession.update("admin_art_statusEx", art_sq);
+		log.debug("결과값 = {}", result);
+	}
+
+	@Override
+	public void editStatusEntry(int art_sq) {
+		int result = sqlSession.update("admin_art_statusEntry", art_sq);
+		log.debug("결과값 = {}", result);
 	}
 
 }

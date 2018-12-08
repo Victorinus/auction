@@ -50,7 +50,6 @@ public class AdminPagingUtilImpl implements AdminPagingUtil{
 //		log.debug("페이지 = {}", page);//테스트코드
 		return page;
 	}
-	
 	//컨텐츠 전체 개수를 설정하는 메소드
 	public void setListCnt(String uri, String searchType, String searchKey) {
 		//작품/경매 페이징 구분
@@ -71,11 +70,22 @@ public class AdminPagingUtilImpl implements AdminPagingUtil{
 				}
 			}
 		}else if(uri.substring(15).startsWith("auction")) {
-			//총 게시물 수(검색 or 리스트)
-			if(searchType.equals("empty") || searchKey.equals("empty")) {
-				page.setListCnt(auctionDao.getListCnt());
+			//출품상세페이지라면
+			if(uri.substring(23).startsWith("exdetail")){
+				//5개씩 보여주기
+				page.setPageSize(5);
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(auctionDao.getEntryListCnt());
+				}else {
+					page.setListCnt(auctionDao.getEntrySearchCnt(searchType, searchKey));
+				}
 			}else {
-				page.setListCnt(auctionDao.getSearchCnt(searchType, searchKey));
+				//총 게시물 수(검색 or 리스트)
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(auctionDao.getListCnt());
+				}else {
+					page.setListCnt(auctionDao.getSearchCnt(searchType, searchKey));
+				}
 			}
 		}else {
 			return;

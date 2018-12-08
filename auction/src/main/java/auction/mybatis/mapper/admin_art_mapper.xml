@@ -24,10 +24,6 @@
 			)
 	</insert>
 	
-	<select id="admin_art_getEntry" resultType="art">
-		select * from art where art_status='출품대기' order by art_sq desc
-	</select>
-	
 	<select id="admin_art_list" resultType="art">
 		select * from art order by art_sq desc
 	</select>
@@ -247,6 +243,18 @@
 			art_ep=#{art_ep},
 			art_eval=#{art_eval},
 			art_status=#{art_status}
+		where art_sq=#{art_sq}
+	</update>
+	
+	<update id="admin_art_statusEx" parameterType="int">
+		update art set 
+			art_status='출품'
+		where art_sq=#{art_sq}
+	</update>
+	
+	<update id="admin_art_statusEntry" parameterType="int">
+		update art set 
+			art_status='출품대기'
 		where art_sq=#{art_sq}
 	</update>
 	

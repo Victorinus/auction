@@ -20,13 +20,18 @@
         header,
         .search,
         nav,
-        section,
-        footer {
+        section {
             margin: 15px 0;
-            padding: 15px;
+            padding: 15px 0;
         }
         header {
         	margin-bottom: 30px;
+        }
+        body{
+        	margin:0;
+        }
+        footer{
+        	padding: 0;
         }
 
         header,
@@ -37,7 +42,7 @@
         header,
         header>.title {
             text-align: center;
-            font-size: 60px;
+            font-size: 30px;
         }
         
         .search, form {
@@ -122,19 +127,21 @@
         footer .info-menu {
             list-style-type: none;
             margin: 0px;
-            padding: 0px;
+            padding: 10px 20px;
             overflow: hidden;
-            background-color: #555;
-            color: black;
-            font-size: 15px;
+            line-height:20px;
+            background-color: black;
+            color: silver;
+            font-size: 12px;
         }
-        
+        footer .info-about li{
+        	margin-right: 10px;
+        }
         footer .info-menu-li:not(.active) {
-            margin: 0px;
             padding: 0px;
-            padding-right: 15px;
-            color: black;
-            font-size: 15px;
+            margin-right: 15px;
+            color: silver;
+            font-size: 12px;
         }
         
         /* 각종 버튼 */
@@ -252,7 +259,8 @@
 
 <body>
     <header>
-        <div class="title">Auction project</div>
+        <div class="title"><a href="${root}"><img src="${root}/image/about/kg.png"></a></div>
+        
     </header>
     <div class="search">
         <form action="${root}/search" method="get">
