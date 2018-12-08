@@ -11,6 +11,8 @@ import auction.entity.View;
 @Repository
 public interface OnlineDao {
 	
+	Auction currentAuction();
+	
 	List<View> currentList(int sn, int fn);
 	
 	List<View> currentSearch(

@@ -3,86 +3,238 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="root" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="auction" value="${currentAuction}"></c:set>
 
 <jsp:include page="/WEB-INF/view/template/header.jsp"/>
 
 <style>
-	.auction-online-current .content {
-		width: 500px;
+	/* 레이아웃 */
+	.auction-online-current {
 		margin: auto;
+        width: 1000px;
+	}
+	.auction-online-current .title {
+		margin-top: 20px;
+		margin-bottom: 20px;
+		padding: 10px;
+		text-align: center;
 	}
 	
-	.auction-online-current .row {
-		margin-top: 5px;
-		margin-bottom: 5px;
+    /* 경매 개요*/
+	.auction-online-current .intro {
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+		border-top : 1px solid gray;
+        border-bottom : 1px solid gray;
+        min-height: 100px;
+    }
+	.auction-online-current .intro-name {
+        padding: 10px;
+        flex-grow: 1;
+        font-size: 25px;
+	}
+    .auction-online-current .intro-sort {
+        flex-grow: 1;
+        padding: 10px;
+        font-size: 20px;
+        color: chocolate;
+    }
+    .auction-online-current .intro-sort-inner {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .auction-online-current .intro-detail {
+        flex-grow: 10;
+        padding: 10px;
+        font-size: 20px;
+	}
+    .auction-online-current .intro-detail-inner {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    
+    /* 검색창 */
+    .auction-online-current .search {
+        border-bottom: 2px solid gray;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        min-height: 100px;
+    }
+    .auction-online-current .search-type {
+        display: flex;
+        flex-direction: row;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        font-size: 15px;
+    }
+    .auction-online-current .search-type-text {
+    	height: 30px;
+    }
+    .auction-online-current .search-type-dt1,
+    .auction-online-current .search-type-dt2,
+    .auction-online-current .search-type-dt4 {
+        flex-grow: 1;
+    }
+    .auction-online-current .search-type-dt3 {
+    	flex-grow: 7;
+    }
+    .auction-online-current .search-btns {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .auction-online-current .search-btn {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        background-color: dimgrey;
+        border: 1px solid dimgrey;
+        color: white;
+        cursor: pointer;
+    }
+    
+    /* 슬라이더바 */
+	.auction-online-current .sliderBar {
+		display: flex;
+		flex-direction: row;
+	}
+	.auction-online-current .sliderEp {
+		/* flex-grow: 1; */
+		width: 30%;
+		text-align: center;
+	}
+	.auction-online-current .sliderRange {
+		/* flex-grow: 3; */
+		/* width: 150px; */
+		width: 70%;
+	}
+	.auction-online-current #value {
+		text-align: center;
+	}
+	.auction-online-current .noUi-target {
+		width: 100%;
+	}
+	.auction-online-current .noUi-connect {
+		border: 10px solid skyblue;
+	}
+	.auction-online-current .noUi-horizontal .noUi-handle {
+		border: transparent;
+		padding: 6px;
+		background-image: url("/auction/image/icon/handle.png");
+		background-repeat: no-repeat;
+		background-origin: content-box;
+		background-size: 20px;
+		background-position: 0;
+		background-color: transparent;
+	}
+	.auction-online-current
+	.noUi-horizontal .noUi-handle:before,
+	.noUi-horizontal .noUi-handle:after {
+		background: transparent;
 	}
 	
+    /* 갤러리 */
 	.auction-online-current .gallery {
-		margin-top: 15px;
-		margin-bottom: 15px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		padding: 10px;
 	}
-	
-	.auction-online-current .margin {
-		margin-top: 15px;
+	.auction-online-current .gallery-each {
+        /* flex-grow: 1; */
+        width: 30%;
+        padding: 10px;
+    }
+    .auction-online-current .gallery-each-lot,
+    .auction-online-current .gallery-each-info {
+    	text-align: center;
+    }
+    .auction-online-current .gallery-each-info p {
+    	margin-top: 1px;
+    	margin-bottom: 1px;
 	}
-	
-	.auction-online-current .navLower, .auction-online-current .navLower>a {
-		text-decoration: none;
-		font-size: 25px;
-		color: black;
-	}
-	
-	.auction-online-current .navUpper, .auction-online-current .navUpper>a {
-		text-decoration: none;
-		font-size: 20px;
-		color: black;
-	}
-	
-	.auction-online-current .left>p {
-		text-align: left;
-		font-size: 15px;
-	}
-	
-	.auction-online-current .form-submit {
+    .auction-online-current .gallery-each-info a:link,
+    .auction-online-current .gallery-each-info a:visited {
+    	text-decoration: none;
+    	color: black;
+    }
+    .auction-online-current .gallery-each-info .artist {
+    	border-bottom: 1px solid gray;
+    	height: 150px;
+    	padding: 10px;
+    }
+    .auction-online-current .gallery-each-info .info {
+    	border-bottom: 1px solid gray;
+    	height: 100px;
+    	padding: 10px;
+    }
+    .auction-online-current .gallery-each-info .time {
+    	height: 75px;
+    	padding: 10px;
+    }
+    .auction-online-current .gallery-each-info .artist,
+    .auction-online-current .gallery-each-info .info,
+    .auction-online-current .gallery-each-info .time {
+    	text-align: left;
+    }
+    
+    /* 관심작품/응찰하기 버튼 */
+    .auction-online-current .form-submit {
 		display: inline-block;
 	}
-	
 	.auction-online-current .form-fav-button {
 		width: 125px;
+		height: 50px;
 		background-color: cornflowerblue;
 		padding: 0px;
 		border: 1px solid cornflowerblue;
 		color: white;
-		font-family: 견고딕;
 		font-size: 15px;
+		cursor: pointer;
 	}
-	
 	.auction-online-current .form-bid-button {
 		width: 125px;
+		height: 50px;
 		background-color: lightblue;
 		padding: 0px;
 		border: 1px solid lightblue;
 		color: white;
-		font-family: 견고딕;
 		font-size: 15px;
+		cursor: pointer;
 	}
-	
 	.auction-online-current .text {
 		display: inline-block;
 		padding-top: 5px;
 		padding-bottom: 5px;
 		vertical-align: middle;
 	}
-	
 	.auction-online-current .img {
 		display: inline-block;
 		padding-top: 5px;
 		padding-bottom: 5px;
 		vertical-align: middle;
 	}
+    
+    /* 네비게이터 */
+    .auction-online-current .paging {
+        text-align: center;
+        font-size: 20px;
+    }
+	.auction-online-current .paging a {
+		text-decoration: none;
+		font-size: 20px;
+		color: black;
+	}
+	.auction-online-current .paging a:hover {
+		color: orange;
+	}
 </style>
     
- <script>
+<script>
 	window.onload = function() {
 		//슬라이더바
 		var slider = document.getElementById('slider');
@@ -93,14 +245,8 @@
 		var epriceMin = document.getElementById('eprice_min')
 		var epriceMax = document.getElementById('eprice_max')
 	
-		var paramMin = $
-		{
-			util.art_eprice_min
-		}
-		var paramMax = $
-		{
-			util.art_eprice_max
-		}
+		var paramMin = ${util.art_eprice_min}
+		var paramMax = ${util.art_eprice_max}
 	
 		//사용자가 추정가 이용하여 검색했는지 여부에 따라 조건문 처리
 		if (paramMin != 100000 && paramMax != 50000000) {
@@ -142,7 +288,7 @@
 		})
 	
 		//검색 초기화
-		$(".reset").click(function() {
+		$(".reset").click(function() {			
 			$("input[name=art_artist]").val("");
 			$("input[name=art_nm]").val("");
 			$("input[name=lot]").val("");
@@ -172,9 +318,8 @@
 				timeleft[i].innerHTML = D + "일 " + H + "시간 " + M + "분 " + S
 						+ "초";
 			}
-		}
-		;
-	
+		};
+		
 		//관심작품
 		var status = [ true, true, true, true, true, true, true, true,
 				true, true ];
@@ -188,6 +333,8 @@
 					var lot = $(target).attr("data-lot");
 					var img = $(target).children(".img").children("img")
 							.attr("src")
+					console.log(a_sq)
+					console.log(art_sq)
 					//console.log(img)
 	
 					$.ajax({
@@ -198,7 +345,7 @@
 							art_sq : art_sq,
 							lot : lot
 						},
-						success : function(xml) {
+						success : function() {
 							console.log("데이터 전송 완료")
 						}
 					});
@@ -238,119 +385,113 @@
 </script>
 
 <div class="auction-online-current">
-    <div class="container-fluid">
-        <div class="row text-center header">
+        <div class="title">
             <h1>진행경매</h1>
         </div>
         <!-- 경매 개요 -->
-        <div class="row title">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="col-md-3">
-                    <div>
-                        <h5>경매회차</h5>
-                    </div>
-                    <div>
-                        <h4>경매명</h4>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div>
-                        <p>경매일자</p>
-                    </div>
-                    <div>
-                        <p>경매장소</p>
-                    </div>
-                    <div>
-                        <h3>응찰자 주의사항</h3>
-                    </div>
-                </div>
+        <div class="intro">
+        	<div class="intro-name">${auction.auction_nm}</div>
+            <div class="intro-sort">
+                <div class="intro-sort-inner">전시장소</div>
+                <div class="intro-sort-inner">경매시작일</div>
+                <div class="intro-sort-inner">경매종료일</div>
             </div>
+        	<div class="intro-detail">
+                <div class="intro-detail-inner">${auction.auction_addr1}</div>
+                <div class="intro-detail-inner">
+                	<fmt:parseDate var="parsed" value="${auction.auction_start}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일(E) a hh시"/>					                	
+                </div>
+                <div class="intro-detail-inner">
+                	<fmt:parseDate var="parsed" value="${auction.auction_end}" pattern="yyyy-MM-dd HH:mm"/>
+					<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일(E) a hh시"/>
+                </div>
+        	</div>
         </div>
         <!-- 검색창 -->
-        <form action="current" method="get">
-            <input type="hidden" name="art_eprice_min" value="" id="eprice_min">
-            <input type="hidden" name="art_eprice_max" value="" id="eprice_max">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-3">
-						작가명
-                        <input name="art_artist" type="text" value="${util.art_artist}" placeholder="작가명 입력하여 찾기">
+        <div class="search">
+            <form action="current" method="get">
+                <input type="hidden" name="art_eprice_min" value="" id="eprice_min">
+                <input type="hidden" name="art_eprice_max" value="" id="eprice_max">
+                <div class="search-type">
+                    <div class="search-type-dt1">
+                        <span>작가명</span>    
+                        <input class="search-type-text" name="art_artist" type="text" value="${util.art_artist}" placeholder="작가명 입력하여 찾기">
                     </div>
-                    <div class="col-md-3">
-						작품명
-                   		<input name="art_nm" type="text" value="${util.art_nm}" placeholder="작품명 입력하여 찾기">
+                    <div class="search-type-dt2">
+                        <span>작품명</span>
+                        <input class="search-type-text" name="art_nm" type="text" value="${util.art_nm}" placeholder="작품명 입력하여 찾기">
                     </div>
-                    <div class="col-md-4 text-center">
-                        <div class="col-md-3">추정가</div>
-                        <div class="col-md-9" id="slider"></div>
-                        <span id="lower"></span>
-                        ~
-                        <span id="upper"></span>
+                    <div class="search-type-dt3">
+                    	<div class="sliderBar">
+                    		<div class="sliderEp">추정가</div>
+	                        <div class="sliderRange">
+		                        <div id="slider"></div>
+		                        <div id="value">
+			                        <span id="lower"></span>~<span id="upper"></span>
+		                        </div>
+	                        </div>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-						번호 
-						<c:choose>
+                    <div class="search-type-dt4">
+                        <span>LOT.</span>
+                        <c:choose>
 							<c:when test="${util.lot eq 0}">
-								<input name="lot" type="text" value="" placeholder="번호 입력하여 찾기">
+								<input class="search-type-text" name="lot" type="text" value="" placeholder="번호 입력하여 찾기">
 							</c:when>
 							<c:otherwise>
-								<input name="lot" type="text" value="${util.lot}" placeholder="번호 입력하여 찾기">
+								<input class="search-type-text" name="lot" type="text" value="${util.lot}" placeholder="번호 입력하여 찾기">
 							</c:otherwise>
-						</c:choose> 
+						</c:choose>
                     </div>
                 </div>
-                <div class="col-md-10 col-md-offset-1 search text-center">
-                	<input class="reset" type="button" value="초기화">
-                    <input type="submit" value="검색">
+                <div class="search-btns">
+                    <input class="search-btn reset" type="button" value="초기화">
+                    <input class="search-btn" type="submit" value="검색">
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
         <!-- 네비게이터/정렬 -->
         <!-- 갤러리 -->
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1 text-center">
+        <div class="gallery">
             	<c:forEach var="view" items="${currentList}" varStatus="status">
-	                <div class="col-md-3 gallery">	                	
-	                	<div>
-	                        <h4>LOT. <span class="lot">${view.lot}</span></h4>
+	                <div class="gallery-each">	                	
+	                	<div class="gallery-each-lot">
+	                        <h1>LOT. <span class="lot">${view.lot}</span></h1>
 	                    </div>
-	                    <div style="border: 1px solid lightgray;">
-	                        <div class="margin">
-	                            <!-- <img src="http://dummyimage.com/200x200"> -->
+	                    <div class="gallery-each-info">
+	                        <div class="image">
 	                            <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
-	                            <img src="${root}/image/art?art_image=${view.art_image}" width="200" height="200"></a>
+	                            <img src="${root}/image/art?art_image=${view.art_image}" width="275" height="275"></a>
 	                        </div>
-	                        <div class="left">
-		                        <h3 class="art_artist">
+	                        <div class="artist">
+		                        <h2 class="art_artist">
 		                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
-		                        ${view.art_artist}</a></h3>
+		                        ${view.art_artist}</a></h2>
 		                        <h4 class="art_nm">
 		                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
 		                        ${view.art_nm}</a></h4>
 		                        <h4>
 		                        <a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
 		                        ${view.art_cdt}</a></h4>
-		                        <hr>
-		                        <p>재질 : ${view.art_medium}</p>
-		                        <p>규격 : ${view.art_size}</p>
-		                        <p>추정가 : ${view.art_eprice}</p>
-		                        <hr>
-		                        <div class="left">
-			                        <p>
-			                        	종료시간 :
-										<fmt:parseDate var="parsed" value="${view.a_end}" pattern="yyyy-MM-dd HH:mm"/>
-										<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일 a hh시"/>
-									</p>
-									<p>
-										남은시간 : 
+							</div>
+							<div class="info">
+		                        <p>${view.art_medium}</p>
+		                        <p>${view.art_size}</p>
+		                        <p>${view.art_origin}</p>
+							</div>
+							<div class="time">
+								<p>
+									마감 :
+									<fmt:parseDate var="parsed" value="${view.a_end}" pattern="yyyy-MM-dd HH:mm"/>
+									<fmt:formatDate value="${parsed}" pattern="yyyy년 MM월 dd일 a hh시"/>
+								</p>
+								<p>
+									남은시간 : 
 										<span class="timeleft"></span>
-									</p>
-									<p>총 O회 응찰</p>
-									<p>시작가 : </p>
-									<p>현재가 : </p>
-								</div>
-	                        </div>
-							<div>
+								</p>
+							</div>
+							<div class="">
 	        					<div class="row">
 	        						<div class="form-submit">
 					            		<button class="form-fav-button" 
@@ -371,39 +512,36 @@
 					                		<div class="text">관심작품</div>
 					            		</button>
 				            		</div>
-									<button class="form-bid-button">
-										<div class="text">응찰하기</div>
-		            				</button>
+				            		<a href="${root}/online/curdetail?art_sq=${view.art_sq}&auction_sq=${view.a_sq}&lot=${view.lot}">
+										<button class="form-bid-button">
+											<div class="text">응찰하기</div>
+			            				</button>
+		            				</a>
 								</div>
 	        				</div>
 	                    </div>
 	                </div>
                 </c:forEach>
-            </div>
         </div>
         <!-- 네비게이터 -->
-        <div class="row">
-        	<div class="col-md-8 col-md-offset-2 text-center">
-        		<div class="navLower">
-					<c:if test="${util.hasMorePrevPage()}">
-						<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
-					</c:if>
-		        	<c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
-		        		<c:choose>
-		        			<c:when test="${util.isCurrentPage(i) }">
-		        				${i}
-		        			</c:when>
-		        			<c:otherwise>
-								<a href="${root}/online/current?page=${i}${util.param}">${i}</a>
-		        			</c:otherwise>
-		        		</c:choose>
-		        	</c:forEach>
-					<c:if test="${util.hasMoreNextPage()}">
-						<a href="${root}/online/current?page=${util.getFb()+1}${util.param}">[다음]</a>
-					</c:if>
-	        	</div>
-        	</div>
+        <div class="paging">
+			<c:if test="${util.hasMorePrevPage()}">
+				<a href="${root}/online/current?page=${util.getSb()-1}${util.param}">[이전]</a>
+			</c:if>
+		    <c:forEach var="i" begin="${util.sb}" end="${util.fb}" step="1">
+				<c:choose>
+					<c:when test="${util.isCurrentPage(i) }">
+						${i}
+					</c:when>
+					<c:otherwise>
+						<a href="${root}/online/current?page=${i}${util.param}">${i}</a>
+		        	</c:otherwise>
+		        </c:choose>
+			</c:forEach>
+			<c:if test="${util.hasMoreNextPage()}">
+				<a href="${root}/online/current?page=${util.getFb()+1}${util.param}">[다음]</a>
+			</c:if>
         </div>
-    </div>
 </div>
+
 <jsp:include page="/WEB-INF/view/template/footer.jsp"/>

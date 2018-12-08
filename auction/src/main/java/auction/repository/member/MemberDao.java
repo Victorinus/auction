@@ -1,6 +1,7 @@
 package auction.repository.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,25 @@ import auction.entity.Member;
 
 @Service
 public interface MemberDao {
-	int regist(Member member);//회원가입
-	List<Member> userList();//회원목록 출력(admin)
+	int regist(Member member);
+	
+	int getListCount();
+	
+	int getSearchCount(Map<String, Object> map);
+	
+	List<Member> userList(Map<String, Object> map);
+
+	List<Member> userSearch(Map<String, Object> map);
+	
+	int login(String user_id, String encrypted_pw);
+
+	int getUser(String user_id);
+	
+	String getGrade(String user_id);
+
+	Member find(int user_sq);
+
+	void edit(Member member);
+
 }
+

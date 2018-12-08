@@ -9,6 +9,7 @@
     <head>
     <title>KG AUCTION l 미술품 경매</title>
     
+    <script src="${root}/library/js/sha256.js"></script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="${root}/library/js/nouislider.js"></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
@@ -150,7 +151,6 @@
         	outline: 0;
         	vertical-align: middle;
         }
-        
         .input-text {
         	width: 200px;
         	padding: 5px;
@@ -160,7 +160,10 @@
         	font-size: 15px;
         	vertical-align: middle;
         }
-        
+        .bold {
+        	font-weight: bold;
+        	color: blue;
+        }
         /* 관리자 메뉴 바 */
         .admin-menu {
         	line-height:70px;
@@ -186,6 +189,35 @@
         	font-weight: bold;
         }
         .admin-menu .blank{
+        	margin: 0 15px;
+        	color:silver;
+        }
+        
+        /* 사용자 메뉴 바 */
+		.member-menu {
+        	line-height:70px;
+        	width:800px;
+        	height:70px;
+        	font-size:17px;
+        	padding:0 20px;
+        	margin: 30px auto;
+        	vertical-align:middle;
+        	text-align: center;
+        	border: 4px solid #d8dcdf;
+        	background-color: #f6f6f6;
+        }
+        .member-menu span{
+        	float:left;
+       	    list-style-type: none;
+		    margin: 0 20px;
+		    padding: 0;
+        }
+        .member-menu a{
+        	text-decoration: none;
+        	color: black;
+        	font-weight: bold;
+        }
+        .member-menu .blank{
         	margin: 0 15px;
         	color:silver;
         }
@@ -225,72 +257,126 @@
 
 <body>
     <header>
-        <div class="title">Auction project</div>
+        <%-- <div class="title" style="cursor: pointer;" onclick="location.href='${root}';">Auction project</div> --%>
+        <div class="title">KG Auction</div>
     </header>
     <div class="search">
         <form action="${root}/search" method="get">
+        	<c:if test="${!empty user_id}">
+	        	<span class="welcome-msg">
+	        		<span class="bold">${user_id}</span>
+	        		 님, 방문을 환영합니다.
+	        	</span>
+        	</c:if>
             <input type="text" name="keyword" placeholder="검색어를 입력하세요." class="input-text">
            	<input type="submit" value="" class="submit-btn">
         </form>
     </div>
     <nav>
-        <ul>
-            <li><a class="active" href="${root}">Home</a></li>
-			<li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">오프라인경매</a>
-                <div class="dropdown-content">
-                    <a href="${root}/online/current">진행경매</a>
-                    <a href="${root}/online/upcoming">예정경매</a>
-                    <a href="${root}/online/result">경매결과</a>
-                    <a href="${root}">경매 안내</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">온라인경매</a>
-                <div class="dropdown-content">
-                    <a href="${root}/online/current">진행경매</a>
-                    <a href="${root}/online/upcoming">예정경매</a>
-                    <a href="${root}/online/result">경매결과</a>
-                    <a href="${root}">온라인경매 안내</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">위탁</a>
-                <div class="dropdown-content">
-                    <a href="#">위탁안내</a>
-                    <a href="#">프라이빗세일</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">서비스</a>
-                <div class="dropdown-content">
-                    <a href="#">아카데미</a>
-                    <a href="#">미술품보관</a>
-                    <a href="#">담보대출</a>
-                </div>
-            </li>
-            <li class="dropdown">
-                <a href="javascript:void(0)" class="dropbtn">회사소개</a>
-                <div class="dropdown-content">
-                    <a href="#">소개</a>
-                    <a href="#">연혁</a>
-                    <a href="#">공지사항</a>
-                    <a href="#">위치안내</a>
-                    <a href="#">FAQ</a>
-                </div>
-            </li>
-            <li style="float:right"><a class="active" href="#">Login</a></li>
-            <li style="float:right"><a class="active" href="${root}/joinform">Join</a></li>
-            <li style="float:right"><a class="active" href="#about">Mypage</a></li>
-            <li class="dropdown" style="float:right">
-            	<a href="javascript:void(0)" class="active dropbtn">관리자</a>
-            		<div class="dropdown-content">
-            			<a href="${root}/admin/art/list">작품관리</a>
-            			<a href="${root}/admin/auction/list">경매관리</a>
-            			<a href="#">회원관리</a>
-            			<a href="#">통계</a>
-            		</div>
-            </li>
-        </ul>
+    	<c:choose>
+    		<c:when test="${empty user_id}">
+		        <ul>
+		            <li><a class="active" href="${root}">Home</a></li>
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">온라인경매</a>
+		                <div class="dropdown-content">
+		                    <a href="${root}/online/current">진행경매</a>
+		                    <a href="${root}/online/upcoming">예정경매</a>
+		                    <a href="${root}/online/result">경매결과</a>
+		                    <a href="${root}">온라인경매 안내</a>
+		                </div>
+		            </li>
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">위탁</a>
+		                <div class="dropdown-content">
+		                    <a href="#">위탁안내</a>
+		                    <a href="#">프라이빗세일</a>
+		                </div>
+		            </li>
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">서비스</a>
+		                <div class="dropdown-content">
+		                    <a href="#">아카데미</a>
+		                    <a href="#">미술품보관</a>
+		                    <a href="#">담보대출</a>
+		                </div>
+		            </li>
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">회사소개</a>
+		                <div class="dropdown-content">
+		                    <a href="#">소개</a>
+		                    <a href="#">연혁</a>
+		                    <a href="#">공지사항</a>
+		                    <a href="#">위치안내</a>
+		                    <a href="#">FAQ</a>
+		                </div>
+		            </li>
+		            <li style="float:right"><a class="active" href="${root}/member/login">Login</a></li>
+		            <li style="float:right"><a class="active" href="${root}/member/joinform">Join</a></li>
+		        </ul>
+	        </c:when>
+	        <c:otherwise>
+				<ul>
+		            <li><a class="active" href="${root}">Home</a></li>	
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">온라인경매</a>
+		                <div class="dropdown-content">
+		                    <a href="${root}/online/current">진행경매</a>
+		                    <a href="${root}/online/upcoming">예정경매</a>
+		                    <a href="${root}/online/result">경매결과</a>
+		                    <a href="${root}">온라인경매 안내</a>
+		                </div>
+		            </li>
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">위탁</a>
+		                <div class="dropdown-content">
+		                    <a href="#">위탁안내</a>
+		                    <a href="#">프라이빗세일</a>
+		                </div>
+		            </li>
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">서비스</a>
+		                <div class="dropdown-content">
+		                    <a href="#">아카데미</a>
+		                    <a href="#">미술품보관</a>
+		                    <a href="#">담보대출</a>
+		                </div>
+		            </li>
+		            <li class="dropdown">
+		                <a href="javascript:void(0)" class="dropbtn">회사소개</a>
+		                <div class="dropdown-content">
+		                    <a href="#">소개</a>
+		                    <a href="#">연혁</a>
+		                    <a href="#">공지사항</a>
+		                    <a href="#">위치안내</a>
+		                    <a href="#">FAQ</a>
+		                </div>
+		            </li>
+		            <li style="float:right"><a class="active" href="${root}/member/logout">Logout</a></li>
+		            <c:if test="${user_grade eq '준회원'}">
+			            <li class="dropdown" style="float:right">
+			            	<a class="active dropbtn" href="${root}/member/mypage">Mypage</a>
+			            	<div class="dropdown-content">
+			            		<a href="">회원정보수정</a>
+			            		<a href="">회원탈퇴</a>
+			            		<a href="">온라인경매 응찰내역</a>
+			            		<a href="${root}/member/myfav">관심작품 목록</a>
+			            	</div>
+			            </li>
+		            </c:if>
+		            <c:if test="${user_grade eq '관리자'}">
+			            <li class="dropdown" style="float:right">
+			            	<a href="javascript:void(0)" class="active dropbtn">관리자</a>
+			            		<div class="dropdown-content">
+			            			<a href="${root}/admin/auction/regeister">작품관리</a>
+			            			<a href="${root}/admin/auction/list">경매관리</a>
+			            			<a href="#">회원관리</a>
+			            			<a href="#">통계</a>
+			            		</div>
+			            </li>
+		            </c:if>
+		        </ul>
+	        </c:otherwise>
+        </c:choose>
     </nav>
-    <section>
+	<section> 
