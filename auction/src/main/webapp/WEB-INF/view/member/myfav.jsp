@@ -51,35 +51,6 @@
 	}
 </style>
 
-<script>
-	$(document).ready(function(){
-		//바로가기 → 응찰페이지 연계?
-		$(".form-link-button").click(function(){
-				
-		})
-    		
-		//관심해제
-		$(".form-unfav-button").click(function(){
-			var target = this
-			var auction_no = $(target).attr("data-auction_no")
-			var art_no = $(target).attr("data-art_no")
-			if(!confirm("관심작품을 삭제하시겠습니까?")){return;}
-			$.ajax({
-				type: "post",
-				url: "/auction/myfav/register",
-				data : {
-					a_sq: auction_no,
-					art_sq: art_no
-				},
-				success : function(a){
-					console.log("데이터 전송 완료!")
-				}
-			})
-			$(target).parents("tr").remove();
-    	})
-	})
-</script>
-
 <div class="container-fluid">
 	<div class="row text-center">
 		<h1>관심작품 현황</h1>
@@ -100,7 +71,6 @@
 					<tr>
 						<th width="5%">번호</th>
 						<th>경매명</th>
-						<th width="5%">LOT</th>
 						<th>작품명</th>
 						<th>작가명</th>
 						<th>등록일자</th>
@@ -112,7 +82,6 @@
 						<tr>
 							<td>${status.count}</td>
 							<td>${view.fav_auction_nm}</td>
-							<td></td>
 							<td>${view.fav_art_nm}</td>
 							<td>${view.fav_art_artist}</td>
 							<td>
@@ -122,13 +91,14 @@
 							<td>
 								<div class="form-submit">
 									<button class="form-link-button" 
-	        									onclick="location.href='${root}/online/current?<%-- ${view.fav_art_no} --%>';">
+	        									onclick="location.href='${root}/online/curdetail?art_sq=${view.fav_art_no}&auction_sq=${view.fav_auction_no}&lot=';">
 										<div>바로가기</div>
 	        						</button>
 	        					</div>
 	        					<button class="form-unfav-button"
 	        											data-auction_no="${view.fav_auction_no}"
-	        											data-art_no="${view.fav_art_no}">
+	        											data-art_no="${view.fav_art_no}"
+	        											data-lot="">
 	        						<div>관심해제</div>
 	        					</button>
 	        				</td>
@@ -139,5 +109,33 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	//$(document).ready(function(){
+    		
+		//관심해제
+		$(".form-unfav-button").click(function(){
+			console.log($(this))
+			var target = this
+			var auction_no = $(target).attr("data-auction_no")
+			var art_no = $(target).attr("data-art_no")
+			var lot = 0
+			if(!confirm("관심작품을 삭제하시겠습니까?")){return;}
+			$.ajax({
+				type: "post",
+				url: "/auction/myfav/register",
+				data : {
+					a_sq: auction_no,
+					art_sq: art_no,
+					lot : lot
+				},
+				success : function(a){
+					console.log("데이터 전송 완료!")
+				}
+			})
+			$(target).parents("tr").remove();
+    	})
+	//})
+</script>
 
 <jsp:include page="/WEB-INF/view/template/footer.jsp"/>
