@@ -41,7 +41,8 @@
 	flex-grow: 1;
 	padding: 10px;
 	font-size: 20px;
-	color: chocolate;
+	color: #c33234;
+	font-weight: bold;
 }
 
 .auction-online-current .intro-sort-inner {
@@ -100,8 +101,8 @@
 	padding-right: 15px;
 	padding-top: 5px;
 	padding-bottom: 5px;
-	background-color: dimgrey;
-	border: 1px solid dimgrey;
+	background-color: #c33234;
+	border: 1px solid #c33234;
 	color: white;
 	cursor: pointer;
 }
@@ -133,7 +134,7 @@
 }
 
 .auction-online-current .noUi-connect {
-	border: 10px solid skyblue;
+	border: 10px solid #c33234;
 }
 
 .auction-online-current .noUi-horizontal .noUi-handle {

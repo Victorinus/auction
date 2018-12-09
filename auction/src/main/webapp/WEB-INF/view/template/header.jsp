@@ -15,7 +15,7 @@
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.0.4/wNumb.min.js'></script>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/library/datetimepicker/jquery.datetimepicker.css" />
     <link rel="stylesheet" type="text/css" href="${root}/library/css/nouislider.css">
-    
+
     <style>
     /* header,  .search, nav, section, footer 등 각 영역의 구분 */
         header,
@@ -106,7 +106,7 @@
             background-color: #f9f9f9;
             min-width: 160px;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-            z-index: 1;
+            z-index: 20;
         }
 
         .dropdown-content a {

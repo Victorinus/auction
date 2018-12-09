@@ -2,14 +2,13 @@ package auction.repository.art;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import auction.entity.Art;
-import auction.entity.Auction;
 import auction.entity.Eval;
 import auction.entity.Page;
 
-@Service
+@Repository
 public interface ArtDao {
         void insert(Art art);
         List<Art> list();

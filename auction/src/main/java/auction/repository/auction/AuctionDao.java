@@ -3,14 +3,14 @@ package auction.repository.auction;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import auction.entity.Art;
 import auction.entity.Auction;
 import auction.entity.Page;
 import auction.entity.View;
 
-@Service
+@Repository
 public interface AuctionDao {
         void insert(Auction auction);
         List<Auction> list();

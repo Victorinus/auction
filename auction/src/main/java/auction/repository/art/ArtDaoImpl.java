@@ -8,13 +8,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import auction.entity.Art;
 import auction.entity.Eval;
 import auction.entity.Page;
 
-@Service("artDao")
+@Repository("artDao")
 public class ArtDaoImpl implements ArtDao {
 
 	@Autowired
