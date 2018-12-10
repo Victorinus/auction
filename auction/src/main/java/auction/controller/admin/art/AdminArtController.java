@@ -75,6 +75,8 @@ public class AdminArtController {
 				@RequestParam(defaultValue="empty") String searchKey
 			) {
         	String uri = request.getRequestURI();
+        	System.out.println("uri = " + uri);//테스트
+        	System.out.println("contextPath = " + request.getContextPath());//테스트
         	Page page = pagingUtil.paging(curPage, searchType, searchKey, uri);
 			model.addAttribute("page", page);
 			if (searchType.equals("empty") || searchKey.equals("empty")) {
