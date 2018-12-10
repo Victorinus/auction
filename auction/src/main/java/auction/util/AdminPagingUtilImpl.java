@@ -91,6 +91,46 @@ public class AdminPagingUtilImpl implements AdminPagingUtil{
 			return;
 		}
 	}
+	/*public void setListCnt(String uri, String searchType, String searchKey) {
+		//작품/경매 페이징 구분
+		if(uri.substring(15).startsWith("art")) {
+			if(uri.substring(19).startsWith("eval")){
+				//감정현황 출력이라면
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(artDao.getEvalListCnt());
+				}else {
+					page.setListCnt(artDao.getEvalSearchCnt(searchType, searchKey));
+				}
+			}else {
+				//총 게시물 수(검색 or 리스트)
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(artDao.getListCnt());
+				}else {
+					page.setListCnt(artDao.getSearchCnt(searchType, searchKey));
+				}
+			}
+		}else if(uri.substring(15).startsWith("auction")) {
+			//출품상세페이지라면
+			if(uri.substring(23).startsWith("exdetail")){
+				//5개씩 보여주기
+				page.setPageSize(5);
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(auctionDao.getEntryListCnt());
+				}else {
+					page.setListCnt(auctionDao.getEntrySearchCnt(searchType, searchKey));
+				}
+			}else {
+				//총 게시물 수(검색 or 리스트)
+				if(searchType.equals("empty") || searchKey.equals("empty")) {
+					page.setListCnt(auctionDao.getListCnt());
+				}else {
+					page.setListCnt(auctionDao.getSearchCnt(searchType, searchKey));
+				}
+			}
+		}else {
+			return;
+		}
+	}*/
 	
 	// 페이지 수를 설정하는 메소드
 	public void setPageCnt() {

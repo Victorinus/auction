@@ -3,11 +3,12 @@ package auction.repository.member;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import auction.entity.Member;
 
-@Service
+@Repository
 public interface MemberDao {
 	int regist(Member member);
 	

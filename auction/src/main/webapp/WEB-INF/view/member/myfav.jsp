@@ -19,19 +19,19 @@
 		padding: 10px;
 		text-align: center;		
 	}   
-	div{
+	.auction-member-myfav div{
 		margin-top: 5px;
 		margin-bottom: 5px;
 	}
-	#count {
+	.auction-member-myfav #count {
 		font-size: 15px;
 		font-weight: 500;
 		color: blue;
 	}
-	.form-submit {
+	.auction-member-myfav .form-submit {
 		display: inline-block;
 	}
-	.form-unfav-button {
+	.auction-member-myfav .form-unfav-button {
 		width: 75px;
 		background-color: cornflowerblue;
 		padding: 2px;
@@ -40,7 +40,7 @@
 		font-family: 견고딕;
 		font-size: 15px;    
 	}
-	.form-link-button {
+	.auction-member-myfav .form-link-button {
 		width: 75px;
 		background-color: cornflowerblue;
 		padding: 2px;
@@ -80,6 +80,12 @@
 				<tbody>
 					<c:forEach var="view" items="${myfavList}" varStatus="status">
 						<tr>
+							<td colspan="6">
+								<span id="count">
+								<c:set var="count" value="${fn:length(myfavList)}"></c:set>
+								${count}
+								</span>
+	        					 건의 작품의 내역이 있습니다.
 							<td>${status.count}</td>
 							<td>${view.fav_auction_nm}</td>
 							<td>${view.fav_art_nm}</td>

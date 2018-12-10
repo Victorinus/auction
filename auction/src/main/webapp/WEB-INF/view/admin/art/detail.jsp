@@ -63,6 +63,13 @@
 		margin: 10px 0;
 	}
 </style>
+<script>
+	function editMenuColor(){
+		$(".admin-menu-art-list").css("color","#e41e21");
+	}
+	editMenuColor();
+</script>
+
 
 <div class="admin-art-detail" align="center">
 	<table>

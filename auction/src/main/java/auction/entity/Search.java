@@ -1,5 +1,6 @@
 package auction.entity;
 
+
 import lombok.Data;
 
 @Data

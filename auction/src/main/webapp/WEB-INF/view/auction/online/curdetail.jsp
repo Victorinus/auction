@@ -715,7 +715,7 @@
         
         //웹소켓 시작
 		function webInit(){
-			var uri = "ws://localhost:8080/auction/echo";
+			var uri = "ws://${header.host}${pageContext.request.contextPath}/echo";
 			if(!window.websocket){
 				websocket = new WebSocket(uri);
 				//console.log("웹소켓 : " + websocket);
